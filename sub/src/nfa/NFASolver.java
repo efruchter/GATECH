@@ -68,8 +68,8 @@ public class NFASolver {
 	 * 
 	 */
 	private class NFAStep {
-		private State state;
-		private String string;
+		private final State state;
+		private final String string;
 
 		public NFAStep(final State state, final String string) {
 			this.state = state;
