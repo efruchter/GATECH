@@ -25,7 +25,7 @@ public class NFATest {
 		n.addState(a, b, c);
 
 		NFASolver solver = new NFASolver(n);
-
+		assertTrue("a*b* should be a DFA", n.isDFA());
 		assertTrue("a*b*", solver.isValid("ab") && solver.isValid("a") && solver.isValid("abbbb")
 				&& solver.isValid("") && solver.isValid("aaaabbbbb") && !solver.isValid("bbbbaaaa")
 				&& !solver.isValid("aaaabbbbbbbbba"));
@@ -43,6 +43,7 @@ public class NFATest {
 
 		n = new NFA(s, s0, s1, s2);
 		solver = new NFASolver(n);
+		assertTrue("(a|b)*(ab)+ should not be a DFA", !n.isDFA());
 		assertTrue(
 				"(a|b)*(ab)+",
 				!solver.isValid("") && solver.isValid("ab") && !solver.isValid("babababa")
