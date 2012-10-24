@@ -1,7 +1,7 @@
 package nfa;
 
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Checks if strings are valid in a given NFA.
@@ -12,7 +12,7 @@ import java.util.List;
 public class NFASolver {
 
 	private final NFA nfa;
-	private final List<NFAStep> steps;
+	private final HashSet<NFAStep> steps;
 
 	/**
 	 * Create an NFA validty checker using a given nfa.
@@ -21,7 +21,7 @@ public class NFASolver {
 	 */
 	public NFASolver(final NFA nfa) {
 		this.nfa = nfa;
-		this.steps = new LinkedList<NFAStep>();
+		this.steps = new HashSet<NFAStep>();
 	}
 
 	/**
