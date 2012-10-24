@@ -1,6 +1,7 @@
 package nfa;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
 
 /**
@@ -62,10 +63,29 @@ public class NFA {
 	 */
 	public NFA clone(final State initialState) {
 		NFA n = new NFA(initialState);
-		for (Entry<String, State> stateTuple : this.states.entrySet()) {
+		for (final Entry<String, State> stateTuple : this.states.entrySet()) {
 			n.addState(stateTuple.getValue());
 		}
 		return n;
+	}
+
+	/**
+	 * Returns whether this NFA is a valid DFA.
+	 * 
+	 * @return true if no states contain an empty transition or multiple
+	 *         same-character transitions.
+	 */
+	public boolean isDFA() {
+		for (final Entry<String, State> stateTuple : this.states.entrySet()) {
+			HashSet<Character> chars = new HashSet<Character>();
+			for (Transition state : stateTuple.getValue().getTransitions()) {
+				if (state.isEmptyTransition() || chars.contains(state.getCharacter())) {
+					return false;
+				}
+				chars.add(state.getCharacter());
+			}
+		}
+		return true;
 	}
 
 	@Override

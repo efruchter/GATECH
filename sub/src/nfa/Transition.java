@@ -44,6 +44,10 @@ public class Transition {
 	public boolean isValid(final char character) {
 		return this.character == character;
 	}
+	
+	public char getCharacter() {
+		return character;
+	}
 
 	public boolean isEmptyTransition() {
 		return isEmpty;
