@@ -2,7 +2,7 @@ package nfa.test;
 
 import static org.junit.Assert.assertTrue;
 import nfa.NFA;
-import nfa.NFASolver;
+import nfa.NFAUtil;
 import nfa.State;
 import nfa.Transition;
 
@@ -24,11 +24,12 @@ public class NFATest {
 		NFA n = new NFA(a);
 		n.addState(a, b, c);
 
-		NFASolver solver = new NFASolver(n);
 		assertTrue("a*b* should be a DFA", n.isDFA());
-		assertTrue("a*b*", solver.isValid("ab") && solver.isValid("a") && solver.isValid("abbbb")
-				&& solver.isValid("") && solver.isValid("aaaabbbbb") && !solver.isValid("bbbbaaaa")
-				&& !solver.isValid("aaaabbbbbbbbba"));
+		assertTrue(
+				"a*b*",
+				NFAUtil.isValid(n, "ab") && NFAUtil.isValid(n, "a") && NFAUtil.isValid(n, "abbbb")
+						&& NFAUtil.isValid(n, "") && NFAUtil.isValid(n, "aaaabbbbb")
+						&& !NFAUtil.isValid(n, "bbbbaaaa") && !NFAUtil.isValid(n, "aaaabbbbbbbbba"));
 
 		// (a|b)*(ab)+
 		State s = new State("S", false);
@@ -42,12 +43,11 @@ public class NFATest {
 		s2.addTransition(new Transition('a', s1));
 
 		n = new NFA(s, s0, s1, s2);
-		solver = new NFASolver(n);
 		assertTrue("(a|b)*(ab)+ should not be a DFA", !n.isDFA());
 		assertTrue(
 				"(a|b)*(ab)+",
-				!solver.isValid("") && solver.isValid("ab") && !solver.isValid("babababa")
-						&& solver.isValid("bababab")
-						&& solver.isValid("bababababababbbbbbabababababaaaaaaaaaaabbbbaaab"));
+				!NFAUtil.isValid(n, "") && NFAUtil.isValid(n, "ab")
+						&& !NFAUtil.isValid(n, "babababa") && NFAUtil.isValid(n, "bababab")
+						&& NFAUtil.isValid(n, "bababababababbbbbbabababababaaaaaaaaaaabbbbaaab"));
 	}
 }

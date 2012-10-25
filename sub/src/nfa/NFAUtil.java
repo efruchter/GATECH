@@ -4,36 +4,43 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
- * Checks if strings are valid in a given NFA.
+ * Utilities for analyzing and converting NFA's.
  * 
  * @author toriscope
  * 
  */
-public class NFASolver {
+public class NFAUtil {
 
-	private final NFA nfa;
-	private final HashSet<NFAStep> steps;
+	private NFAUtil() {
+		;
+	}
 
-	/**
-	 * Create an NFA validty checker using a given nfa.
-	 * 
-	 * @param nfa
-	 */
-	public NFASolver(final NFA nfa) {
-		this.nfa = nfa;
-		this.steps = new HashSet<NFAStep>();
+	public NFA convertToDFA(final NFA nfaInit, final char[] totalLexicon) {
+		// Run the e-closure conversion algorithm
+
+		return null;
+	}
+
+	public NFA minimizeDFA(final NFA nfaInit, final char[] totalLexicon) {
+
+		// Run the minimization algorithm
+
+		return null;
 	}
 
 	/**
 	 * Check if the string is valid in the NFA.
 	 * 
+	 * @param nfa
+	 *            the nfa to check the string against
 	 * @param string
 	 *            string to check for validity
 	 * @return true if the string is valid, false otherwise.
 	 */
-	public boolean isValid(final String string) {
+	public static boolean isValid(final NFA nfa, final String string) {
+		final HashSet<NFAStep> steps = new HashSet<NFAStep>();
 		boolean isValid = false;
-		steps.add(new NFAStep(this.nfa.getStartState(), string));
+		steps.add(new NFAStep(nfa.getStartState(), string));
 		while (!isValid && !steps.isEmpty()) {
 			for (NFAStep step : new LinkedList<NFAStep>(steps)) {
 				if (step.string.isEmpty()) {
@@ -67,7 +74,7 @@ public class NFASolver {
 	 * @author toriscope
 	 * 
 	 */
-	private class NFAStep {
+	private static class NFAStep {
 		private final State state;
 		private final String string;
 
