@@ -1,7 +1,11 @@
 package nfa;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Utilities for analyzing and converting NFA's.
@@ -15,13 +19,59 @@ public class NFAUtil {
 		;
 	}
 
-	public NFA convertToDFA(final NFA nfaInit, final char[] totalLexicon) {
-		// Run the e-closure conversion algorithm
+	public static NFA convertToDFA(final NFA nfaInit, final char[] totalLexicon) {
+		final List<State> newStates = new ArrayList<State>();
+		State startState = null;
+
+		/*
+		 * Each DfaConStep[] will feature a closure for every transition
+		 * character.
+		 */
+		final HashMap<MetaState, MetaState[]> metaStateToClosures = new HashMap<MetaState, MetaState[]>();
+
+		// Build state e-closure table
+		boolean missingClosures = true;
+
+		// find first closure.
+
+		while (missingClosures) {
+			// TODO: build closure table.
+		}
 
 		return null;
 	}
 
-	public NFA minimizeDFA(final NFA nfaInit, final char[] totalLexicon) {
+	/**
+	 * Returns all states withing E^* of given state.
+	 * 
+	 * @param state
+	 *            state to find full closure of.
+	 * @return all states that can be reached in zero or more E-Closures from
+	 *         given state.
+	 */
+	public static Set<State> findClosure(final State state) {
+
+		final HashSet<State> explored = new HashSet<State>();
+		final HashSet<State> frontier = new HashSet<State>();
+		frontier.add(state);
+
+		while (!frontier.isEmpty()) {
+			State c = frontier.iterator().next();
+			for (Transition t : c.getTransitions()) {
+				if (t.isEmptyTransition() && !frontier.contains(t.getDestinationState())
+						&& !explored.contains(t.getDestinationState())) {
+					frontier.add(t.getDestinationState());
+				}
+			}
+			frontier.remove(c);
+			explored.add(c);
+		}
+
+		return explored;
+
+	}
+
+	public static NFA minimizeDFA(final NFA nfaInit, final char[] totalLexicon) {
 
 		// Run the minimization algorithm
 
@@ -52,14 +102,12 @@ public class NFAUtil {
 				} else {
 					for (Transition t : step.state.getTransitions()) {
 						if (t.isEmptyTransition()) {
-							NFAStep newStep = new NFAStep(
-									t.getDestinationState(), step.string);
+							NFAStep newStep = new NFAStep(t.getDestinationState(), step.string);
 							if (!steps.contains(newStep)) {
 								steps.add(newStep);
 							}
 						} else if (t.isValid(step.string.charAt(0))) {
-							steps.add(new NFAStep(t.getDestinationState(),
-									step.string.substring(1)));
+							steps.add(new NFAStep(t.getDestinationState(), step.string.substring(1)));
 						}
 					}
 				}
@@ -88,8 +136,7 @@ public class NFAUtil {
 		public boolean equals(Object o) {
 			if (o instanceof NFAStep) {
 				NFAStep p = (NFAStep) o;
-				return p.state.equals(this.state)
-						&& p.string.equals(this.string);
+				return p.state.equals(this.state) && p.string.equals(this.string);
 			} else {
 				System.err.println("Object is not an instance of NFAStep");
 				return false;
@@ -98,6 +145,40 @@ public class NFAUtil {
 
 		public String toString() {
 			return state.toString() + " " + string;
+		}
+	}
+
+	/**
+	 * Single meta-state entry in E-Closure table
+	 * 
+	 * @author toriscope
+	 * 
+	 */
+	private static class MetaState {
+		private final String name;
+		private final HashSet<State> states;
+
+		public MetaState(final String name) {
+			states = new HashSet<State>();
+			this.name = name;
+		}
+
+		@Override
+		public boolean equals(final Object o) {
+			if (o instanceof MetaState) {
+				MetaState s = (MetaState) o;
+				if (s.states.size() != this.states.size()) {
+					return false;
+				}
+				for (State state : s.states) {
+					if (!this.states.contains(state)) {
+						return false;
+					}
+				}
+			} else
+				return false;
+
+			return true;
 		}
 	}
 }
