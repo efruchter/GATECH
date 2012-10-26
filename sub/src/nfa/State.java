@@ -28,6 +28,17 @@ public class State {
 		this.transitions = new LinkedList<Transition>();
 	}
 
+	/**
+	 * Factory method for new state
+	 * 
+	 * @param name
+	 * @param isFinal
+	 * @return State object
+	 */
+	public static State createState(final String name, final boolean isFinal) {
+		return new State(name, isFinal);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -49,7 +60,7 @@ public class State {
 		for (Transition tr : t)
 			this.transitions.add(tr);
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();

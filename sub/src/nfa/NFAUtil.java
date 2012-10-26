@@ -52,12 +52,14 @@ public class NFAUtil {
 				} else {
 					for (Transition t : step.state.getTransitions()) {
 						if (t.isEmptyTransition()) {
-							NFAStep newStep = new NFAStep(t.getDestinationState(), step.string);
+							NFAStep newStep = new NFAStep(
+									t.getDestinationState(), step.string);
 							if (!steps.contains(newStep)) {
 								steps.add(newStep);
 							}
 						} else if (t.isValid(step.string.charAt(0))) {
-							steps.add(new NFAStep(t.getDestinationState(), step.string.substring(1)));
+							steps.add(new NFAStep(t.getDestinationState(),
+									step.string.substring(1)));
 						}
 					}
 				}
@@ -86,9 +88,12 @@ public class NFAUtil {
 		public boolean equals(Object o) {
 			if (o instanceof NFAStep) {
 				NFAStep p = (NFAStep) o;
-				return p.state.equals(this.state) && p.string.equals(this.string);
-			} else
+				return p.state.equals(this.state)
+						&& p.string.equals(this.string);
+			} else {
+				System.err.println("Object is not an instance of NFAStep");
 				return false;
+			}
 		}
 
 		public String toString() {

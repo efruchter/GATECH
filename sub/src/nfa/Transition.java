@@ -7,7 +7,6 @@ package nfa;
  * 
  */
 public class Transition {
-
 	private final char character;
 	private final State state;
 	private final boolean isEmpty;
@@ -25,7 +24,28 @@ public class Transition {
 	}
 
 	/**
+	 * Factory method for non-empty transition
+	 * 
+	 * @param character
+	 * @param state
+	 * @return
+	 */
+	public static Transition createTransition(final char character,
+			final State state) {
+		return new Transition(character, state);
+	}
+
+	/**
 	 * Create an empty transition to a state.
+	 * 
+	 * @param state
+	 */
+	public static Transition createEmptyTransition(final State state) {
+		return new Transition(state);
+	}
+
+	/**
+	 * Factory method for non-empty state
 	 * 
 	 * @param state
 	 */
@@ -44,7 +64,7 @@ public class Transition {
 	public boolean isValid(final char character) {
 		return this.character == character;
 	}
-	
+
 	public char getCharacter() {
 		return character;
 	}
