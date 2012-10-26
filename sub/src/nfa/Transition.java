@@ -36,7 +36,7 @@ public class Transition {
 	}
 
 	/**
-	 * Create an empty transition to a state.
+	 * Factory method for non-empty state
 	 * 
 	 * @param state
 	 */
@@ -45,7 +45,7 @@ public class Transition {
 	}
 
 	/**
-	 * Factory method for non-empty state
+	 * Create an empty transition to a state.
 	 * 
 	 * @param state
 	 */

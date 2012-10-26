@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 public class NFA {
 
 	private final HashMap<String, State> states;
-	private State startState;
+	private final State startState;
 
 	/**
 	 * Create an NFA.
@@ -39,8 +39,7 @@ public class NFA {
 	 * @param additionalStates
 	 * @return
 	 */
-	public static NFA createNFA(final State startState,
-			final State... additionalStates) {
+	public static NFA createNFA(final State startState, final State... additionalStates) {
 		return new NFA(startState, additionalStates);
 	}
 
@@ -62,8 +61,7 @@ public class NFA {
 	 */
 	public State getState(final String stateName) {
 		if (this.states.containsKey(stateName))
-			throw new RuntimeException("State " + stateName
-					+ " not found in NFA.");
+			throw new RuntimeException("State " + stateName + " not found in NFA.");
 		else
 			return this.states.get(stateName);
 	}
@@ -92,8 +90,7 @@ public class NFA {
 		for (final Entry<String, State> stateTuple : this.states.entrySet()) {
 			HashSet<Character> chars = new HashSet<Character>();
 			for (Transition state : stateTuple.getValue().getTransitions()) {
-				if (state.isEmptyTransition()
-						|| chars.contains(state.getCharacter())) {
+				if (state.isEmptyTransition() || chars.contains(state.getCharacter())) {
 					return false;
 				}
 				chars.add(state.getCharacter());
@@ -107,8 +104,7 @@ public class NFA {
 		StringBuilder b = new StringBuilder();
 		b.append("Starting: ").append(this.startState.getName()).append("\n");
 		for (Entry<String, State> s : this.states.entrySet()) {
-			b.append(s.getKey()).append(": ").append(s.getValue().toString())
-					.append("\n");
+			b.append(s.getKey()).append(": ").append(s.getValue().toString()).append("\n");
 		}
 		return b.toString();
 	}
