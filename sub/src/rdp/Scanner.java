@@ -34,7 +34,8 @@ public class Scanner {
         } else if (c >= '0' && c <= '9') {
             return Symbol.num;
         } else {
-            throw new RuntimeException();
+            throw new RuntimeException("Unknown symbol '" + c + "'!");
         }
     }
+
 }

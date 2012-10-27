@@ -38,6 +38,10 @@ public class Parser {
         throw new ParserException();
     }
 
+    /*
+     * Begin RDP steps
+     */
+
     private void expr() throws ParserException {
         term();
         e_tail();
@@ -59,10 +63,17 @@ public class Parser {
         }
     }
 
+    /**
+     * Top-level step, expecting a single expr
+     */
     private void program() throws ParserException {
         getsym();
         expr();
     }
+
+    /*
+     * End RDP steps
+     */
 
     public boolean parse() {
         try {
