@@ -1,6 +1,14 @@
-bin/
+# General
+.*
 *~
 ~*
+.*.swp
+
+# Eclipse
+/bin/
 *.log
 *.prefs
-.*
+
+# IntelliJ
+*.iml
+/out/
