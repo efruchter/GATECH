@@ -85,28 +85,4 @@ public class Parser {
         return true;
     }
 
-    public static boolean parseString(String input) {
-        Parser parser = new Parser(input);
-        return parser.parse();
-    }
-
-    public static void main (String[] args) {
-        String s;
-
-        s = "1+2+3";
-        System.out.print(s + ": ");
-        System.out.println(Parser.parseString(s) ? "ok" : "fail");
-
-        s = "1+2++3";
-        System.out.print(s + ": ");
-        System.out.println(Parser.parseString(s) ? "ok" : "fail");
-
-        s = "";
-        System.out.print(s + ": ");
-        System.out.println(Parser.parseString(s) ? "ok" : "fail");
-
-        s = "7";
-        System.out.print(s + ": ");
-        System.out.println(Parser.parseString(s) ? "ok" : "fail");
-    }
 }
