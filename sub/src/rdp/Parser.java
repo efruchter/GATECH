@@ -34,23 +34,23 @@ public class Parser {
         }
     }
 
-    private void error() throws SyntaxException {
-        throw new SyntaxException();
+    private void error() throws ParserException {
+        throw new ParserException();
     }
 
-    private void expr() throws SyntaxException {
+    private void expr() throws ParserException {
         term();
         e_tail();
     }
 
-    private void term() throws SyntaxException {
+    private void term() throws ParserException {
         if (accept(Scanner.Symbol.num)) {
         } else {
             error();
         }
     }
 
-    private void e_tail() throws SyntaxException {
+    private void e_tail() throws ParserException {
         if (accept(Scanner.Symbol.plus)) {
             term();
             e_tail();
@@ -59,7 +59,7 @@ public class Parser {
         }
     }
 
-    private void program() throws SyntaxException {
+    private void program() throws ParserException {
         getsym();
         expr();
     }
@@ -67,7 +67,7 @@ public class Parser {
     public boolean parse() {
         try {
             program();
-        } catch (SyntaxException e) {
+        } catch (ParserException e) {
             return false;
         }
 
