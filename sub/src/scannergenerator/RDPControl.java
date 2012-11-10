@@ -73,13 +73,20 @@ public class RDPControl {
 			controller.parser.regex = "";
 			controller.parser.index = 0;
 			controller.parser.classes = controller.classes;
-			controller.parser.inputBuffer = controller.classes[index]
-					.getDefinition();
+			controller.parser.inputBuffer = controller.classes[index].getDefinition();
 			String out = controller.parser.regEx();
 			controller.classes[index].setRegex(out.toCharArray());
 			index += 1;
 		}
-		return controller.classes;
+		ArrayList<DefinedClass> al = new ArrayList<>();
+		for(DefinedClass c: controller.classes) {
+			if(c != null) {
+				String finalRegex = controller.parseFinal(String.valueOf(c.getRegex()));
+				c.setRegex(finalRegex.toCharArray());
+				al.add(c);
+			}
+		}
+		return al.toArray(new DefinedClass[al.size()]);
 	}
 
 	public DefinedClass[] ReadClassesFromFile(String filename) {
@@ -96,7 +103,6 @@ public class RDPControl {
 					continue;
 				} else if (dataIn.startsWith("$")) {
 					String[] bits = dataIn.split("\\s+");
-					System.out.print(bits[0] + "   \t\t");
 
 					String d = "";
 					for (int i = 1; i < bits.length; i++) {
@@ -104,7 +110,6 @@ public class RDPControl {
 					}
 					char[] def = new char[d.length()];
 					d.getChars(0, d.length(), def, 0);
-					System.out.println(d);
 					output[index] = new DefinedClass(bits[0], def);
 					index += 1;
 				} else {
