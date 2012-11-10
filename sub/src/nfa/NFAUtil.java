@@ -78,6 +78,10 @@ public class NFAUtil {
 		return null;
 	}
 
+	public static boolean isValid(final NFASegment nfa, final String string) {
+		return isValid(new NFA(nfa.start), string);
+	}
+
 	/**
 	 * Check if the string is valid in the NFA.
 	 * 
@@ -89,32 +93,41 @@ public class NFAUtil {
 	 */
 	public static boolean isValid(final NFA nfa, final String string) {
 		final HashSet<NFAStep> steps = new HashSet<NFAStep>();
+		final HashSet<NFAStep> explored = new HashSet<NFAStep>();
+
 		boolean isValid = false;
+
 		steps.add(new NFAStep(nfa.getStartState(), string));
+
 		while (!isValid && !steps.isEmpty()) {
 			for (NFAStep step : new LinkedList<NFAStep>(steps)) {
-				if (step.string.isEmpty()) {
-					if (step.state.isFinal()) {
-						isValid = true;
-					} else {
-						steps.remove(step);
+
+				steps.remove(step);
+				explored.add(step);
+
+				// Check for finality
+				if (step.isFinal()) {
+					isValid = true;
+				}
+
+				for (Transition t : step.state.getTransitions()) {
+					NFAStep s = null;
+					// If empty
+					if (t.isEmptyTransition()) {
+						s = new NFAStep(t.getDestinationState(), step.string);
 					}
-				} else {
-					for (Transition t : step.state.getTransitions()) {
-						if (t.isEmptyTransition()) {
-							NFAStep newStep = new NFAStep(t.getDestinationState(), step.string);
-							if (!steps.contains(newStep)) {
-								steps.add(newStep);
-							}
-						} else if (t.isValid(step.string.charAt(0))) {
-							steps.add(new NFAStep(t.getDestinationState(), step.string.substring(1)));
-						}
+					// if not empty
+					else if (!step.string.isEmpty() && t.isValid(step.string.charAt(0))) {
+						s = new NFAStep(t.getDestinationState(), step.string.substring(1));
+					}
+
+					if (s != null && !explored.contains(s)) {
+						steps.add(s);
 					}
 				}
-				steps.remove(step);
 			}
 		}
-		steps.clear();
+
 		return isValid;
 	}
 
@@ -133,6 +146,7 @@ public class NFAUtil {
 			this.string = string;
 		}
 
+		@Override
 		public boolean equals(Object o) {
 			if (o instanceof NFAStep) {
 				NFAStep p = (NFAStep) o;
@@ -145,6 +159,10 @@ public class NFAUtil {
 
 		public String toString() {
 			return state.toString() + " " + string;
+		}
+
+		public boolean isFinal() {
+			return string.isEmpty() && state.isFinal();
 		}
 	}
 
@@ -181,4 +199,61 @@ public class NFAUtil {
 			return true;
 		}
 	}
+
+	public static NFASegment a(final char a) {
+		State start = new State("start", false);
+		State end = new State("end", false);
+
+		start.addTransition(new Transition(a, end));
+
+		return new NFASegment(start, end);
+	}
+
+	public static NFASegment aOrB(final NFASegment a, final NFASegment b) {
+		State start = new State("start", false);
+		State end = new State("end", false);
+
+		start.addTransition(new Transition(a.start));
+		start.addTransition(new Transition(b.start));
+
+		a.end.addTransition(new Transition(end));
+		b.end.addTransition(new Transition(end));
+
+		return new NFASegment(start, end);
+	}
+
+	public static NFASegment aStar(final NFASegment a) {
+		State start = new State("start", false);
+		State end = new State("end", false);
+
+		start.addTransition(new Transition(a.start));
+		start.addTransition(new Transition(end));
+
+		a.end.addTransition(new Transition(end));
+		end.addTransition(new Transition(start));
+
+		return new NFASegment(start, end);
+	}
+
+	public static NFASegment aPlus(final NFASegment a) {
+		State start = new State("start", false);
+		State end = new State("end", false);
+
+		start.addTransition(new Transition(a.start));
+
+		a.end.addTransition(new Transition(end));
+		end.addTransition(new Transition(start));
+
+		return new NFASegment(start, end);
+	}
+
+	public static class NFASegment {
+		public final State start, end;
+
+		public NFASegment(final State start, final State end) {
+			this.start = start;
+			this.end = end;
+		}
+	}
+
 }

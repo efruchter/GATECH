@@ -4,7 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
+import nfa.NFA;
 import nfa.NFAUtil;
+import nfa.NFAUtil.NFASegment;
 import nfa.State;
 import nfa.Transition;
 
@@ -32,4 +34,16 @@ public class NFAUtilTest {
 				&& results.contains(c) && results.contains(d) && !results.contains(e));
 	}
 
+	@Test
+	public void NFAMakerTest() {
+
+		// (a|b)*
+		NFASegment a = NFAUtil.a('a');
+		NFASegment b = NFAUtil.a('b');
+		NFASegment aOrB = NFAUtil.aOrB(a, b);
+		NFASegment total = NFAUtil.aStar(aOrB);
+		total.end.addTransition(new Transition(new State("end", true)));
+		System.out.println(NFAUtil.isValid(total, "abahba"));
+
+	}
 }
