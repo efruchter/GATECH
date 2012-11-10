@@ -200,11 +200,11 @@ public class NFAUtil {
 		}
 	}
 
-	public static NFASegment a(final char a) {
+	public static NFASegment a(final String regex) {
 		State start = new State("start", false);
 		State end = new State("end", false);
 
-		start.addTransition(new Transition(a, end));
+		start.addTransition(new Transition(regex, end));
 
 		return new NFASegment(start, end);
 	}

@@ -23,10 +23,10 @@ public class NFAUtilTest {
 		State e = new State("e", false);
 
 		a.addTransition(new Transition(b));
-		b.addTransition(new Transition(c), new Transition('f', e));
+		b.addTransition(new Transition(c), new Transition("f", e));
 		b.addTransition(new Transition(d));
 		c.addTransition(new Transition(d));
-		d.addTransition(new Transition('f', e));
+		d.addTransition(new Transition("f", e));
 
 		Set<State> results = NFAUtil.findClosure(a);
 
@@ -38,8 +38,8 @@ public class NFAUtilTest {
 	public void NFAMakerTest() {
 
 		// (a|b)*
-		NFASegment a = NFAUtil.a('a');
-		NFASegment b = NFAUtil.a('b');
+		NFASegment a = NFAUtil.a("a");
+		NFASegment b = NFAUtil.a("b");
 		NFASegment aOrB = NFAUtil.aOrB(a, b);
 		NFASegment total = NFAUtil.aStar(aOrB);
 		total.end.addTransition(new Transition(new State("end", true)));

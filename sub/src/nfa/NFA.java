@@ -88,12 +88,12 @@ public class NFA {
 	 */
 	public boolean isDFA() {
 		for (final Entry<String, State> stateTuple : this.states.entrySet()) {
-			HashSet<Character> chars = new HashSet<Character>();
+			HashSet<String> chars = new HashSet<String>();
 			for (Transition state : stateTuple.getValue().getTransitions()) {
-				if (state.isEmptyTransition() || chars.contains(state.getCharacter())) {
+				if (state.isEmptyTransition() || chars.contains(state.getRegex())) {
 					return false;
 				}
-				chars.add(state.getCharacter());
+				chars.add(state.getRegex());
 			}
 		}
 		return true;
