@@ -3,7 +3,7 @@ $DIGIT          [0-9]
 $NON-ZERO    [^0]  IN  $DIGIT
 $SMALLCASE      [a-z]
 $LETTER         [A-Za-z]
-$UPPERCASE  [^a-z] IN $LETTER         
+$UPPERCASE  [^a-z] IN $LETTER
 %%  Token definitions will be contained in this section using regexes � examples below
 $IDENTIFIER         $SMALLCASE ($LETTER | $DIGIT)*
 $CONSTANT            $UPPERCASE ($LETTER | $DIGIT)*
