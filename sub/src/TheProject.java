@@ -18,7 +18,10 @@ public class TheProject {
     }
 
     public void doStuff() {
-        List<DefinedClass> classes = RDPControl.getOutput(specFilePath);
+        List<DefinedClass> tokenTypes = RDPControl.getOutput(specFilePath);
+        for (DefinedClass tokenType : tokenTypes) {
+            System.out.println(tokenType);
+        }
     }
 
     public static void main(String[] args) {

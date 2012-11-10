@@ -21,20 +21,16 @@ public class SpecReader {
         Matcher matcher = p.matcher(line);
         matcher.matches();
 
-        CharClass charClass;
-
         String charClassName = matcher.group(1);
 
-        if (matcher.group(3) == null) {
+        if (matcher.group(3) != null) {
             String re = matcher.group(2);
-            charClass = new CharClass(charClassName, re);
+            spec.addCharClass(charClassName, new CharClass(re));
         } else {
-            String re = matcher.group(3);
-            String inCharClass = matcher.group(4);
-            charClass = new CharClass(charClassName, re, inCharClass);
+            String re = matcher.group(4);
+            CharClass inCharClass = spec.getCharClass(matcher.group(5));
+            spec.addCharClass(charClassName, new CharClass(re, inCharClass));
         }
-
-        spec.addCharClass(charClass);
     }
 
     private void readTokenDef(String line) {

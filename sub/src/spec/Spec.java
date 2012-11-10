@@ -1,19 +1,22 @@
 package spec;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Spec {
-    private List<CharClass> charClasses;
+    private Map<String, CharClass> charClasses;
     private List<TokenDef> tokenDefs;
 
     public Spec() {
-        charClasses = new ArrayList<CharClass>();
+        charClasses = new HashMap<String, CharClass>();
         tokenDefs = new ArrayList<TokenDef>();
     }
 
-    public void addCharClass(final CharClass charClass) {
-        charClasses.add(charClass);
+    public CharClass getCharClass(final String charClassName) {
+        return charClasses.get(charClassName);
+    }
+
+    public void addCharClass(final String charClassName, final CharClass charClass) {
+        charClasses.put(charClassName, charClass);
     }
 
     public void addTokenDef(final TokenDef tokenDef) {
@@ -24,9 +27,10 @@ public class Spec {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (CharClass charClass : charClasses) {
-            sb.append(charClass.toString());
-            sb.append("\n");
+        Iterator charClassesIterator = charClasses.entrySet().iterator();
+        while (charClassesIterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) charClassesIterator.next();
+            sb.append(String.format("$%s: %s\n", entry.getKey(), entry.getValue()));
         }
 
         for (TokenDef tokenDef : tokenDefs) {
