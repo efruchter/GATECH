@@ -100,13 +100,14 @@ public class RDPControl {
 			BufferedReader br = new BufferedReader(new InputStreamReader(ds));
 			String dataIn;
 			while ((dataIn = br.readLine()) != null) {
-				if (dataIn.startsWith("%%")) {
+				if (dataIn.startsWith("%%") || dataIn.trim().isEmpty()) {
 					tokenindex = index;
 					continue;
 				} else if (dataIn.startsWith("$")) {
 					String[] bits = dataIn.split("\\s+");
 
 					String d = "";
+					
 					for (int i = 1; i < bits.length; i++) {
 						d = d + bits[i];
 					}

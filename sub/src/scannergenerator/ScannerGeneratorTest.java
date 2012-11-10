@@ -31,15 +31,19 @@ public class ScannerGeneratorTest {
 		for (String st : tests) {
 			System.out.println("Test " + st + ": " + rdpc.parseFinal(st));
 		}
-	}
-
-	@Test
-	public void apiTest() {
-		DefinedClass[] dc = RDPControl.getOutput("");
-		for (DefinedClass c : dc) {
-			System.out.printf("%s %s\n", c.getName(),
-					String.valueOf(c.getRegex()));
-		}
-	}
+    }
+    
+    @Test
+    public void apiTest() {
+    	DefinedClass[] dc = RDPControl.getOutput("");
+    	for(DefinedClass c: dc) {
+    		System.out.printf("%s %s\n", c.getName(), String.valueOf(c.getRegex()));
+    	}
+    	
+    	DefinedClass[] dc2 = RDPControl.getOutput("doc/sample_spec.txt");
+    	for(DefinedClass c: dc2) {
+    		System.out.printf("%s %s\n", c.getName(), String.valueOf(c.getRegex()));
+    	}
+    }
 
 }
