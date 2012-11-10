@@ -33,5 +33,14 @@ public class ScannerGeneratorTest {
 			System.out.println("Test " + st + ": " + rdpc.parseFinal(st));
 		}
     }
+    
+    @Test
+    public void apiTest() {
+    	DefinedClass[] dc = RDPControl.getOutput("");
+    	System.out.println(dc.length);
+    	for(DefinedClass c: dc) {
+    		System.out.printf("%s %s\n", c.getName(), String.valueOf(c.getRegex()));
+    	}
+    }
 
 }
