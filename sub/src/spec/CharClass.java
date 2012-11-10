@@ -1,28 +1,29 @@
 package spec;
 
 public class CharClass {
-    private final String charClassName;
     private final String re;
-    private final String inCharClass;
+    private final CharClass inCharClass;
 
-    public CharClass(String charClassName, String re) {
-        this.charClassName = charClassName;
+    public CharClass(String re) {
         this.re = re;
         this.inCharClass = null;
     }
 
-    public CharClass(String charClassName, String re, String inCharClass) {
-        this.charClassName = charClassName;
+    public CharClass(String re, CharClass inCharClass) {
         this.re = re;
         this.inCharClass = inCharClass;
+    }
+
+    public boolean match(final String input) {
+        return true;
     }
 
     @Override
     public String toString() {
         if (inCharClass == null) {
-            return String.format("<CharClass $%s %s>", this.charClassName, this.re);
+            return String.format("<CharClass %s>", this.re);
         } else {
-            return String.format("<CharClass $%s %s IN %s>", this.charClassName, this.re, this.inCharClass);
+            return String.format("<CharClass %s IN %s>", this.re, this.inCharClass);
         }
     }
 }
