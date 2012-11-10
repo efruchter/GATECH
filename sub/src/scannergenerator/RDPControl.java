@@ -76,8 +76,6 @@ public class RDPControl {
 			controller.parser.inputBuffer = controller.classes[index]
 					.getDefinition();
 			String out = controller.parser.regEx();
-			System.out.println(out);
-			System.out.println(controller.parseFinal(out));
 			controller.classes[index].setRegex(out.toCharArray());
 			index += 1;
 		}
