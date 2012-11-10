@@ -28,7 +28,7 @@ public class SpecReader {
 		if (matcher.group(3) != null) {
 			re = matcher.group(2);
 		} else {
-			re = matcher.group(4) + "IN" + spec.getCharClass(matcher.group(5)).getOre();
+			re = matcher.group(4) + "IN" + spec.getCharClass(matcher.group(5)).getRe();
 		}
 		spec.addCharClass(charClassName, new CharClass(re));
 	}

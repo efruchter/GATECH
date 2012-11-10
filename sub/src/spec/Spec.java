@@ -44,7 +44,6 @@ public class Spec {
 	}
 
 	public Map<String, CharClass> getCharClasses() {
-		// TODO Auto-generated method stub
 		return charClasses;
 	}
 }
