@@ -60,7 +60,7 @@ public class RDPControl {
 		}
 	}
 
-	public static DefinedClass[] getOutput(String filename) {
+	public static List<DefinedClass> getOutput(String filename) {
 		if (filename.equals("")) {
 			filename = "doc/sample_input_specification.txt";
 		}
@@ -81,17 +81,17 @@ public class RDPControl {
 		}
 		ArrayList<DefinedClass> al = new ArrayList<DefinedClass>();
 		for (DefinedClass c : controller.classes) {
-			if (c != null) {
+			if (c != null && c.isAToken) {
 				String finalRegex = controller.parseFinal(String.valueOf(c
 						.getRegex()));
 				c.setRegex(finalRegex.toCharArray());
 				al.add(c);
 			}
 		}
-		return al.toArray(new DefinedClass[al.size()]);
+		return al;
 	}
 
-	public DefinedClass[] ReadClassesFromFile(String filename) {
+	public static DefinedClass[] ReadClassesFromFile(String filename) {
 		DefinedClass[] output = new DefinedClass[100];
 		int index = 0;
 		try {
@@ -99,9 +99,11 @@ public class RDPControl {
 			DataInputStream ds = new DataInputStream(fs);
 			BufferedReader br = new BufferedReader(new InputStreamReader(ds));
 			String dataIn;
+			boolean tokenTown = false;
 			while ((dataIn = br.readLine()) != null) {
 				if (dataIn.startsWith("%%") || dataIn.trim().isEmpty()) {
 					tokenindex = index;
+					tokenTown = true;
 					continue;
 				} else if (dataIn.startsWith("$")) {
 					String[] bits = dataIn.split("\\s+");
@@ -113,7 +115,7 @@ public class RDPControl {
 					}
 					char[] def = new char[d.length()];
 					d.getChars(0, d.length(), def, 0);
-					output[index] = new DefinedClass(bits[0], def);
+					output[index] = new DefinedClass(bits[0], def, tokenTown);
 					index += 1;
 				} else {
 					System.out.println("Unexpected line in file: " + dataIn);

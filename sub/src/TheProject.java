@@ -1,18 +1,24 @@
+import scannergenerator.DefinedClass;
+import scannergenerator.RDPControl;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 
 public class TheProject {
+    final String specFilePath; // dumb.
     final InputStream specFileInputStream;
     final InputStream programFileInputStream;
 
-    public TheProject(InputStream specFileInputStream, InputStream programFileInputStream) {
+    public TheProject(String specFilePath, InputStream specFileInputStream, InputStream programFileInputStream) {
+        this.specFilePath = specFilePath;
         this.specFileInputStream = specFileInputStream;
         this.programFileInputStream = programFileInputStream;
     }
 
     public void doStuff() {
-        // Fun?
+        List<DefinedClass> classes = RDPControl.getOutput(specFilePath);
     }
 
     public static void main(String[] args) {
@@ -35,7 +41,7 @@ public class TheProject {
             System.exit(1);
         }
 
-        TheProject project = new TheProject(specFileInputStream, programFileInputStream);
+        TheProject project = new TheProject(specFilePath, specFileInputStream, programFileInputStream);
         project.doStuff();
     }
 }
