@@ -73,15 +73,17 @@ public class RDPControl {
 			controller.parser.regex = "";
 			controller.parser.index = 0;
 			controller.parser.classes = controller.classes;
-			controller.parser.inputBuffer = controller.classes[index].getDefinition();
+			controller.parser.inputBuffer = controller.classes[index]
+					.getDefinition();
 			String out = controller.parser.regEx();
 			controller.classes[index].setRegex(out.toCharArray());
 			index += 1;
 		}
 		ArrayList<DefinedClass> al = new ArrayList<DefinedClass>();
-		for(DefinedClass c: controller.classes) {
-			if(c != null) {
-				String finalRegex = controller.parseFinal(String.valueOf(c.getRegex()));
+		for (DefinedClass c : controller.classes) {
+			if (c != null) {
+				String finalRegex = controller.parseFinal(String.valueOf(c
+						.getRegex()));
 				c.setRegex(finalRegex.toCharArray());
 				al.add(c);
 			}
@@ -121,7 +123,6 @@ public class RDPControl {
 			System.out.println("Could not read from file: " + ex.getMessage());
 			return null;
 		}
-
 	}
 
 	public String parseFinal(String s) {
@@ -130,7 +131,6 @@ public class RDPControl {
 		boolean flag = false;
 
 		for (int i = 0; i < s.length();) {
-
 			if (s.charAt(i) == '\\') {
 				f = f.concat(s.substring(i, i + 2));
 				i += 2;
@@ -138,7 +138,6 @@ public class RDPControl {
 					&& s.charAt(i + 1) != '^') {
 				f = f.concat("(" + s.substring(i, i + 4));
 				i += 4;
-
 				while (((i) < s.length()) && (s.charAt(i) != ']')) {
 					flag = true;
 					f = f.concat("]|[" + s.substring(i, i + 3));
@@ -146,15 +145,10 @@ public class RDPControl {
 				}
 				f = f.concat("])");
 				i++;
-
 			} else if ((i + 2) < s.length()
 					&& s.substring(i, i + 2).equals("[^")) {
-				// handle the not case.
-				// Example [^0]IN[0-9]
 
-				if (s.charAt(i + 3) == '-') { // complex case
-												// [^a-b]in[a-zA-Z0-9]
-
+				if (s.charAt(i + 3) == '-') {
 					char rlb = s.charAt(i + 2);
 					char rub = s.charAt(i + 4);
 
@@ -190,7 +184,12 @@ public class RDPControl {
 				}
 
 			} else if (s.charAt(i) == '+') {
-				f = f + "(" + s.substring(s.lastIndexOf("(", i), i) + ")*";
+				if (s.charAt(i - 1) == ']')
+					f = f + s.substring(s.lastIndexOf("[", i), i) + "*";
+				else if (s.charAt(i - 1) == ')')
+					f = f + s.substring(s.lastIndexOf("(", i), i) + "*";
+				else
+					f = f + "(" + s.substring(i - 1, i) + ")" + "*";
 				i++;
 			} else {
 				f = f.concat(((Character) s.charAt(i)).toString());
