@@ -1,5 +1,5 @@
 CS3240 HW2
-Eric Fruchter, Patrick Lucas, Kefu Zhou
+Eric Fruchter, Patrick Lucas, Kefu Zhou, Chad Stewart
 
 1)  A report containing: 
      a) A brief description of how you have implemented each part of the project 
