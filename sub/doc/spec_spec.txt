@@ -1,0 +1,21 @@
+$UPPER [A-Z]
+$DOLLA \$
+
+$NAME $DOLLA $UPPER $NAME_TAIL
+$NAME_TAIL $UPPER $NAME_TAIL | e
+
+$CLASSDEF $NAME ($CLASSDEF_POS | $CLASSDEF_NEG) \n
+$CLASSDEF_POS \[ .* \]                                  # .* = regex class def inside []'s
+$CLASSDEF_NEG \[ \^ .* \] $NAME                         # same
+
+$TOKENDEF $NAME .* \n                                   # regex
+
+$CLASSDEFS $CLASSDEF $CLASSDEFS'
+$CLASSDEFS' $CLASSDEF $CLASSDEFS' | e
+
+$TOKENDEFS $TOKENDEF $TOKENDEFS'
+$TOKENDEFS' $TOKENDEF $TOKENDEFS' | e
+
+$DOUBLENEWLINE \n\n
+
+$SPEC $CLASSDEFS $DOUBLENEWLINE $TOKENDEFS
