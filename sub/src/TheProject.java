@@ -24,14 +24,18 @@ public class TheProject {
         String specFilePath = args[0];
         String programFilePath = args[1];
 
+        InputStream specFileInputStream = null;
+        InputStream programFileInputStream = null;
+
         try {
-            InputStream specFileInputStream = new FileInputStream(specFilePath);
-            InputStream programFileInputStream = new FileInputStream(programFilePath);
+            specFileInputStream = new FileInputStream(specFilePath);
+            programFileInputStream = new FileInputStream(programFilePath);
         } catch (FileNotFoundException ex) {
             System.err.println(ex);
             System.exit(1);
         }
 
         TheProject project = new TheProject(specFileInputStream, programFileInputStream);
+        project.doStuff();
     }
 }
