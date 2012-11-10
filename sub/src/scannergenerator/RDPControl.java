@@ -78,7 +78,7 @@ public class RDPControl {
 			controller.classes[index].setRegex(out.toCharArray());
 			index += 1;
 		}
-		ArrayList<DefinedClass> al = new ArrayList<>();
+		ArrayList<DefinedClass> al = new ArrayList<DefinedClass>();
 		for(DefinedClass c: controller.classes) {
 			if(c != null) {
 				String finalRegex = controller.parseFinal(String.valueOf(c.getRegex()));
