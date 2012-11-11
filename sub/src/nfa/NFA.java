@@ -102,7 +102,7 @@ public class NFA {
 		StringBuilder b = new StringBuilder();
 		b.append("Starting: ").append(this.startState.getName()).append("\n");
 		for (Entry<String, State> s : this.states.entrySet()) {
-			b.append(s.getKey()).append(": ").append(s.getValue().toString()).append("\n");
+			b.append(s.getValue().toString()).append("\n");
 		}
 		return b.toString();
 	}
