@@ -9,16 +9,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class TheProject {
+public class ScannerGenerator {
     final InputStream specFileInputStream;
     final InputStream programFileInputStream;
 
-    public TheProject(InputStream specFileInputStream, InputStream programFileInputStream) {
+    public ScannerGenerator(InputStream specFileInputStream, InputStream programFileInputStream) {
         this.specFileInputStream = specFileInputStream;
         this.programFileInputStream = programFileInputStream;
     }
 
-    public void doStuff() {
+    public void generateScannerAndRun() {
         SpecReader specReader = new SpecReader(this.specFileInputStream);
         Spec spec = specReader.specify();
 
@@ -42,17 +42,17 @@ public class TheProject {
         String specFilePath = args[0];
         String programFilePath = args[1];
 
-        TheProject project = null;
+        ScannerGenerator scannerGenerator = null;
 
         try {
             InputStream specFileInputStream = new FileInputStream(specFilePath);
             InputStream programFileInputStream = new FileInputStream(programFilePath);
-            project = new TheProject(specFileInputStream, programFileInputStream);
+            scannerGenerator = new ScannerGenerator(specFileInputStream, programFileInputStream);
         } catch (FileNotFoundException ex) {
             System.err.println(ex);
             System.exit(1);
         }
 
-        project.doStuff();
+        scannerGenerator.generateScannerAndRun();
     }
 }

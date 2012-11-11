@@ -3,6 +3,7 @@
 *~
 ~*
 .*.swp
+*.class
 
 # Eclipse
 /bin/
