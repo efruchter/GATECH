@@ -1,3 +1,6 @@
+import nfa.NFABuilder;
+import nfa.NFAUtil;
+import nfa.NFAUtil.NFASegment;
 import spec.Spec;
 import spec.SpecReader;
 
@@ -18,6 +21,9 @@ public class TheProject {
         SpecReader specReader = new SpecReader(this.specFileInputStream);
         Spec spec = specReader.specify();
         System.out.println(spec);
+        NFASegment nfa = NFABuilder.buildNFAFromSpec(spec);
+        System.out.println(NFAUtil.isValid(nfa, "aba"));
+        System.out.println(NFAUtil.isValid(nfa, "abc"));
     }
 
     public static void main(String[] args) {

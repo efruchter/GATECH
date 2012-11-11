@@ -39,9 +39,9 @@ public class SpecReader {
 
         String tokenName = matcher.group(1);
         String tokenStuff = matcher.group(2);
-        TokenDef tokenDef = new TokenDef(tokenName, tokenStuff, spec.iterCharClasses());
+        TokenType tokenType = new TokenType(tokenName, tokenStuff, spec.iterCharClasses());
 
-        spec.addTokenDef(tokenDef);
+        spec.addTokenDef(tokenType);
     }
 
     public Spec specify() {
