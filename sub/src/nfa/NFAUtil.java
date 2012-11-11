@@ -82,18 +82,24 @@ public class NFAUtil {
 		for (MetaState metaState : foundMetaStates) {
 			// Is goal?
 			boolean isGoal = false;
+			String name = null;
 			for (State s : metaState.states) {
-				isGoal = isGoal || s.isFinal();
+				if(s.isFinal()) {
+					isGoal = true;
+					name = s.getName();
+				}
 			}
 
 			// Build The string of names
-			String string = "";
-			for (State s : metaState.states) {
-				string += "," + s.getName();
+			if(name != null) {
+				String string = "";
+				for (State s : metaState.states) {
+					string += "," + s.getName();
+				}
+				string = string.replaceFirst(",", "");
 			}
-			string = string.replaceFirst(",", "");
 
-			states.put(metaState, new State(string, isGoal));
+			states.put(metaState, new State(name, isGoal));
 		}
 
 		// Pass two, connect states
