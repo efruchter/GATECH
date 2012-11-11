@@ -173,7 +173,7 @@ public class RegexExpander {
 		}
 		rem = rem.replace("()|", "");
 		rem = rem.replace(")|(", "|");
-		
+
 		n = 1;
 		while (n < rem.length()) {
 			chars.remove((rem.charAt(n)));
@@ -182,11 +182,10 @@ public class RegexExpander {
 
 		String comp = "(";
 		n = 0;
-		for(char c: chars)
-		{
+		for (char c : chars) {
 			comp += c + "|";
 		}
-		comp = comp.substring(0, comp.length()-1) + ")";
+		comp = comp.substring(0, comp.length() - 1) + ")";
 		return comp;
 	}
 
