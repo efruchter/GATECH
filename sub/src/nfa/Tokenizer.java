@@ -10,6 +10,7 @@ import java.io.IOException;
  *
  */
 public class Tokenizer {
+	@SuppressWarnings("unused")
 	private BufferedReader br;
 	private StringBuilder sb = new StringBuilder();
 	private String everything;
