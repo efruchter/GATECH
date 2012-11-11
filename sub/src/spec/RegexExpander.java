@@ -63,8 +63,7 @@ public class RegexExpander {
 				sub = OrThisShit(sub); // Evaluate the first OR block
 				for (String m : ls) {
 					if (!sub.isEmpty())
-						sub = sub + "|" + expand(m); // Evaluate the spread OR
-														// blocks
+						sub = sub + "|" + expand(m); // Evaluate the spread OR blocks
 				}
 				sub = sub.replace("()|", "");
 				s = s.substring(0, u) + "(" + sub + ")" + s.substring(v);
@@ -95,6 +94,56 @@ public class RegexExpander {
 				}
 			}
 			i++;
+		}
+
+		s = stripOuterParens(s);
+
+		return s;
+	}
+
+	public static String stripOuterParens(String s) {
+		int firstParen = s.indexOf("(");
+
+		if (firstParen < 0) {
+			return s;
+		}
+
+		int numParens = 1;
+		int maxParens = 1;
+
+		int idx = firstParen + 1;
+
+		for (; idx < s.length(); ++idx) {
+			char c = s.charAt(idx);
+
+			if (c == '(') {
+				++numParens;
+				++maxParens;
+			} else {
+				break;
+			}
+		}
+
+		idx = s.indexOf(")", idx);
+
+		for (; idx < s.length(); ++idx) {
+			char c = s.charAt(idx);
+
+			if (c == ')') {
+				--numParens;
+
+				if (numParens == 0) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(s.substring(0, firstParen));
+					sb.append("(");
+					sb.append(s.substring(firstParen + maxParens, idx - maxParens + 1));
+					sb.append(")");
+					sb.append(s.substring(idx + 1));
+					return sb.toString();
+				}
+			} else {
+				return s;
+			}
 		}
 
 		return s;
