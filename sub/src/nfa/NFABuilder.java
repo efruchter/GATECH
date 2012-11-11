@@ -21,12 +21,40 @@ public class NFABuilder {
         return nfa;
     }
 
-    public static NFASegment buildNFAFromRegex(String regex) {
-        NFASegment a = NFAUtil.a("a");
-        NFASegment b = NFAUtil.a("b");
-        NFASegment aOrB = NFAUtil.aOrB(a, b);
-        NFASegment total = NFAUtil.aPlus(aOrB);
-        total.end.addTransition(new Transition(new State("trueEnd", true)));
-        return total;
+    private static NFASegment buildNFAFromRegex(String regex) {
+        NFASegment nfa = NFAUtil.empty();
+
+        int idx = 0;
+        while (idx < regex.length()) {
+            char c = regex.charAt(idx);
+            ++idx;
+
+            if (c == '(') {
+                int ct = 1;
+                int subidx = idx;
+                while (ct > 0) {
+                    char paren = regex.charAt(subidx);
+                    if (paren == '(') {
+                        ++ct;
+                    } else if (paren == ')') {
+                        --ct;
+                    }
+                    ++subidx;
+                }
+                nfa = NFAUtil.ab(nfa, buildNFAFromRegex(regex.substring(idx, subidx - 1)));
+                idx = subidx;
+            } else if (c == '|') {
+                nfa = NFAUtil.aOrB(nfa, buildNFAFromRegex(regex.substring(idx)));
+                idx = regex.length();
+            } else if (c == '*') {
+                nfa = NFAUtil.aStar(nfa);
+            } else if (c == '\\') {
+                // Wait for next char
+            } else {
+                nfa = NFAUtil.ab(nfa, NFAUtil.a(String.valueOf(c)));
+            }
+        }
+
+        return nfa;
     }
 }

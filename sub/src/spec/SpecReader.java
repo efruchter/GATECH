@@ -37,11 +37,11 @@ public class SpecReader {
         Matcher matcher = p.matcher(line);
         matcher.matches();
 
-        String tokenName = matcher.group(1);
-        String tokenStuff = matcher.group(2);
-        TokenType tokenType = new TokenType(tokenName, tokenStuff, spec.iterCharClasses());
+        String name = matcher.group(1);
+        String re = matcher.group(2);
+        TokenType tokenType = new TokenType(name, re, spec.iterCharClasses());
 
-        spec.addTokenDef(tokenType);
+        spec.addTokenType(tokenType);
     }
 
     public Spec specify() {

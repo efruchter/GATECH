@@ -243,6 +243,15 @@ public class NFAUtil {
 	// Create unique names
 	private static int gen = 0;
 
+    public static NFASegment empty() {
+        State start = new State("start" + gen, false);
+        State end = new State("end" + gen++, false);
+
+        start.addTransition(new Transition(end));
+
+        return new NFASegment(start, end);
+    }
+
 	public static NFASegment a(final String regex) {
 		State start = new State("start" + gen, false);
 		State end = new State("end" + gen++, false);
