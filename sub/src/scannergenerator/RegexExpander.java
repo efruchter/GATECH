@@ -5,14 +5,7 @@ public class RegexExpander {
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		/*
-		 * System.out.println(r.myParser("[a-dA-E0-9](fdasdf)*"));
-		 * System.out.println(r.myParser("[a-g]+"));
-		 * System.out.println(r.myParser("(a+)+"));
-		 * System.out.println(r.myParser("p+[p-z]+(agbd(4|5))+(ab+)+"));
-		 * System.out.println(r.myParser("[dfsfb-caggr-zadasdfaw-z]af+"));
-		 * System.out.println(r.myParser("[bt-z]*"));
-		 */
+		System.out.println(r.curseAgain("[a-g0-8]   sd  \\         sd"));
 	}
 
 	public static String curseAgain(String s) {
@@ -20,7 +13,14 @@ public class RegexExpander {
 		while (i < s.length()) {
 			int u = 0;
 			int v = 0;
-			if (s.charAt(i) == '\\') {
+			if (s.charAt(i) == ' ') {
+				if (s.charAt(i - 1) == '\\') {
+					i += 2;
+				} else {
+					s = s.substring(0, i) + s.substring(i + 1);
+				}
+				continue;
+			} else if (s.charAt(i) == '\\') {
 				i += 2;
 				continue;
 			} else if (s.charAt(i) == ']') {
@@ -80,16 +80,35 @@ public class RegexExpander {
 						s = s.subSequence(0, i) + "(" + s.substring(i - 1, i)
 								+ "*" + ")" + s.substring(i + 1);
 						i++;
-						System.out.println(s.length());
-						System.out.println(i);
 					}
-					System.out.println(s.length());
-					System.out.println(i);
 				}
 			}
 			i++;
 		}
+		if (decouple(s))
+			s = s.substring(1, s.length() - 1);
 		return s;
+	}
+
+	private static boolean decouple(String s) {
+		// TODO Auto-generated method stub
+		int i = 0;
+		int count = 0;
+		boolean up = true;
+		while (i < s.length() - 1) {
+			if (s.charAt(i) == '(') {
+				if (!up)
+					return false;
+				if (s.charAt(i + 1) == '(')
+					count++;
+			} else if (s.charAt(i) == ')')
+				up = false;
+			if (s.charAt(i + 1) == ')') {
+				count--;
+			}
+			i++;
+		}
+		return true;
 	}
 
 	private static String findSub(String s) {
@@ -117,7 +136,8 @@ public class RegexExpander {
 		return "(" + s.substring(1, s.length() - 1) + ")";
 	}
 
-	private static String expand(String sub) throws StringIndexOutOfBoundsException {
+	private static String expand(String sub)
+			throws StringIndexOutOfBoundsException {
 		// TODO Auto-generated method stub
 		char lb = sub.charAt(1);
 		char ub = sub.charAt(sub.length() - 2);

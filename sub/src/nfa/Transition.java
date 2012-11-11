@@ -1,6 +1,5 @@
 package nfa;
 
-import java.util.regex.Pattern;
 
 /**
  * NFA transition.
