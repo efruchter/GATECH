@@ -25,7 +25,7 @@ public class TokenType {
             re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
         }
 
-        return RegexExpander.curseAgain(re);
+        return RegexExpander.expandRegex(re);
     }
 
     @Override

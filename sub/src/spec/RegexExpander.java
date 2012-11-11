@@ -15,14 +15,14 @@ public class RegexExpander {
 	 * 
 	 * public static void main(String[] args) {
 	 * 
-	 * System.out.println(RegexExpander.curseAgain("[uygfcxduyg-l]")); }
+	 * System.out.println(RegexExpander.expandRegex("[uygfcxduyg-l]")); }
 	 */
 
-	public static String curseAgain(String s) {
+	public static String expandRegex(String s) {
 		i = 0;
 		while (i < s.length()) {
-			int u = 0;
-			int v = 0;
+			int u;
+			int v;
 			if (s.charAt(i) == ' ') { // Encounter a space
 				if (s.charAt(i - 1) == '\\') {
 					i += 2;
@@ -47,19 +47,13 @@ public class RegexExpander {
 				// Split the OR block to deal with it
 				String[] strs = sub.split("-");
 				String[] ls = new String[strs.length - 1];
-				String fin = "";
-				boolean split = false;
-				int count = -1;
 				for (int i = 0; i < ls.length; i++) {
 					if (i > 0) {
 						ls[i] = "[" + strs[i].charAt(strs[i].length() - 1)
 								+ "-" + strs[i + 1].charAt(0) + "]";
-						split = true;
 					} else
 						ls[i] = "[" + strs[i].charAt(strs[i].length() - 1)
 								+ "-" + strs[i + 1].charAt(0) + "]";
-					fin += ls[i];
-					count++;
 				}
 				for (String m : ls) { // Add the OR blocks together
 					if (m.length() == 5) {
@@ -70,7 +64,7 @@ public class RegexExpander {
 				}
 				sub = OrThisShit(sub); // Evaluate the first OR block
 				for (String m : ls) {
-					if (sub != "")
+					if (sub.isEmpty())
 						sub = sub + "|" + expand(m); // Evaluate the spread OR
 														// blocks
 				}
@@ -112,23 +106,17 @@ public class RegexExpander {
 	 * Negation String Handler
 	 */
 	private static String negate(String sub) {
-		// TODO Auto-generated method stub
 		String mainSet = sub.substring(sub.lastIndexOf("["), sub.length());
 
 		String[] strs = mainSet.split("-");
 		String[] ls = new String[strs.length - 1];
-		String fin = "";
-		boolean split = false;
-		int count = -1;
 		for (int i = 0; i < ls.length; i++) {
 			if (i > 0) {
 				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
 						+ strs[i + 1].charAt(0) + "]";
-				split = true;
 			} else
 				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
 						+ strs[i + 1].charAt(0) + "]";
-			count++;
 		}
 		for (String m : ls) {
 			if (m.length() == 5) {
@@ -139,7 +127,7 @@ public class RegexExpander {
 		}
 		mainSet = OrThisShit(mainSet);
 		for (String m : ls) {
-			if (mainSet != "")
+			if (mainSet.isEmpty())
 				mainSet = mainSet + "|" + expand(m);
 		}
 		mainSet = mainSet.replace("()|", "");
@@ -157,18 +145,13 @@ public class RegexExpander {
 
 		strs = rem.split("-");
 		ls = new String[strs.length - 1];
-		fin = "";
-		split = false;
-		count = -1;
 		for (int i = 0; i < ls.length; i++) {
 			if (i > 0) {
 				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
 						+ strs[i + 1].charAt(0) + "]";
-				split = true;
 			} else
 				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
 						+ strs[i + 1].charAt(0) + "]";
-			count++;
 		}
 		for (String m : ls) {
 			if (m.length() == 5) {
@@ -179,7 +162,7 @@ public class RegexExpander {
 		}
 		rem = OrThisShit(rem);
 		for (String m : ls) {
-			if (rem != "")
+			if (rem.isEmpty())
 				rem = rem + "|" + expand(m);
 		}
 		rem = rem.replace("()|", "");
@@ -192,12 +175,10 @@ public class RegexExpander {
 		}
 
 		String comp = "(";
-		n = 0;
 		for (char c : chars) {
 			comp += c + "|";
 		}
-		comp = comp.substring(0, comp.length() - 1) + ")";
-		return comp;
+		return comp.substring(0, comp.length() - 1) + ")";
 	}
 
 	/*
@@ -235,11 +216,9 @@ public class RegexExpander {
 	 */
 	private static String expand(String sub)
 			throws StringIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
 		char lb = sub.charAt(1);
 		char ub = sub.charAt(sub.length() - 2);
 		int indx = 1;
-		int l = sub.length();
 
 		while (indx < sub.length() - 1) {
 			if (lb == ub) {
@@ -263,5 +242,4 @@ public class RegexExpander {
 		i += indx;
 		return sub;
 	}
-
 }
