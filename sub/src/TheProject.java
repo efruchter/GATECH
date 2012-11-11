@@ -19,18 +19,17 @@ public class TheProject {
     }
 
     public void doStuff() {
-        //SpecReader specReader = new SpecReader(this.specFileInputStream);
-        //Spec spec = specReader.specify();
-        //System.out.println(spec);
+        SpecReader specReader = new SpecReader(this.specFileInputStream);
+        Spec spec = specReader.specify();
+        System.out.println(spec);
 
-        Spec spec2 = new Spec();
-        spec2.addTokenType(new TokenType("NUM", "(0|1|2)(a|b|c)", spec2.iterCharClasses()));
-        //spec2.addTokenType(new TokenType("WORD", "(a|b|c)", spec2.iterCharClasses()));
-        NFASegment nfa = NFABuilder.buildNFAFromSpec(spec2);
-        System.out.println(NFAUtil.isValid(nfa, "2a"));
-        System.out.println(NFAUtil.isValid(nfa, "0c"));
-        System.out.println(NFAUtil.isValid(nfa, "1"));
-        System.out.println(NFAUtil.isValid(nfa, "b"));
+        NFASegment nfa = NFABuilder.buildNFAFromSpec(spec);
+        System.out.println(NFAUtil.isValid(nfa, "a"));
+        System.out.println(NFAUtil.isValid(nfa, "abcbacabc"));
+        System.out.println(NFAUtil.isValid(nfa, "ABCABCBAB"));
+        System.out.println(NFAUtil.isValid(nfa, "012012011"));
+        System.out.println(NFAUtil.isValid(nfa, "0121accb2"));
+        System.out.println(NFAUtil.isValid(nfa, "acCAbcaCB"));
     }
 
     public static void main(String[] args) {

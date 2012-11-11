@@ -1,5 +1,5 @@
-$DIGIT [0-9]
-$CHAR [a-zA-Z]
+$DIGIT [0-2]
+$CHAR [a-cA-C]
 
-$NUM $DIGIT
-$WORD $CHAR
+$NUM $DIGIT+
+$WORD $CHAR+

@@ -41,17 +41,31 @@ public class NFABuilder {
                     }
                     ++subidx;
                 }
-                nfa = NFAUtil.ab(nfa, buildNFAFromRegex(regex.substring(idx, subidx - 1)));
+
+                NFASegment segment = buildNFAFromRegex(regex.substring(idx, subidx - 1));
+
                 idx = subidx;
+
+                if (idx < regex.length() && regex.charAt(idx) == '*') {
+                    ++idx;
+                    segment = NFAUtil.aStar(segment);
+                }
+
+                nfa = NFAUtil.ab(nfa, segment);
             } else if (c == '|') {
                 nfa = NFAUtil.aOrB(nfa, buildNFAFromRegex(regex.substring(idx)));
                 idx = regex.length();
-            } else if (c == '*') {
-                nfa = NFAUtil.aStar(nfa);
             } else if (c == '\\') {
                 // Wait for next char
             } else {
-                nfa = NFAUtil.ab(nfa, NFAUtil.a(String.valueOf(c)));
+                NFASegment segment = NFAUtil.a(String.valueOf(c));
+
+                if (idx < regex.length() && regex.charAt(idx) == '*') {
+                    ++idx;
+                    segment = NFAUtil.aStar(segment);
+                }
+
+                nfa = NFAUtil.ab(nfa, segment);
             }
         }
 
