@@ -20,8 +20,6 @@ public class NFA {
 	 * 
 	 * @param startState
 	 *            the initial state.
-	 * @param additionalStates
-	 *            the additional states of the NFA.
 	 */
 	public NFA(final State startState) {
 		this.startState = startState;
@@ -34,7 +32,6 @@ public class NFA {
 	 * Factory method of creating NFA
 	 * 
 	 * @param startState
-	 * @param additionalStates
 	 * @return
 	 */
 	public static NFA createNFA(final State startState) {
@@ -88,10 +85,10 @@ public class NFA {
 		for (final Entry<String, State> stateTuple : this.states.entrySet()) {
 			HashSet<String> chars = new HashSet<String>();
 			for (Transition state : stateTuple.getValue().getTransitions()) {
-				if (state.isEmptyTransition() || chars.contains(state.getRegex())) {
+				if (state.isEmptyTransition() || chars.contains(state.getString())) {
 					return false;
 				}
-				chars.add(state.getRegex());
+				chars.add(state.getString());
 			}
 		}
 		return true;

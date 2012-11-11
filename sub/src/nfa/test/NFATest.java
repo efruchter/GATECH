@@ -1,5 +1,8 @@
 package nfa.test;
 
+import static nfa.NFAUtil.*;
+import static nfa.NFAUtil.a;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import nfa.NFA;
 import nfa.NFAUtil;
@@ -8,7 +11,93 @@ import nfa.Transition;
 
 import org.junit.Test;
 
+import java.util.List;
+
 public class NFATest {
+
+    @Test
+    public void dfaMinimizeTest() {
+        NFASegment d = ab(ab(aStar(a("a")), a("b")), aPlus(aOrB(a("a"), a("b"))));
+        d.end.addTransition(Transition.spawnGoal());
+        NFA n = new NFA(d.start);
+        n = NFAUtil.convertToDFA(n);
+        n = NFAUtil.minimizeDFA(n);
+        assertTrue("a*b(a|b)+ is not NFA", n.isDFA());
+        assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaba"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
+    }
+
+    @Test
+    public void EClosureTest() {
+        State a = new State("a", false);
+        State b = new State("b", false);
+        State c = new State("c", false);
+        State d = new State("d", false);
+        State e = new State("e", false);
+
+        a.addTransition(new Transition(b));
+        b.addTransition(new Transition(c), new Transition("f", e));
+        b.addTransition(new Transition(d));
+        c.addTransition(new Transition(d));
+        d.addTransition(new Transition("f", e));
+
+        List<State> results = NFAUtil.findClosure(a);
+
+        assertTrue("E-Closure retrieval failed.", results.contains(a) && results.contains(b)
+                && results.contains(c) && results.contains(d) && !results.contains(e));
+    }
+
+    @Test
+    public void nfaBuilderTest() {
+        // (a|b)*
+        NFAUtil.NFASegment a = NFAUtil.a("a");
+        NFAUtil.NFASegment b = NFAUtil.a("b");
+        NFAUtil.NFASegment aOrB = NFAUtil.aOrB(a, b);
+        NFAUtil.NFASegment total = NFAUtil.aStar(aOrB);
+        total.end.addTransition(new Transition(new State("trueEnd", true)));
+        assertTrue("(a|b)*", NFAUtil.isValid(total, "ababba"));
+        assertTrue("(a|b)*", NFAUtil.isValid(total, ""));
+
+        // a*b(a|b)+
+        NFAUtil.NFASegment d = ab(ab(aStar(a("a")), a("b")), aPlus(aOrB(a("a"), a("b"))));
+        d.end.addTransition(Transition.spawnGoal());
+        assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaaaba"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
+    }
+
+    @Test
+    public void nfaConverterTest() {
+        // a*b(a|b)+
+        NFASegment d = ab(ab(aStar(a("a")), a("b")), aPlus(aOrB(a("a"), a("b"))));
+        d.end.addTransition(Transition.spawnGoal());
+        NFA n = new NFA(d.start);
+        n = NFAUtil.convertToDFA(n);
+        assertTrue("a*b(a|b)+ is not NFA", n.isDFA());
+        assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaba"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
+
+        // (a|b)*
+        NFASegment a = NFAUtil.a("a");
+        NFASegment b = NFAUtil.a("b");
+        NFASegment aOrB = NFAUtil.aOrB(a, b);
+        NFASegment total = NFAUtil.aStar(aOrB);
+        total.end.addTransition(new Transition(new State("trueEnd", true)));
+        NFA daNFA = new NFA(total.start);
+
+        assertFalse("(a|b)* is a dfa", daNFA.isDFA());
+        assertTrue("(a|b)*", NFAUtil.isValid(daNFA, "ababba"));
+        assertTrue("(a|b)*", NFAUtil.isValid(daNFA, ""));
+        assertTrue("(a|b)*", !NFAUtil.isValid(daNFA, "gggab"));
+
+        daNFA = NFAUtil.convertToDFA(daNFA);
+        assertTrue("(a|b)* is not a dfa", daNFA.isDFA());
+        assertTrue("(a|b)*", NFAUtil.isValid(daNFA, "ababba"));
+        assertTrue("(a|b)*", NFAUtil.isValid(daNFA, ""));
+        assertTrue("(a|b)*", !NFAUtil.isValid(daNFA, "gggab"));
+    }
 
 	@Test
 	public void test() {

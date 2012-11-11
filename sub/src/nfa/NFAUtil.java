@@ -42,10 +42,10 @@ public class NFAUtil {
 				for (Transition trans : state.getTransitions()) {
 					// For this trans, place the state in the the transMap
 					if (!trans.isEmptyTransition()) {
-						if (!transTo.containsKey(trans.getRegex())) {
-							transTo.put(trans.getRegex(), new LinkedList<State>());
+						if (!transTo.containsKey(trans.getString())) {
+							transTo.put(trans.getString(), new LinkedList<State>());
 						}
-						transTo.get(trans.getRegex()).addAll(findClosure(trans.getDestinationState()));
+						transTo.get(trans.getString()).addAll(findClosure(trans.getDestinationState()));
 					}
 				}
 			}
@@ -172,9 +172,9 @@ public class NFAUtil {
 		return new LinkedList<State>(explored);
 	}
 
-	public static NFA minimizeDFA(final NFA nfaInit, final char[] totalLexicon) {
+	public static NFA minimizeDFA(final NFA nfaInit) {
 
-		// Run the minimization algorithm
+
 
 		return null;
 	}
@@ -219,7 +219,7 @@ public class NFAUtil {
 					s = new NFAStep(t.getDestinationState(), step.string);
 				}
 				// if not empty, and string is not empty
-				else if (!step.string.isEmpty() && t.isValid(step.string.charAt(0))) {
+				else if (!step.string.isEmpty() && t.isValid("" + step.string.charAt(0))) {
 					s = new NFAStep(t.getDestinationState(), step.string.substring(1));
 				}
 

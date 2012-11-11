@@ -40,7 +40,7 @@ public class Tokenizer {
 
 	/**
 	 * Gets the next token
-	 * 
+	 *
 	 * @param nfa
 	 *			the nfa to check the string against
 	 * @param string
@@ -70,7 +70,7 @@ public class Tokenizer {
 			if (min == max) {
 				break;
 			}
-			if (tr.isValid(everything.charAt(min))) {
+			if (tr.isValid("" + everything.charAt(min))) {
 				sb.append(everything.charAt(min));
 				return getNextToken(tr.getDestinationState(), min + 1, max);
 			}
