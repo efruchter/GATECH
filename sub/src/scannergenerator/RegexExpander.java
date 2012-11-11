@@ -98,8 +98,6 @@ public class RegexExpander {
 			i++;
 		}
 
-		if (decouple(s))
-			s = s.substring(1, s.length() - 1);
 		return s;
 	}
 
@@ -174,29 +172,7 @@ public class RegexExpander {
 		return comp;
 	}
 
-	private static boolean decouple(String s) {
-		// TODO Auto-generated method stub
-		int i = 0;
-		int count = 0;
-		boolean up = true;
-		while (i < s.length() - 1) {
-			if (s.charAt(i) == '(') {
-				if (!up)
-					return false;
-				if (s.charAt(i + 1) == '(')
-					count++;
-			} else if (s.charAt(i) == ')')
-				up = false;
-			if (s.charAt(i + 1) == ')') {
-				count--;
-			}
-			i++;
-		}
-		return true;
-	}
-
 	private static String findSub(String s) {
-		// TODO Auto-generated method stub
 		int i = s.length() - 2;
 		int counter = 1;
 		while (counter != 0) {
