@@ -1,4 +1,8 @@
-package nfa;
+package tokenizer;
+
+import nfa.NFA;
+import nfa.State;
+import nfa.Transition;
 
 import java.io.*;
 
@@ -28,7 +32,7 @@ public class Tokenizer {
 				sb.append(line);
 			}
 			everything = sb.toString();
-			sb.setLength(0);
+			sb = new StringBuilder();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,16 +42,15 @@ public class Tokenizer {
 	 * Gets the next token
 	 * 
 	 * @param nfa
-	 *            the nfa to check the string against
+	 *			the nfa to check the string against
 	 * @param string
-	 *            string to check for validity
+	 *			string to check for validity
 	 * @return true if the string is valid, false otherwise.
 	 */
 	public Token getNextToken() {
 		Token t = null;
 		for (int max = everything.length(); max > index; max--) {
-			t = getNextToken(dfa.getStartState(), index, max,
-					new StringBuilder());
+			t = getNextToken(dfa.getStartState(), index, max);
 			if (t != null) {
 				index += t.value.length();
 				break;
@@ -61,22 +64,21 @@ public class Tokenizer {
 		return t;
 	}
 
-	public Token getNextToken(State state, int min, int max,
-			StringBuilder sbCurr) {
+	public Token getNextToken(State state, int min, int max) {
 		Token t = null;
 		for (Transition tr : state.getTransitions()) {
 			if (min == max) {
 				break;
 			}
 			if (tr.isValid(everything.charAt(min))) {
-				sbCurr.append(everything.charAt(min));
-				return getNextToken(tr.getDestinationState(), min + 1, max, sbCurr);
+				sb.append(everything.charAt(min));
+				return getNextToken(tr.getDestinationState(), min + 1, max);
 			}
 		}
 		if (state.isFinal()) {
-			t = new Token(state.getName(), sbCurr.toString());
+			t = new Token(state.getName(), sb.toString());
 		}
-		sbCurr.setLength(0);
+		sb = new StringBuilder();
 		return t;
 	}
 

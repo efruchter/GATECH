@@ -1,4 +1,4 @@
-package nfa.test;
+package tokenizer.test;
 
 import static nfa.NFAUtil.a;
 import static nfa.NFAUtil.aPlus;
@@ -12,8 +12,8 @@ import nfa.NFA;
 import nfa.NFAUtil;
 import nfa.NFAUtil.NFASegment;
 import nfa.State;
-import nfa.Token;
-import nfa.Tokenizer;
+import tokenizer.Token;
+import tokenizer.Tokenizer;
 import nfa.Transition;
 
 import org.junit.Test;
