@@ -1,11 +1,16 @@
 package scannergenerator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class RegexExpander {
 	private static int i = 0;
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		System.out.println(r.curseAgain("[a-g0-8]   sd  \\         sd"));
+		System.out.println(r.curseAgain("[^a-gl-o]IN[a-zA-Z]"));
 	}
 
 	public static String curseAgain(String s) {
@@ -28,6 +33,12 @@ public class RegexExpander {
 				v = i + 1;
 				String sub = s.substring(u, v);
 
+				if (sub.charAt(1) == '^') {
+					sub = s.substring(u, s.indexOf("]", v + 1) + 1);
+					sub = negate(sub);
+					System.exit(0);
+				}
+
 				String[] strs = sub.split("-");
 				String[] ls = new String[strs.length - 1];
 				String fin = "";
@@ -45,9 +56,10 @@ public class RegexExpander {
 					count++;
 				}
 				for (String m : ls) {
-					if (m.length() == 5)
+					if (m.length() == 5) {
 						sub = sub.replace(m.substring(1, m.length() - 1), "");
-					else
+
+					} else
 						sub = sub.replace(m.substring(2, m.length() - 1), "");
 				}
 				sub = OrThisShit(sub);
@@ -85,9 +97,81 @@ public class RegexExpander {
 			}
 			i++;
 		}
+
 		if (decouple(s))
 			s = s.substring(1, s.length() - 1);
 		return s;
+	}
+
+	private static String negate(String sub) {
+		// TODO Auto-generated method stub
+		String mainSet = sub.substring(sub.lastIndexOf("["), sub.length());
+
+		String[] strs = mainSet.split("-");
+		String[] ls = new String[strs.length - 1];
+		String fin = "";
+		boolean split = false;
+		int count = -1;
+		for (int i = 0; i < ls.length; i++) {
+			if (i > 0) {
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+				split = true;
+			} else
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+			count++;
+		}
+		for (String m : ls) {
+			fin += expand(m);
+		}
+		fin = fin.replace(")(", "|");
+
+		Set<Character> chars = new HashSet<Character>();
+		int n = 1;
+		while (n < fin.length()) {
+			chars.add(fin.charAt(n));
+			n += 2;
+		}
+
+		String rem = sub.substring(0, sub.indexOf("]", 0) + 1);
+		rem = "[" + rem.substring(2);
+
+		strs = rem.split("-");
+		ls = new String[strs.length - 1];
+		fin = "";
+		split = false;
+		count = -1;
+		for (int i = 0; i < ls.length; i++) {
+			if (i > 0) {
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+				split = true;
+			} else
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+			count++;
+		}
+		for (String m : ls) {
+			fin += expand(m);
+		}
+		fin = fin.replace(")(", "|");
+
+		n = 1;
+		while (n < fin.length()) {
+			chars.remove((fin.charAt(n)));
+			n += 2;
+		}
+
+		String comp = "(";
+		n = 0;
+		for(char c: chars)
+		{
+			comp += c + "|";
+		}
+		comp = comp.substring(0, comp.length()-1) + ")";
+		System.out.println(comp);
+		return comp;
 	}
 
 	private static boolean decouple(String s) {
