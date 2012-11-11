@@ -35,7 +35,6 @@ public class ScannerGeneratorTest {
 		}
 	}
 	/*
-<<<<<<< Updated upstream
 	 * @Test public void apiTest() { List<DefinedClass> dc =
 	 * RDPControl.getOutput(""); for(DefinedClass c : dc) {
 	 * System.out.printf("%s %s\n", c.getName(), String.valueOf(c.getRegex()));
@@ -44,13 +43,11 @@ public class ScannerGeneratorTest {
 	 * List<DefinedClass> dc2 = RDPControl.getOutput("doc/sample_spec.txt");
 	 * for(DefinedClass c : dc2) { System.out.printf("%s %s\n", c.getName(),
 	 * String.valueOf(c.getRegex())); } }
-	 */
+	 *
 
-=======
 	 * @Test public void apiTest() { DefinedClass[] dc =
 	 * RDPControl.getOutput(""); for (DefinedClass c : dc) {
 	 * System.out.printf("%s %s\n", c.getName(), String.valueOf(c.getRegex()));
 	 * } }
 	 */
->>>>>>> Stashed changes
 }
