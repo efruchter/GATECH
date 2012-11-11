@@ -10,7 +10,7 @@ public class RegexExpander {
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		System.out.println(r.curseAgain("[^T]IN[S-V]"));
+		System.out.println(r.curseAgain("[^0-6bysd]IN[A-Z0-9a-z#$%@$%]"));
 	}
 
 	public static String curseAgain(String s) {
@@ -82,7 +82,7 @@ public class RegexExpander {
 
 					s = s.substring(0, i) + sub + "*"
 							+ s.substring(i + 1, s.length());
-					i += sub.length() + 1;
+					i += sub.length();
 				} else {
 					if (s.charAt(i - 1) == '\\') {
 						s = s.subSequence(0, i) + "(" + s.substring(i - 1, i)
