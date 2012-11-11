@@ -6,6 +6,8 @@ import static nfa.NFAUtil.ab;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.StringReader;
 
 import nfa.NFA;
@@ -38,10 +40,9 @@ public class TokenizerTest {
 				&& NFAUtil.isValid(n, "aabababababbaabbaab") && NFAUtil.isValid(n, "ababb")
 				&& NFAUtil.isValid(n, "abbbbbbaaaaaaaabbbbbb") && !NFAUtil.isValid(n, "bbbbaaaa")
 				&& !NFAUtil.isValid(n, "aaaabbbbbbbbba"));
-
-		String s = "aabababbbbabb baaba ab aaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-		BufferedReader br = new BufferedReader(new StringReader(s));
-		Tokenizer tokenizer = new Tokenizer(n, br);
+		String s = "aabababbbb  abb baaba ab aaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+		InputStream input = new ByteArrayInputStream(s.getBytes());
+		Tokenizer tokenizer = new Tokenizer(n, input);
 		Token t = tokenizer.getNextToken();
 
 		System.out.println(t);
@@ -59,8 +60,8 @@ public class TokenizerTest {
 		nyet = NFAUtil.convertToDFA(nyet);
 		System.out.println(nyet.toString());
 		s = "abbcabcabbbbbbbcabbbbbbbbbbbbc";
-		br = new BufferedReader(new StringReader(s));
-		tokenizer = new Tokenizer(nyet, br);
+		input = new ByteArrayInputStream(s.getBytes());
+		tokenizer = new Tokenizer(nyet, input);
 		Token latest = null;
 		System.out.println("Stuff below:");
 		do {

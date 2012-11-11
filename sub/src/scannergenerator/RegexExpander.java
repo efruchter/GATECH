@@ -1,11 +1,16 @@
 package scannergenerator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class RegexExpander {
 	private static int i = 0;
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		System.out.println(r.curseAgain("[a-g0-8]   sd  \\         sd"));
+		System.out.println(r.curseAgain("[^0-6bysd]IN[A-Z0-9a-z#$%@$%]"));
 	}
 
 	public static String curseAgain(String s) {
@@ -28,6 +33,12 @@ public class RegexExpander {
 				v = i + 1;
 				String sub = s.substring(u, v);
 
+				if (sub.charAt(1) == '^') {
+					sub = s.substring(u, s.indexOf("]", v + 1) + 1);
+					sub = negate(sub);
+					return sub;
+				}
+
 				String[] strs = sub.split("-");
 				String[] ls = new String[strs.length - 1];
 				String fin = "";
@@ -45,14 +56,15 @@ public class RegexExpander {
 					count++;
 				}
 				for (String m : ls) {
-					if (m.length() == 5)
+					if (m.length() == 5) {
 						sub = sub.replace(m.substring(1, m.length() - 1), "");
-					else
+
+					} else
 						sub = sub.replace(m.substring(2, m.length() - 1), "");
 				}
 				sub = OrThisShit(sub);
 				for (String m : ls) {
-					if (!sub.isEmpty())
+					if (sub != "")
 						sub = sub + "|" + expand(m);
 				}
 				sub = sub.replace("()|", "");
@@ -89,8 +101,96 @@ public class RegexExpander {
 		return s;
 	}
 
-	private static String findSub(String s) {
+	private static String negate(String sub) {
 		// TODO Auto-generated method stub
+		String mainSet = sub.substring(sub.lastIndexOf("["), sub.length());
+
+		String[] strs = mainSet.split("-");
+		String[] ls = new String[strs.length - 1];
+		String fin = "";
+		boolean split = false;
+		int count = -1;
+		for (int i = 0; i < ls.length; i++) {
+			if (i > 0) {
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+				split = true;
+			} else
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+			count++;
+		}
+		for (String m : ls) {
+			if (m.length() == 5) {
+				mainSet = mainSet.replace(m.substring(1, m.length() - 1), "");
+
+			} else
+				mainSet = mainSet.replace(m.substring(2, m.length() - 1), "");
+		}
+		mainSet = OrThisShit(mainSet);
+		for (String m : ls) {
+			if (mainSet != "")
+				mainSet = mainSet + "|" + expand(m);
+		}
+		mainSet = mainSet.replace("()|", "");
+		mainSet = mainSet.replace(")|(", "|");
+
+		Set<Character> chars = new HashSet<Character>();
+		int n = 1;
+		while (n < mainSet.length()) {
+			chars.add(mainSet.charAt(n));
+			n += 2;
+		}
+
+		String rem = sub.substring(0, sub.indexOf("]", 0) + 1);
+		rem = "[" + rem.substring(2);
+
+		strs = rem.split("-");
+		ls = new String[strs.length - 1];
+		fin = "";
+		split = false;
+		count = -1;
+		for (int i = 0; i < ls.length; i++) {
+			if (i > 0) {
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+				split = true;
+			} else
+				ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
+						+ strs[i + 1].charAt(0) + "]";
+			count++;
+		}
+		for (String m : ls) {
+			if (m.length() == 5) {
+				rem = rem.replace(m.substring(1, m.length() - 1), "");
+
+			} else
+				rem = rem.replace(m.substring(2, m.length() - 1), "");
+		}
+		rem = OrThisShit(rem);
+		for (String m : ls) {
+			if (rem != "")
+				rem = rem + "|" + expand(m);
+		}
+		rem = rem.replace("()|", "");
+		rem = rem.replace(")|(", "|");
+
+		n = 1;
+		while (n < rem.length()) {
+			chars.remove((rem.charAt(n)));
+			n += 2;
+		}
+
+		String comp = "(";
+		n = 0;
+		for (char c : chars) {
+			comp += c + "|";
+		}
+		comp = comp.substring(0, comp.length() - 1) + ")";
+		return comp;
+	}
+
+	private static String findSub(String s) {
 		int i = s.length() - 2;
 		int counter = 1;
 		while (counter != 0) {
