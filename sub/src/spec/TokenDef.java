@@ -17,7 +17,7 @@ public class TokenDef {
 	private String collapse(String re, Map<String, CharClass> charClasses) {
 		Iterator charClassesIterator = charClasses.entrySet().iterator();
 		while (charClassesIterator.hasNext()) {
-			Map.Entry<String, CharClass> entry = (Map.Entry)charClassesIterator.next();
+			Map.Entry<String, CharClass> entry = (Map.Entry<String, CharClass>)charClassesIterator.next();
 			re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
 		}
 
@@ -30,9 +30,8 @@ public class TokenDef {
 	}
 
     private static String parseFinal(String s) {
-        String f = new String();
+        String f = "";
         char ch, nch;
-        boolean flag = false;
 
         for (int i = 0; i < s.length();) {
             if (s.charAt(i) == '\\') {
@@ -43,7 +42,6 @@ public class TokenDef {
                 f = f.concat("(" + s.substring(i, i + 4));
                 i += 4;
                 while (((i) < s.length()) && (s.charAt(i) != ']')) {
-                    flag = true;
                     f = f.concat("]|[" + s.substring(i, i + 3));
                     i += 3;
                 }
