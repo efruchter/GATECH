@@ -9,6 +9,7 @@ public class RDPControl {
 	DefinedClass[] classes;
 	RDP parser;
 	static int tokenindex;
+	private int i;
 
 	public String generateRegex(String filename) {
 		int index = 0, index2 = 0;
@@ -109,7 +110,7 @@ public class RDPControl {
 					String[] bits = dataIn.split("\\s+");
 
 					String d = "";
-					
+
 					for (int i = 1; i < bits.length; i++) {
 						d = d + bits[i];
 					}
@@ -126,6 +127,75 @@ public class RDPControl {
 			System.out.println("Could not read from file: " + ex.getMessage());
 			return null;
 		}
+	}
+
+	public String myParser(String s) {
+		i = 0;
+		while (i < s.length()) {
+			int u = 0;
+			int v = 0;
+			if (s.charAt(i) == ']') {
+				u = s.lastIndexOf('[', i);
+				v = i + 1;
+				String sub = s.substring(u, v);
+
+				String[] strs = sub.split("-");
+				String[] ls = new String[strs.length - 1];
+				String fin = "";
+				boolean split = false;
+				int count = -1;
+				for (int i = 0; i < ls.length; i++) {
+					if (i > 0) {
+						ls[i] = "|[" + strs[i].charAt(strs[i].length() - 1)
+								+ "-" + strs[i + 1].charAt(0) + "]";
+						split = true;
+					} else
+						ls[i] = "[" + strs[i].charAt(strs[i].length() - 1)
+								+ "-" + strs[i + 1].charAt(0) + "]";
+					fin += ls[i];
+					count++;
+				}
+				if (split) {
+					i -= 3 * count;
+					s = s.substring(0, u) + fin + s.substring(v);
+					continue;
+				}
+				sub = expand(sub);
+				s = s.substring(0, u) + sub + s.substring(v);
+			}
+			i++;
+		}
+		return s;
+	}
+
+	private String expand(String sub) throws StringIndexOutOfBoundsException {
+		// TODO Auto-generated method stub
+		char lb = sub.charAt(1);
+		char ub = sub.charAt(sub.length() - 2);
+		int indx = 1;
+		int l = sub.length();
+
+		while (indx < sub.length() - 1) {
+			if (lb == ub) {
+				sub = "(" + sub.substring(1, indx)
+						+ sub.substring(indx + 1, sub.length() - 1) + ")";
+				i += indx - 2;
+				return sub;
+			} else if (indx == 1) {
+				sub = sub.substring(0, indx) + lb + "|"
+						+ sub.substring(indx + 1, sub.length());
+				lb += 1;
+				indx += 2;
+			} else {
+				sub = sub.substring(0, indx) + lb + "|"
+						+ sub.substring(indx, sub.length());
+				lb += 1;
+				indx += 2;
+			}
+		}
+
+		i += indx;
+		return sub;
 	}
 
 	public String parseFinal(String s) {
@@ -187,12 +257,14 @@ public class RDPControl {
 				}
 
 			} else if (s.charAt(i) == '+') {
-				if (s.charAt(i - 1) == ']')
-					f = f + s.substring(s.lastIndexOf("[", i), i) + "*";
-				else if (s.charAt(i - 1) == ')')
+				if (s.charAt(i - 1) == ']') {
+					String sub = s.substring(s.lastIndexOf("[", i), i);
+					f = f + "(" + sub + ")*";
+					i += sub.length();
+				} else if (s.charAt(i - 1) == ')')
 					f = f + s.substring(s.lastIndexOf("(", i), i) + "*";
 				else
-					f = f + "(" + s.substring(i - 1, i) + ")" + "*";
+					f = "(" + f + "(" + s.substring(i - 1, i) + ")" + "*)";
 				i++;
 			} else {
 				f = f.concat(((Character) s.charAt(i)).toString());
