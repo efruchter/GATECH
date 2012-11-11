@@ -39,7 +39,7 @@ public class SpecReader {
 
         String name = matcher.group(1);
         String re = matcher.group(2);
-        TokenType tokenType = new TokenType(name, re, spec.iterCharClasses());
+        TokenType tokenType = new TokenType(name, re, spec.getCharClasses());
 
         spec.addTokenType(tokenType);
     }

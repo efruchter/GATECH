@@ -1,6 +1,5 @@
 package spec;
 
-import java.util.Iterator;
 import java.util.Map;
 
 public class TokenType {
