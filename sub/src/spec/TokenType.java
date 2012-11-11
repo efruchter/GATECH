@@ -1,24 +1,14 @@
 package spec;
 
-import java.util.Iterator;
 import java.util.Map;
 
 public class TokenType {
     private final String name;
     private final String re;
 
-    public TokenType(final String name, final String re, final Iterator charClassesIterator) {
+    public TokenType(final String name, final String re, final Map<String, CharClass> charClasses) {
         this.name = name;
-        this.re = collapse(re, charClassesIterator);
-    }
-
-    private String collapse(String re, Iterator charClassesIterator) {
-        while (charClassesIterator.hasNext()) {
-            Map.Entry<String, CharClass> entry = (Map.Entry<String, CharClass>)charClassesIterator.next();
-            re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
-        }
-
-        return RegexExpander.curseAgain(re);
+        this.re = collapse(re, charClasses);
     }
 
     public String getName() {
@@ -27,6 +17,14 @@ public class TokenType {
 
     public String getRe() {
         return this.re;
+    }
+
+    private String collapse(String re, Map<String, CharClass> charClasses) {
+        for (Map.Entry<String, CharClass> entry : charClasses.entrySet()) {
+            re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
+        }
+
+        return RegexExpander.expandRegex(re);
     }
 
     @Override
