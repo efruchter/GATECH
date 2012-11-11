@@ -1,4 +1,8 @@
-package nfa;
+package tokenizer;
+
+import nfa.NFA;
+import nfa.State;
+import nfa.Transition;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package nfa;
+package tokenizer;
 
 /**
  * A cheap 'n flexible token 
