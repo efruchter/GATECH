@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class TokenDef {
+public class TokenType {
     private final String name;
     private final String re;
 
-    public TokenDef(final String name, final String re, final Iterator charClassesIterator) {
+    public TokenType(final String name, final String re, final Iterator charClassesIterator) {
         this.name = name;
         this.re = collapse(re, charClassesIterator);
     }
@@ -33,7 +33,7 @@ public class TokenDef {
 
     @Override
     public String toString() {
-        return String.format("<TokenDef $%s %s>", this.name, this.re);
+        return String.format("<TokenType $%s %s>", this.name, this.re);
     }
 
     private static String parseFinal(String s) {

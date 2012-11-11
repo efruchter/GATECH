@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Spec {
     private Map<String, CharClass> charClasses;
-    private List<TokenDef> tokenDefs;
+    private List<TokenType> tokenTypes;
 
     public Spec() {
         charClasses = new HashMap<String, CharClass>();
-        tokenDefs = new ArrayList<TokenDef>();
+        tokenTypes = new ArrayList<TokenType>();
     }
 
     public Iterator iterCharClasses() {
@@ -23,12 +23,12 @@ public class Spec {
         charClasses.put(charClassName, charClass);
     }
 
-    public List<TokenDef> getTokenDefs() {
-        return tokenDefs;
+    public List<TokenType> getTokenTypes() {
+        return tokenTypes;
     }
 
-    public void addTokenDef(final TokenDef tokenDef) {
-        tokenDefs.add(tokenDef);
+    public void addTokenDef(final TokenType tokenType) {
+        tokenTypes.add(tokenType);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class Spec {
                     entry.getValue()));
         }
 
-        for (TokenDef tokenDef : tokenDefs) {
-            sb.append(tokenDef.toString());
+        for (TokenType tokenType : tokenTypes) {
+            sb.append(tokenType.toString());
             sb.append("\n");
         }
 

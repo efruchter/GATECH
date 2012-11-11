@@ -2,17 +2,17 @@ package nfa;
 
 import nfa.NFAUtil.*;
 import spec.Spec;
-import spec.TokenDef;
+import spec.TokenType;
 
 import java.util.List;
 
 public class NFABuilder {
     public static NFASegment buildNFAFromSpec(Spec spec) {
-        List<TokenDef> tokenTypes = spec.getTokenDefs();
+        List<TokenType> tokenTypes = spec.getTokenTypes();
         NFASegment segments[] = new NFASegment[tokenTypes.size()];
 
         for (int i = 0; i < tokenTypes.size(); ++i) {
-            TokenDef tokenType = tokenTypes.get(i);
+            TokenType tokenType = tokenTypes.get(i);
             segments[i] = buildNFAFromRegex(tokenType.getRe());
         }
 
