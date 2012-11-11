@@ -2,7 +2,6 @@ import nfa.*;
 import nfa.NFAUtil.NFASegment;
 import spec.Spec;
 import spec.SpecReader;
-import spec.TokenType;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
