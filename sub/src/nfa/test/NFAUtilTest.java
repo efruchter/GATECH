@@ -1,8 +1,13 @@
 package nfa.test;
 
+import static nfa.NFAUtil.a;
+import static nfa.NFAUtil.aOrB;
+import static nfa.NFAUtil.aPlus;
+import static nfa.NFAUtil.aStar;
+import static nfa.NFAUtil.ab;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Set;
+import java.util.List;
 
 import nfa.NFAUtil;
 import nfa.NFAUtil.NFASegment;
@@ -10,8 +15,6 @@ import nfa.State;
 import nfa.Transition;
 
 import org.junit.Test;
-
-import static nfa.NFAUtil.*;
 
 public class NFAUtilTest {
 
@@ -29,7 +32,7 @@ public class NFAUtilTest {
 		c.addTransition(new Transition(d));
 		d.addTransition(new Transition("f", e));
 
-		Set<State> results = NFAUtil.findClosure(a);
+		List<State> results = NFAUtil.findClosure(a);
 
 		assertTrue("E-Closure retrieval failed.", results.contains(a) && results.contains(b)
 				&& results.contains(c) && results.contains(d) && !results.contains(e));

@@ -1,9 +1,10 @@
 package nfa;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -18,39 +19,52 @@ public class NFAUtil {
 		;
 	}
 
-	private static int gen = 0;
-
 	public static NFA convertToDFA(final NFA nfaInit, final char[] totalLexicon) {
-		final List<State> newStates = new ArrayList<State>();
-		State startState = null;
-
 		/*
 		 * Each DfaConStep[] will feature a closure for every transition
 		 * character.
 		 */
-		final HashMap<MetaState, MetaState[]> metaStateToClosures = new HashMap<MetaState, MetaState[]>();
+		List<MetaState> remainingClosures = new LinkedList<MetaState>();
+		remainingClosures.add(new MetaState(findClosure(nfaInit.getStartState())));
 
-		// Build state e-closure table
-		boolean missingClosures = true;
+		while (remainingClosures.isEmpty()) {
 
-		// find first closure.
+			MetaState metaState = remainingClosures.get(0);
 
-		while (missingClosures) {
-			// TODO: build closure table.
+			// Moves per transition
+			HashMap<String, Set<State>> transTo = new HashMap<String, Set<State>>();
+			for (State state : metaState.states) {
+				for (Transition trans : state.getTransitions()) {
+					// For this trans, place the state in the the transMap
+					if (!trans.isEmptyTransition()) {
+						if (!transTo.containsKey(trans.getRegex())) {
+							transTo.put(trans.getRegex(), new HashSet<State>());
+						}
+						transTo.get(trans.getRegex()).add(trans.getDestinationState());
+					}
+				}
+			}
+
+			// Find the epsilon enclosures for each
+			HashMap<String, Set<State>> epsilons = new HashMap<String, Set<State>>();
+			for (Entry<String, Set<State>> e : transTo.entrySet()) {
+				// e.getKey()
+			}
+
 		}
 
 		return null;
 	}
 
 	/**
-	 * Returns all states withing E^* of given state.
+	 * Returns all states within E^* of given state.
 	 * 
 	 * @param state
 	 *            state to find full closure of.
 	 * @return all states that can be reached in zero or more E-Closures from
 	 *         given state.
 	 */
-	public static Set<State> findClosure(final State state) {
+	public static List<State> findClosure(final State state) {
 
 		final HashSet<State> explored = new HashSet<State>();
 		final HashSet<State> frontier = new HashSet<State>();
@@ -68,7 +82,7 @@ public class NFAUtil {
 			explored.add(c);
 		}
 
-		return explored;
+		return new LinkedList<State>(explored);
 
 	}
 
@@ -180,11 +194,31 @@ public class NFAUtil {
 	 */
 	private static class MetaState {
 		private final String name;
-		private final HashSet<State> states;
+		private final List<State> states;
+		private final List<MetaState> transitionTo;
+		private boolean expanded;
 
-		public MetaState(final String name) {
-			states = new HashSet<State>();
-			this.name = name;
+		public static int unique = 0;
+
+		public MetaState(List<State> states) {
+			this.states = states;
+			this.name = "" + unique++;
+			transitionTo = new LinkedList();
+			expanded = false;
+
+		}
+
+		public void addTransition(MetaState s) {
+			transitionTo.add(s);
+		}
+
+		@Override
+		public int hashCode() {
+			int ohgeez = 1;
+			for (State s : states) {
+				ohgeez *= s.hashCode();
+			}
+			return ohgeez;
 		}
 
 		@Override
@@ -206,6 +240,9 @@ public class NFAUtil {
 		}
 	}
 
+	// Create unique names
+	private static int gen = 0;
+
 	public static NFASegment a(final String regex) {
 		State start = new State("start" + gen, false);
 		State end = new State("end" + gen++, false);
@@ -215,15 +252,18 @@ public class NFAUtil {
 		return new NFASegment(start, end);
 	}
 
-	public static NFASegment aOrB(final NFASegment a, final NFASegment b) {
+	public static NFASegment aOrB(final NFASegment... segments) {
 		State start = new State("start" + gen, false);
 		State end = new State("end" + gen++, false);
 
-		start.addTransition(new Transition(a.start));
-		start.addTransition(new Transition(b.start));
+		if (segments.length < 1) {
+			start.addTransition(new Transition(end));
+		}
 
-		a.end.addTransition(new Transition(end));
-		b.end.addTransition(new Transition(end));
+		for (NFASegment s : segments) {
+			start.addTransition(new Transition(s.start));
+			s.end.addTransition(new Transition(end));
+		}
 
 		return new NFASegment(start, end);
 	}
