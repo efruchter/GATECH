@@ -74,12 +74,10 @@ public class Tokenizer {
 				return getNextToken(tr.getDestinationState(), min + 1, max, sbCurr);
 			}
 		}
-		if(state.isFinal()){
+		if (state.isFinal()) {
 			t = new Token(state.getName(), sbCurr.toString());
-			sbCurr.setLength(0);
-		}else{
-			sbCurr.setLength(0);
 		}
+		sbCurr.setLength(0);
 		return t;
 	}
 
