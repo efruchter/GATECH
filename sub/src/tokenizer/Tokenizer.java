@@ -13,11 +13,9 @@ import java.io.*;
  *
  */
 public class Tokenizer {
-	@SuppressWarnings("unused")
 	private BufferedReader br;
-	private StringBuilder sb = new StringBuilder();
-	private String everything;
-	private int index = 0;
+	private StringBuilder stackBuffer = new StringBuilder();
+	private StringBuilder lineBuffer = new StringBuilder();
 	private NFA dfa;
 
 	public Tokenizer(final NFA dfa, final InputStream input) {
@@ -26,16 +24,24 @@ public class Tokenizer {
 
 		this.dfa = dfa;
 		this.br = new BufferedReader(new InputStreamReader(input));
-		String line = null;
+	}
+	
+	/**
+	 * Gets one line from input stream.
+	 * 
+	 * @return true if non-null line is added
+	 */
+	private boolean bufferLine() {
 		try {
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
+			String currLine = br.readLine();
+			if (currLine != null) {
+				lineBuffer.append(currLine);
+				return true;
 			}
-			everything = sb.toString();
-			sb = new StringBuilder();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	/**
@@ -48,37 +54,43 @@ public class Tokenizer {
 	 * @return true if the string is valid, false otherwise.
 	 */
 	public Token getNextToken() {
+		if(lineBuffer.length() == 0) {
+			boolean more = bufferLine();
+			if(!more) {
+				return null;
+			}
+		}
+		
 		Token t = null;
-		for (int max = everything.length(); max > index; max--) {
-			t = getNextToken(dfa.getStartState(), index, max);
+		for (int max = lineBuffer.length(); max > 0; max--) {
+			t = getNextToken(dfa.getStartState(), 0, max);
 			if (t != null) {
-				index += t.value.length();
+				lineBuffer.delete(0, t.value.length());
 				break;
 			}
 		}
-		if(t == null && index < everything.length()){
-			index++;
+		if (t == null && lineBuffer.length() > 0) {
+			lineBuffer.deleteCharAt(0);
 			return getNextToken();
 		}
-
 		return t;
 	}
 
-	public Token getNextToken(State state, int min, int max) {
+	private Token getNextToken(State state, int min, int max) {
 		Token t = null;
 		for (Transition tr : state.getTransitions()) {
 			if (min == max) {
 				break;
 			}
-			if (tr.isValid("" + everything.charAt(min))) {
-				sb.append(everything.charAt(min));
+			if (tr.isValid(String.valueOf(lineBuffer.charAt(min)))) {
+				stackBuffer.append(lineBuffer.charAt(min));
 				return getNextToken(tr.getDestinationState(), min + 1, max);
 			}
 		}
 		if (state.isFinal()) {
-			t = new Token(state.getName(), sb.toString());
+			t = new Token(state.getName(), stackBuffer.toString());
 		}
-		sb = new StringBuilder();
+		stackBuffer.setLength(0);
 		return t;
 	}
 
