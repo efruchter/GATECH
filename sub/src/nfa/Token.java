@@ -1,5 +1,11 @@
 package nfa;
 
+/**
+ * A cheap 'n flexible token 
+ * 
+ * @author Kefu Zhou
+ *
+ */
 public class Token {
 	public String type;
 	public String value;
