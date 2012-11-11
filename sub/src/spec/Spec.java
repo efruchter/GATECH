@@ -1,39 +1,49 @@
 package spec;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Spec {
-    private List<CharClass> charClasses;
-    private List<TokenDef> tokenDefs;
+	private Map<String, CharClass> charClasses;
+	private List<TokenDef> tokenDefs;
 
-    public Spec() {
-        charClasses = new ArrayList<CharClass>();
-        tokenDefs = new ArrayList<TokenDef>();
-    }
+	public Spec() {
+		charClasses = new HashMap<String, CharClass>();
+		tokenDefs = new ArrayList<TokenDef>();
+	}
 
-    public void addCharClass(final CharClass charClass) {
-        charClasses.add(charClass);
-    }
+	public CharClass getCharClass(final String charClassName) {
+		return charClasses.get(charClassName);
+	}
 
-    public void addTokenDef(final TokenDef tokenDef) {
-        tokenDefs.add(tokenDef);
-    }
+	public void addCharClass(final String charClassName,
+			final CharClass charClass) {
+		charClasses.put(charClassName, charClass);
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+	public void addTokenDef(final TokenDef tokenDef) {
+		tokenDefs.add(tokenDef);
+	}
 
-        for (CharClass charClass : charClasses) {
-            sb.append(charClass.toString());
-            sb.append("\n");
-        }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
 
-        for (TokenDef tokenDef : tokenDefs) {
-            sb.append(tokenDef.toString());
-            sb.append("\n");
-        }
+		Iterator charClassesIterator = charClasses.entrySet().iterator();
+		while (charClassesIterator.hasNext()) {
+			Map.Entry entry = (Map.Entry) charClassesIterator.next();
+			sb.append(String.format("$%s: %s\n", entry.getKey(),
+					entry.getValue()));
+		}
 
-        return sb.toString();
-    }
+		for (TokenDef tokenDef : tokenDefs) {
+			sb.append(tokenDef.toString());
+			sb.append("\n");
+		}
+
+		return sb.toString();
+	}
+
+	public Map<String, CharClass> getCharClasses() {
+		return charClasses;
+	}
 }

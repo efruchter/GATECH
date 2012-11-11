@@ -39,6 +39,9 @@ public class DefinedClass {
 		this.name = name;
 	}
 	
-	
+	@Override
+    public String toString() {
+        return String.format("<DefinedClass %s \"%s\">", name, String.valueOf(definition));
+    }
 
 }
