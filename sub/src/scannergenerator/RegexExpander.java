@@ -52,7 +52,7 @@ public class RegexExpander {
 				}
 				sub = OrThisShit(sub);
 				for (String m : ls) {
-					if (sub != "")
+					if (!sub.isEmpty())
 						sub = sub + "|" + expand(m);
 				}
 				sub = sub.replace("()|", "");

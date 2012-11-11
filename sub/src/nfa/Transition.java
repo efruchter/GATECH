@@ -63,7 +63,7 @@ public class Transition {
 	 * @return true if valid, false otherwise.
 	 */
 	public boolean isValid(final char character) {
-		return ("" + character).matches(regex);
+		return regex.equals(String.valueOf(character));
 	}
 
 	public String getRegex() {
