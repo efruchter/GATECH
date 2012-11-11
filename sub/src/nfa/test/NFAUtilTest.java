@@ -45,9 +45,10 @@ public class NFAUtilTest {
 		NFASegment a = NFAUtil.a("a");
 		NFASegment b = NFAUtil.a("b");
 		NFASegment aOrB = NFAUtil.aOrB(a, b);
-		NFASegment total = NFAUtil.aPlus(aOrB);
+		NFASegment total = NFAUtil.aStar(aOrB);
 		total.end.addTransition(new Transition(new State("trueEnd", true)));
 		assertTrue("(a|b)*", NFAUtil.isValid(total, "ababba"));
+		assertTrue("(a|b)*", NFAUtil.isValid(total, ""));
 
 		// a*b(a|b)+
 		NFASegment d = ab(ab(aStar(a("[aA]")), a("b")), aPlus(aOrB(a("[aA]"), a("b"))));
@@ -68,5 +69,17 @@ public class NFAUtilTest {
 		assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaba"));
 		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
 		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
+
+		// (a|b)*
+		NFASegment a = NFAUtil.a("a");
+		NFASegment b = NFAUtil.a("b");
+		NFASegment aOrB = NFAUtil.aOrB(a, b);
+		NFASegment total = NFAUtil.aStar(aOrB);
+		total.end.addTransition(new Transition(new State("trueEnd", true)));
+		NFA daNFA = new NFA(total.start);
+		daNFA = NFAUtil.convertToDFA(daNFA);
+		assertTrue("(a|b)*", NFAUtil.isValid(daNFA, "ababba"));
+		assertTrue("(a|b)*", NFAUtil.isValid(daNFA, ""));
+		assertTrue("(a|b)*", !NFAUtil.isValid(daNFA, "gggab"));
 	}
 }
