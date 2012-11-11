@@ -5,7 +5,7 @@ public class RegexExpander {
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		System.out.println(r.curseAgain("[a-g0-8]"));
+		System.out.println(r.curseAgain("[a-g0-8]   sd  \\         sd"));
 	}
 
 	public static String curseAgain(String s) {
@@ -13,7 +13,14 @@ public class RegexExpander {
 		while (i < s.length()) {
 			int u = 0;
 			int v = 0;
-			if (s.charAt(i) == '\\') {
+			if (s.charAt(i) == ' ') {
+				if (s.charAt(i - 1) == '\\') {
+					i += 2;
+				} else {
+					s = s.substring(0, i) + s.substring(i + 1);
+				}
+				continue;
+			} else if (s.charAt(i) == '\\') {
 				i += 2;
 				continue;
 			} else if (s.charAt(i) == ']') {
@@ -78,8 +85,8 @@ public class RegexExpander {
 			}
 			i++;
 		}
-		if(decouple(s))
-			s = s.substring(1, s.length() -1);
+		if (decouple(s))
+			s = s.substring(1, s.length() - 1);
 		return s;
 	}
 
