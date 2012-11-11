@@ -8,18 +8,18 @@ package nfa;
  * 
  */
 public class Transition {
-	private final String regex;
+	private final String string;
 	private final State state;
 	private final boolean isEmpty;
 
 	/**
 	 * Create a transition to state with character.
 	 * 
-	 * @param regex
+	 * @param string
 	 * @param state
 	 */
-	public Transition(final String regex, final State state) {
-		this.regex = regex;
+	public Transition(final String string, final State state) {
+		this.string = string;
 		this.state = state;
 		this.isEmpty = false;
 	}
@@ -27,12 +27,12 @@ public class Transition {
 	/**
 	 * Factory method for non-empty transition
 	 * 
-	 * @param regex
+	 * @param string
 	 * @param state
 	 * @return
 	 */
-	public static Transition createTransition(final String regex, final State state) {
-		return new Transition(regex, state);
+	public static Transition createTransition(final String string, final State state) {
+		return new Transition(string, state);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class Transition {
 	 * @param state
 	 */
 	public Transition(final State state) {
-		this.regex = null;
+		this.string = null;
 		this.state = state;
 		this.isEmpty = true;
 	}
@@ -61,12 +61,12 @@ public class Transition {
 	 * @param character
 	 * @return true if valid, false otherwise.
 	 */
-	public boolean isValid(final char character) {
-		return regex.equals(String.valueOf(character));
+	public boolean isValid(final String character) {
+		return string.equals(String.valueOf(character));
 	}
 
-	public String getRegex() {
-		return regex;
+	public String getString() {
+		return string;
 	}
 
 	public boolean isEmptyTransition() {
@@ -78,7 +78,7 @@ public class Transition {
 	}
 
 	public String toString() {
-		return (this.isEmpty ? "Empty" : regex) + "->" + this.getDestinationState().getName();
+		return (this.isEmpty ? "Empty" : string) + "->" + this.getDestinationState().getName();
 	}
 
 	public static Transition spawnGoal() {
