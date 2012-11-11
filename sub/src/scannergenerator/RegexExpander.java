@@ -85,30 +85,8 @@ public class RegexExpander {
 			}
 			i++;
 		}
-		if (decouple(s))
-			s = s.substring(1, s.length() - 1);
-		return s;
-	}
 
-	private static boolean decouple(String s) {
-		// TODO Auto-generated method stub
-		int i = 0;
-		int count = 0;
-		boolean up = true;
-		while (i < s.length() - 1) {
-			if (s.charAt(i) == '(') {
-				if (!up)
-					return false;
-				if (s.charAt(i + 1) == '(')
-					count++;
-			} else if (s.charAt(i) == ')')
-				up = false;
-			if (s.charAt(i + 1) == ')') {
-				count--;
-			}
-			i++;
-		}
-		return true;
+		return s;
 	}
 
 	private static String findSub(String s) {
