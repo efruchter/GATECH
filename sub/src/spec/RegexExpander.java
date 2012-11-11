@@ -8,7 +8,7 @@ public class RegexExpander {
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		System.out.println(r.curseAgain("[^0-6bysd]IN[A-Z0-9a-z#$%@$%]"));
+		System.out.println(r.curseAgain("[a-z]"));
 	}
 
 	public static String curseAgain(String s) {
