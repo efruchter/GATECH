@@ -368,6 +368,10 @@ public class NFAUtil {
 		return new NFASegment(a.start, b.end);
 	}
 
+	public static NFASegment dot() {
+		return a(".");
+	}
+
 	public static class NFASegment {
 		public final State start, end;
 

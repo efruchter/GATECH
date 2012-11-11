@@ -57,6 +57,8 @@ public class NFABuilder {
                 idx = regex.length();
             } else if (c == '\\') {
                 // Wait for next char
+            } else if (c == '.') {
+                nfa = NFAUtil.ab(nfa, NFAUtil.dot());
             } else {
                 NFASegment segment = NFAUtil.a(String.valueOf(c));
 
