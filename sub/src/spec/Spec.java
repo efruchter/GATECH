@@ -27,7 +27,7 @@ public class Spec {
         return tokenTypes;
     }
 
-    public void addTokenDef(final TokenType tokenType) {
+    public void addTokenType(final TokenType tokenType) {
         tokenTypes.add(tokenType);
     }
 

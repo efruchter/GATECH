@@ -3,6 +3,7 @@ import nfa.NFAUtil;
 import nfa.NFAUtil.NFASegment;
 import spec.Spec;
 import spec.SpecReader;
+import spec.TokenType;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,9 +22,14 @@ public class TheProject {
         SpecReader specReader = new SpecReader(this.specFileInputStream);
         Spec spec = specReader.specify();
         System.out.println(spec);
+
         NFASegment nfa = NFABuilder.buildNFAFromSpec(spec);
-        System.out.println(NFAUtil.isValid(nfa, "aba"));
-        System.out.println(NFAUtil.isValid(nfa, "abc"));
+        System.out.println(NFAUtil.isValid(nfa, "a"));
+        System.out.println(NFAUtil.isValid(nfa, "abcbacabc"));
+        System.out.println(NFAUtil.isValid(nfa, "ABCABCBAB"));
+        System.out.println(NFAUtil.isValid(nfa, "012012011"));
+        System.out.println(NFAUtil.isValid(nfa, "0121accb2"));
+        System.out.println(NFAUtil.isValid(nfa, "acCAbcaCB"));
     }
 
     public static void main(String[] args) {
