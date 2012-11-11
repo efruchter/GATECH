@@ -1,27 +1,23 @@
-import scannergenerator.DefinedClass;
-import scannergenerator.RDPControl;
+import spec.Spec;
+import spec.SpecReader;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 
 public class TheProject {
-    final String specFilePath; // dumb.
     final InputStream specFileInputStream;
     final InputStream programFileInputStream;
 
-    public TheProject(String specFilePath, InputStream specFileInputStream, InputStream programFileInputStream) {
-        this.specFilePath = specFilePath;
+    public TheProject(InputStream specFileInputStream, InputStream programFileInputStream) {
         this.specFileInputStream = specFileInputStream;
         this.programFileInputStream = programFileInputStream;
     }
 
     public void doStuff() {
-        List<DefinedClass> tokenTypes = RDPControl.getOutput(specFilePath);
-        for (DefinedClass tokenType : tokenTypes) {
-            System.out.println(tokenType);
-        }
+        SpecReader specReader = new SpecReader(this.specFileInputStream);
+        Spec spec = specReader.specify();
+        System.out.println(spec);
     }
 
     public static void main(String[] args) {
@@ -33,18 +29,17 @@ public class TheProject {
         String specFilePath = args[0];
         String programFilePath = args[1];
 
-        InputStream specFileInputStream = null;
-        InputStream programFileInputStream = null;
+        TheProject project = null;
 
         try {
-            specFileInputStream = new FileInputStream(specFilePath);
-            programFileInputStream = new FileInputStream(programFilePath);
+            InputStream specFileInputStream = new FileInputStream(specFilePath);
+            InputStream programFileInputStream = new FileInputStream(programFilePath);
+            project = new TheProject(specFileInputStream, programFileInputStream);
         } catch (FileNotFoundException ex) {
             System.err.println(ex);
             System.exit(1);
         }
 
-        TheProject project = new TheProject(specFilePath, specFileInputStream, programFileInputStream);
         project.doStuff();
     }
 }
