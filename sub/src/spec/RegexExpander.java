@@ -11,12 +11,10 @@ import java.util.Set;
 public class RegexExpander {
 	private static int i = 0;
 
-	/**
-	 * 
-	 * public static void main(String[] args) {
-	 * 
-	 * System.out.println(RegexExpander.expandRegex("[uygfcxduyg-l]")); }
-	 */
+//	public static void main(String[] args) {
+//
+//		System.out.println(RegexExpander.expandRegex("[uygfcxduyg-l]"));
+//	}
 
 	public static String expandRegex(String s) {
 		i = 0;
@@ -64,7 +62,7 @@ public class RegexExpander {
 				}
 				sub = OrThisShit(sub); // Evaluate the first OR block
 				for (String m : ls) {
-					if (sub.isEmpty())
+					if (!sub.isEmpty())
 						sub = sub + "|" + expand(m); // Evaluate the spread OR
 														// blocks
 				}
@@ -127,7 +125,7 @@ public class RegexExpander {
 		}
 		mainSet = OrThisShit(mainSet);
 		for (String m : ls) {
-			if (mainSet.isEmpty())
+			if (!mainSet.isEmpty())
 				mainSet = mainSet + "|" + expand(m);
 		}
 		mainSet = mainSet.replace("()|", "");
@@ -162,7 +160,7 @@ public class RegexExpander {
 		}
 		rem = OrThisShit(rem);
 		for (String m : ls) {
-			if (rem.isEmpty())
+			if (!rem.isEmpty())
 				rem = rem + "|" + expand(m);
 		}
 		rem = rem.replace("()|", "");
