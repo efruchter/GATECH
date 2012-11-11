@@ -1,7 +1,6 @@
 package nfa;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Tokenizes an input stream. The token type is the name of the final state.
@@ -17,12 +16,12 @@ public class Tokenizer {
 	private int index = 0;
 	private NFA dfa;
 
-	public Tokenizer(final NFA dfa, final BufferedReader br) {
+	public Tokenizer(final NFA dfa, final InputStream input) {
 		if (!dfa.isDFA())
 			throw new RuntimeException("nfa is not a dfa for tokenizer");
 
 		this.dfa = dfa;
-		this.br = br;
+		this.br = new BufferedReader(new InputStreamReader(input));
 		String line = null;
 		try {
 			while ((line = br.readLine()) != null) {

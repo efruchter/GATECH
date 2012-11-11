@@ -1,5 +1,4 @@
-import nfa.NFABuilder;
-import nfa.NFAUtil;
+import nfa.*;
 import nfa.NFAUtil.NFASegment;
 import spec.Spec;
 import spec.SpecReader;
@@ -22,14 +21,15 @@ public class TheProject {
         SpecReader specReader = new SpecReader(this.specFileInputStream);
         Spec spec = specReader.specify();
         System.out.println(spec);
-
         NFASegment nfa = NFABuilder.buildNFAFromSpec(spec);
-        System.out.println(NFAUtil.isValid(nfa, "a"));
-        System.out.println(NFAUtil.isValid(nfa, "abcbacabc"));
-        System.out.println(NFAUtil.isValid(nfa, "ABCABCBAB"));
-        System.out.println(NFAUtil.isValid(nfa, "012012011"));
-        System.out.println(NFAUtil.isValid(nfa, "0121accb2"));
-        System.out.println(NFAUtil.isValid(nfa, "acCAbcaCB"));
+        NFA dfa = NFAUtil.convertToDFA(new NFA(nfa.start));
+
+        Tokenizer tokenizer = new Tokenizer(dfa, programFileInputStream);
+
+        Token token;
+        while ((token = tokenizer.getNextToken()) != null) {
+            System.out.println(token);
+        }
     }
 
     public static void main(String[] args) {

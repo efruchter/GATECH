@@ -10,9 +10,9 @@ import java.util.List;
  * 
  */
 public class State {
-	private final String name;
+	public String name;
+	public boolean isFinal;
 	private final List<Transition> transitions;
-	private final boolean isFinal;
 
 	/**
 	 * Create an NFA State

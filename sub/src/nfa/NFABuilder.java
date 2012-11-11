@@ -9,16 +9,17 @@ import java.util.List;
 public class NFABuilder {
     public static NFASegment buildNFAFromSpec(Spec spec) {
         List<TokenType> tokenTypes = spec.getTokenTypes();
-        NFASegment segments[] = new NFASegment[tokenTypes.size()];
+        NFASegment segments[] = new NFASegment[spec.getTokenTypes().size()];
 
         for (int i = 0; i < tokenTypes.size(); ++i) {
             TokenType tokenType = tokenTypes.get(i);
-            segments[i] = buildNFAFromRegex(tokenType.getRe());
+            NFASegment segment = buildNFAFromRegex(tokenType.getRe());
+            segment.end.name = tokenType.getName();
+            segment.end.isFinal = true;
+            segments[i] = segment;
         }
 
-        NFASegment nfa = NFAUtil.aOrB(segments);
-        nfa.end.addTransition(new Transition(new State("trueEnd", true)));
-        return nfa;
+        return NFAUtil.aOrB(segments);
     }
 
     private static NFASegment buildNFAFromRegex(String regex) {
