@@ -11,8 +11,8 @@ public class Spec {
         tokenTypes = new ArrayList<TokenType>();
     }
 
-    public Iterator iterCharClasses() {
-        return charClasses.entrySet().iterator();
+    public Map<String, CharClass> getCharClasses() {
+        return charClasses;
     }
 
     public CharClass getCharClass(final String charClassName) {
@@ -35,16 +35,13 @@ public class Spec {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        Iterator charClassesIterator = charClasses.entrySet().iterator();
-        while (charClassesIterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) charClassesIterator.next();
+        for (Map.Entry entry : charClasses.entrySet()) {
             sb.append(String.format("$%s: %s\n", entry.getKey(),
                     entry.getValue()));
         }
 
         for (TokenType tokenType : tokenTypes) {
-            sb.append(tokenType.toString());
-            sb.append("\n");
+            sb.append(tokenType.toString()).append("\n");
         }
 
         return sb.toString();
