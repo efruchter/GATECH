@@ -6,27 +6,27 @@ import java.util.List;
 import java.util.Map;
 
 public class TokenDef {
-	private final String name;
-	private final String re;
+    private final String name;
+    private final String re;
 
-	public TokenDef(final String name, final String re, final Iterator charClassesIterator) {
-		this.name = name;
-		this.re = collapse(re, charClassesIterator);
-	}
+    public TokenDef(final String name, final String re, final Iterator charClassesIterator) {
+        this.name = name;
+        this.re = collapse(re, charClassesIterator);
+    }
 
-	private String collapse(String re, Iterator charClassesIterator) {
-		while (charClassesIterator.hasNext()) {
-			Map.Entry<String, CharClass> entry = (Map.Entry<String, CharClass>)charClassesIterator.next();
-			re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
-		}
+    private String collapse(String re, Iterator charClassesIterator) {
+        while (charClassesIterator.hasNext()) {
+            Map.Entry<String, CharClass> entry = (Map.Entry<String, CharClass>)charClassesIterator.next();
+            re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
+        }
 
         return parseFinal(re);
-	}
+    }
 
-	@Override
-	public String toString() {
-		return String.format("<TokenDef $%s %s>", this.name, this.re);
-	}
+    @Override
+    public String toString() {
+        return String.format("<TokenDef $%s %s>", this.name, this.re);
+    }
 
     private static String parseFinal(String s) {
         String f = "";

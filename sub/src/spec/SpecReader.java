@@ -8,65 +8,65 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SpecReader {
-	private InputStream input;
-	private Spec spec;
+    private InputStream input;
+    private Spec spec;
 
-	public SpecReader(InputStream input) {
-		this.input = input;
-		this.spec = new Spec();
-	}
+    public SpecReader(InputStream input) {
+        this.input = input;
+        this.spec = new Spec();
+    }
 
-	private void readCharClass(String line) {
-		Pattern p = Pattern.compile("\\$([A-Z\\-]+) ((\\[.*\\])|(\\[\\^.*\\]) IN \\$([A-Z\\-]+))");
-		Matcher matcher = p.matcher(line);
-		matcher.matches();
+    private void readCharClass(String line) {
+        Pattern p = Pattern.compile("\\$([A-Z\\-]+) ((\\[.*\\])|(\\[\\^.*\\]) IN \\$([A-Z\\-]+))");
+        Matcher matcher = p.matcher(line);
+        matcher.matches();
 
-		String charClassName = matcher.group(1);
+        String charClassName = matcher.group(1);
 
-		String re = null;
-		if (matcher.group(3) != null) {
-			re = matcher.group(2);
-		} else {
-			re = matcher.group(4) + "IN" + spec.getCharClass(matcher.group(5)).getRe();
-		}
-		spec.addCharClass(charClassName, new CharClass(re));
-	}
+        String re = null;
+        if (matcher.group(3) != null) {
+            re = matcher.group(2);
+        } else {
+            re = matcher.group(4) + "IN" + spec.getCharClass(matcher.group(5)).getRe();
+        }
+        spec.addCharClass(charClassName, new CharClass(re));
+    }
 
-	private void readTokenDef(String line) {
-		Pattern p = Pattern.compile("\\$([A-Z\\-]+) (.*)");
-		Matcher matcher = p.matcher(line);
-		matcher.matches();
+    private void readTokenDef(String line) {
+        Pattern p = Pattern.compile("\\$([A-Z\\-]+) (.*)");
+        Matcher matcher = p.matcher(line);
+        matcher.matches();
 
-		String tokenName = matcher.group(1);
-		String tokenStuff = matcher.group(2);
-		TokenDef tokenDef = new TokenDef(tokenName, tokenStuff, spec.iterCharClasses());
+        String tokenName = matcher.group(1);
+        String tokenStuff = matcher.group(2);
+        TokenDef tokenDef = new TokenDef(tokenName, tokenStuff, spec.iterCharClasses());
 
-		spec.addTokenDef(tokenDef);
-	}
+        spec.addTokenDef(tokenDef);
+    }
 
-	public Spec specify() {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+    public Spec specify() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-		try {
-			String line;
-			boolean inCharClassSection = true;
+        try {
+            String line;
+            boolean inCharClassSection = true;
 
-			while ((line = reader.readLine()) != null) {
-				if (line.equals("")) {
-					inCharClassSection = false;
-					continue;
-				}
+            while ((line = reader.readLine()) != null) {
+                if (line.equals("")) {
+                    inCharClassSection = false;
+                    continue;
+                }
 
-				if (inCharClassSection) {
-					readCharClass(line);
-				} else {
-					readTokenDef(line);
-				}
-			}
-		} catch (IOException e) {
-			throw new RuntimeException();
-		}
+                if (inCharClassSection) {
+                    readCharClass(line);
+                } else {
+                    readTokenDef(line);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
 
-		return spec;
-	}
+        return spec;
+    }
 }
