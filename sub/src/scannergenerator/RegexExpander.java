@@ -10,7 +10,7 @@ public class RegexExpander {
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		System.out.println(r.curseAgain("[^a-gl-o]IN[a-zA-Z]"));
+		System.out.println(r.curseAgain("[^T]IN[S-V]"));
 	}
 
 	public static String curseAgain(String s) {
@@ -36,7 +36,7 @@ public class RegexExpander {
 				if (sub.charAt(1) == '^') {
 					sub = s.substring(u, s.indexOf("]", v + 1) + 1);
 					sub = negate(sub);
-					System.exit(0);
+					return sub;
 				}
 
 				String[] strs = sub.split("-");
@@ -121,14 +121,24 @@ public class RegexExpander {
 			count++;
 		}
 		for (String m : ls) {
-			fin += expand(m);
+			if (m.length() == 5) {
+				mainSet = mainSet.replace(m.substring(1, m.length() - 1), "");
+
+			} else
+				mainSet = mainSet.replace(m.substring(2, m.length() - 1), "");
 		}
-		fin = fin.replace(")(", "|");
+		mainSet = OrThisShit(mainSet);
+		for (String m : ls) {
+			if (mainSet != "")
+				mainSet = mainSet + "|" + expand(m);
+		}
+		mainSet = mainSet.replace("()|", "");
+		mainSet = mainSet.replace(")|(", "|");
 
 		Set<Character> chars = new HashSet<Character>();
 		int n = 1;
-		while (n < fin.length()) {
-			chars.add(fin.charAt(n));
+		while (n < mainSet.length()) {
+			chars.add(mainSet.charAt(n));
 			n += 2;
 		}
 
@@ -151,24 +161,32 @@ public class RegexExpander {
 			count++;
 		}
 		for (String m : ls) {
-			fin += expand(m);
+			if (m.length() == 5) {
+				rem = rem.replace(m.substring(1, m.length() - 1), "");
+
+			} else
+				rem = rem.replace(m.substring(2, m.length() - 1), "");
 		}
-		fin = fin.replace(")(", "|");
+		rem = OrThisShit(rem);
+		for (String m : ls) {
+			if (rem != "")
+				rem = rem + "|" + expand(m);
+		}
+		rem = rem.replace("()|", "");
+		rem = rem.replace(")|(", "|");
 
 		n = 1;
-		while (n < fin.length()) {
-			chars.remove((fin.charAt(n)));
+		while (n < rem.length()) {
+			chars.remove((rem.charAt(n)));
 			n += 2;
 		}
 
 		String comp = "(";
 		n = 0;
-		for(char c: chars)
-		{
+		for (char c : chars) {
 			comp += c + "|";
 		}
-		comp = comp.substring(0, comp.length()-1) + ")";
-		System.out.println(comp);
+		comp = comp.substring(0, comp.length() - 1) + ")";
 		return comp;
 	}
 
