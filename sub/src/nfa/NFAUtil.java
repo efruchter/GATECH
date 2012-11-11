@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Utilities for analyzing and converting NFA's.
@@ -24,7 +23,6 @@ public class NFAUtil {
 		List<MetaState> remainingMetaStates = new LinkedList<MetaState>();
 
 		MetaState startt = new MetaState(findClosure(nfaInit.getStartState()));
-		startt.isStart = true;
 		remainingMetaStates.add(startt);
 
 		List<MetaState> foundMetaStates = new LinkedList<MetaState>();
@@ -43,7 +41,6 @@ public class NFAUtil {
 				for (Transition trans : state.getTransitions()) {
 					// For this trans, place the state in the the transMap
 					if (!trans.isEmptyTransition()) {
-						State nextState = trans.getDestinationState();
 						transTo.put(trans.getRegex(), findClosure(trans.getDestinationState()));
 					}
 				}
@@ -78,6 +75,8 @@ public class NFAUtil {
 
 		// Build the actual states
 		HashMap<MetaState, State> states = new HashMap<MetaState, State>();
+		int iName = 0;
+		
 		// Pass one, build state map
 		for (MetaState metaState : foundMetaStates) {
 			// Is goal?
@@ -91,12 +90,11 @@ public class NFAUtil {
 			}
 
 			// Build The string of names
-			if(name != null) {
-				String string = "";
-				for (State s : metaState.states) {
-					string += "," + s.getName();
-				}
-				string = string.replaceFirst(",", "");
+			if (name == null) {
+				name = "" + iName++;
+			} 
+			if (metaState == startt) {
+				name = "S";
 			}
 
 			states.put(metaState, new State(name, isGoal));
@@ -149,7 +147,26 @@ public class NFAUtil {
 		}
 
 		return new LinkedList<State>(explored);
+	}
 
+	public static List<State> getAllReachableStates(final State state) {
+		final HashSet<State> explored = new HashSet<State>();
+		final HashSet<State> frontier = new HashSet<State>();
+		frontier.add(state);
+
+		while (!frontier.isEmpty()) {
+			State c = frontier.iterator().next();
+			for (Transition t : c.getTransitions()) {
+				if (!frontier.contains(t.getDestinationState())
+						&& !explored.contains(t.getDestinationState())) {
+					frontier.add(t.getDestinationState());
+				}
+			}
+			frontier.remove(c);
+			explored.add(c);
+		}
+
+		return new LinkedList<State>(explored);
 	}
 
 	public static NFA minimizeDFA(final NFA nfaInit, final char[] totalLexicon) {
@@ -259,21 +276,12 @@ public class NFAUtil {
 	 * 
 	 */
 	private static class MetaState {
-		private final String name;
 		private final List<State> states;
-		private boolean isStart = false;
 		private final HashMap<String, MetaState> transitionTo;
-
-		public static int unique = 0;
 
 		public MetaState(List<State> states) {
 			this.states = states;
-			this.name = "" + unique++;
 			transitionTo = new HashMap<String, MetaState>();
-		}
-
-		public MetaState(Set<State> states) {
-			this(new LinkedList<State>(states));
 		}
 
 		public void addTransition(String trans, MetaState s) {

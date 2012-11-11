@@ -23,13 +23,11 @@ public class NFA {
 	 * @param additionalStates
 	 *            the additional states of the NFA.
 	 */
-	public NFA(final State startState, final State... additionalStates) {
+	public NFA(final State startState) {
 		this.startState = startState;
 		this.states = new HashMap<String, State>();
-		addState(this.startState);
-		for (State state : additionalStates) {
-			addState(state);
-		}
+		for (State s : NFAUtil.getAllReachableStates(startState))
+			addState(s);
 	}
 
 	/**
@@ -39,8 +37,8 @@ public class NFA {
 	 * @param additionalStates
 	 * @return
 	 */
-	public static NFA createNFA(final State startState, final State... additionalStates) {
-		return new NFA(startState, additionalStates);
+	public static NFA createNFA(final State startState) {
+		return new NFA(startState);
 	}
 
 	public void addState(final State... states) {

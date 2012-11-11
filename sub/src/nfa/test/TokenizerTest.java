@@ -5,10 +5,8 @@ import static nfa.NFAUtil.aPlus;
 import static nfa.NFAUtil.ab;
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 
 import nfa.NFA;
 import nfa.NFAUtil;
@@ -32,7 +30,7 @@ public class TokenizerTest {
 		b.addTransition(Transition.createTransition("a", b), Transition.createTransition("b", c));
 		c.addTransition(Transition.createTransition("a", b), Transition.createTransition("b", c));
 
-		NFA n = NFA.createNFA(a, b, c); //
+		NFA n = NFA.createNFA(a); //
 		// n.addState(a, b, c);
 
 		assertTrue("a(a|b)*b should be a DFA", n.isDFA());
@@ -68,6 +66,8 @@ public class TokenizerTest {
 			latest = tokenizer.getNextToken();
 			System.out.println(latest);
 		} while (latest != null);
+		
+		System.out.println(nyet);
 
 	}
 }

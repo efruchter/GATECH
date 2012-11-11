@@ -42,7 +42,7 @@ public class NFATest {
 		s1.addTransition(new Transition("b", s2));
 		s2.addTransition(new Transition("a", s1));
 
-		n = new NFA(s, s0, s1, s2);
+		n = new NFA(s);
 		assertTrue("(a|b)*(ab)+ should not be a DFA", !n.isDFA());
 		assertTrue(
 				"(a|b)*(ab)+",
@@ -82,7 +82,7 @@ public class NFATest {
 		s1.addTransition(Transition.createTransition("b", s2));
 		s2.addTransition(Transition.createTransition("a", s1));
 
-		n = NFA.createNFA(s, s0, s1, s2);
+		n = NFA.createNFA(s);
 		assertTrue("(a|b)*(ab)+ should not be a DFA", !n.isDFA());
 		assertTrue(
 				"(a|b)*(ab)+",
