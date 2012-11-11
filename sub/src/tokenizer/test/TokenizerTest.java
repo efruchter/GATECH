@@ -34,10 +34,11 @@ public class TokenizerTest {
 		// n.addState(a, b, c);
 
 		assertTrue("a(a|b)*b should be a DFA", n.isDFA());
-		assertTrue("a(a|b)*b", NFAUtil.isValid(n, "ab") && NFAUtil.isValid(n, "abababab")
-				&& NFAUtil.isValid(n, "aabababababbaabbaab") && NFAUtil.isValid(n, "ababb")
-				&& NFAUtil.isValid(n, "abbbbbbaaaaaaaabbbbbb") && !NFAUtil.isValid(n, "bbbbaaaa")
-				&& !NFAUtil.isValid(n, "aaaabbbbbbbbba"));
+		assertTrue(
+				"a(a|b)*b",
+				NFAUtil.isValid(n, "ab") && NFAUtil.isValid(n, "abababab") && NFAUtil.isValid(n, "aabababababbaabbaab")
+						&& NFAUtil.isValid(n, "ababb") && NFAUtil.isValid(n, "abbbbbbaaaaaaaabbbbbb")
+						&& !NFAUtil.isValid(n, "bbbbaaaa") && !NFAUtil.isValid(n, "aaaabbbbbbbbba"));
 		String s = "aabababbbb  abb baaba ab aaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 		InputStream input = new ByteArrayInputStream(s.getBytes());
 		Tokenizer tokenizer = new Tokenizer(n, input);
@@ -57,16 +58,17 @@ public class TokenizerTest {
 		NFA nyet = new NFA(d.start);
 		nyet = NFAUtil.convertToDFA(nyet);
 		System.out.println(nyet.toString());
-		s = "abbcabcabbbbbbbcabbbbbbbbbbbbc";
+		s = "abbcabcabbbbbbbcabbbbbbbbbbbbcaaabbbc";
 		input = new ByteArrayInputStream(s.getBytes());
 		tokenizer = new Tokenizer(nyet, input);
 		Token latest = null;
-		System.out.println("Stuff below:");
+		System.out.println(s);
 		do {
 			latest = tokenizer.getNextToken();
-			System.out.println(latest);
+			if (latest != null)
+				System.out.println(latest);
 		} while (latest != null);
-		
+
 		System.out.println(nyet);
 
 	}
