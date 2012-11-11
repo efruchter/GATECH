@@ -21,7 +21,7 @@ public class TheProject {
     public void doStuff() {
         SpecReader specReader = new SpecReader(this.specFileInputStream);
         Spec spec = specReader.specify();
-        System.out.println(spec);
+
         NFASegment nfa = NFABuilder.buildNFAFromSpec(spec);
         NFA dfa = NFAUtil.convertToDFA(new NFA(nfa.start));
 
@@ -29,7 +29,7 @@ public class TheProject {
 
         Token token;
         while ((token = tokenizer.getNextToken()) != null) {
-            System.out.println(token);
+            System.out.println(String.format("%s", token));
         }
     }
 
