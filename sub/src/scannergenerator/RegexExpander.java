@@ -5,12 +5,14 @@ public class RegexExpander {
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
-		System.out.println(r.myParser("[a-dA-E0-9](fdasdf)*"));
-		System.out.println(r.myParser("[a-g]+"));
-		System.out.println(r.myParser("(a+)+"));
-		System.out.println(r.myParser("p+[p-z]+(agbd(4|5))+(ab+)+"));
-		System.out.println(r.myParser("[dfsfb-caggr-zadasdfaw-z]af+"));
-		System.out.println(r.myParser("[bt-z]*"));
+		/*
+		 * System.out.println(r.myParser("[a-dA-E0-9](fdasdf)*"));
+		 * System.out.println(r.myParser("[a-g]+"));
+		 * System.out.println(r.myParser("(a+)+"));
+		 * System.out.println(r.myParser("p+[p-z]+(agbd(4|5))+(ab+)+"));
+		 * System.out.println(r.myParser("[dfsfb-caggr-zadasdfaw-z]af+"));
+		 * System.out.println(r.myParser("[bt-z]*"));
+		 */
 	}
 
 	public String myParser(String s) {
@@ -18,7 +20,10 @@ public class RegexExpander {
 		while (i < s.length()) {
 			int u = 0;
 			int v = 0;
-			if (s.charAt(i) == ']') {
+			if (s.charAt(i) == '\\') {
+				i += 2;
+				continue;
+			} else if (s.charAt(i) == ']') {
 				u = s.lastIndexOf('[', i);
 				v = i + 1;
 				String sub = s.substring(u, v);
@@ -67,8 +72,19 @@ public class RegexExpander {
 							+ s.substring(i + 1, s.length());
 					i += sub.length() + 1;
 				} else {
-					s = s.subSequence(0, i) + "(" + s.substring(i - 1, i) + "*"
-							+ ")" + s.substring(i + 1);
+					if (s.charAt(i - 1) == '\\') {
+						s = s.subSequence(0, i) + "(" + s.substring(i - 1, i)
+								+ s.substring(i - 1, i) + "*" + ")"
+								+ s.substring(i + 1);
+					} else {
+						s = s.subSequence(0, i) + "(" + s.substring(i - 1, i)
+								+ "*" + ")" + s.substring(i + 1);
+						i++;
+						System.out.println(s.length());
+						System.out.println(i);
+					}
+					System.out.println(s.length());
+					System.out.println(i);
 				}
 			}
 			i++;
