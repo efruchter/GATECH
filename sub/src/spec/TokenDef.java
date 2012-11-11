@@ -23,6 +23,14 @@ public class TokenDef {
         return parseFinal(re);
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getRe() {
+        return this.re;
+    }
+
     @Override
     public String toString() {
         return String.format("<TokenDef $%s %s>", this.name, this.re);
