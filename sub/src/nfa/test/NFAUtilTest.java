@@ -78,6 +78,7 @@ public class NFAUtilTest {
 		total.end.addTransition(new Transition(new State("trueEnd", true)));
 		NFA daNFA = new NFA(total.start);
 		daNFA = NFAUtil.convertToDFA(daNFA);
+		assertTrue("(a|b)* is not a dfa", daNFA.isDFA());
 		assertTrue("(a|b)*", NFAUtil.isValid(daNFA, "ababba"));
 		assertTrue("(a|b)*", NFAUtil.isValid(daNFA, ""));
 		assertTrue("(a|b)*", !NFAUtil.isValid(daNFA, "gggab"));

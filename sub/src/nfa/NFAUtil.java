@@ -37,11 +37,15 @@ public class NFAUtil {
 			HashMap<String, List<State>> transTo = new HashMap<String, List<State>>();
 
 			// Look at each state/transistion
+
 			for (State state : metaState.states) {
 				for (Transition trans : state.getTransitions()) {
 					// For this trans, place the state in the the transMap
 					if (!trans.isEmptyTransition()) {
-						transTo.put(trans.getRegex(), findClosure(trans.getDestinationState()));
+						if (!transTo.containsKey(trans.getRegex())) {
+							transTo.put(trans.getRegex(), new LinkedList<State>());
+						}
+						transTo.get(trans.getRegex()).addAll(findClosure(trans.getDestinationState()));
 					}
 				}
 			}
@@ -76,14 +80,14 @@ public class NFAUtil {
 		// Build the actual states
 		HashMap<MetaState, State> states = new HashMap<MetaState, State>();
 		int iName = 0;
-		
+
 		// Pass one, build state map
 		for (MetaState metaState : foundMetaStates) {
 			// Is goal?
 			boolean isGoal = false;
 			String name = null;
 			for (State s : metaState.states) {
-				if(s.isFinal()) {
+				if (s.isFinal()) {
 					isGoal = true;
 					name = s.getName();
 				}
@@ -92,7 +96,7 @@ public class NFAUtil {
 			// Build The string of names
 			if (name == null) {
 				name = "" + iName++;
-			} 
+			}
 			if (metaState == startt) {
 				name = "S";
 			}
@@ -157,8 +161,7 @@ public class NFAUtil {
 		while (!frontier.isEmpty()) {
 			State c = frontier.iterator().next();
 			for (Transition t : c.getTransitions()) {
-				if (!frontier.contains(t.getDestinationState())
-						&& !explored.contains(t.getDestinationState())) {
+				if (!frontier.contains(t.getDestinationState()) && !explored.contains(t.getDestinationState())) {
 					frontier.add(t.getDestinationState());
 				}
 			}
