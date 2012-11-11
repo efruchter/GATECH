@@ -19,41 +19,100 @@ public class NFAUtil {
 		;
 	}
 
-	public static NFA convertToDFA(final NFA nfaInit, final char[] totalLexicon) {
-		/*
-		 * Each DfaConStep[] will feature a closure for every transition
-		 * character.
-		 */
-		List<MetaState> remainingClosures = new LinkedList<MetaState>();
-		remainingClosures.add(new MetaState(findClosure(nfaInit.getStartState())));
+	public static NFA convertToDFA(final NFA nfaInit) {
 
-		while (remainingClosures.isEmpty()) {
+		List<MetaState> remainingMetaStates = new LinkedList<MetaState>();
 
-			MetaState metaState = remainingClosures.get(0);
+		MetaState startt = new MetaState(findClosure(nfaInit.getStartState()));
+		startt.isStart = true;
+		remainingMetaStates.add(startt);
 
-			// Moves per transition
-			HashMap<String, Set<State>> transTo = new HashMap<String, Set<State>>();
+		List<MetaState> foundMetaStates = new LinkedList<MetaState>();
+
+		while (!remainingMetaStates.isEmpty()) {
+			// The meta state for us to analyze
+			MetaState metaState = remainingMetaStates.get(0);
+			foundMetaStates.add(metaState);
+			remainingMetaStates.remove(metaState);
+
+			// Temporary map of transitions to their following e-enclosures
+			HashMap<String, List<State>> transTo = new HashMap<String, List<State>>();
+
+			// Look at each state/transistion
 			for (State state : metaState.states) {
 				for (Transition trans : state.getTransitions()) {
 					// For this trans, place the state in the the transMap
 					if (!trans.isEmptyTransition()) {
-						if (!transTo.containsKey(trans.getRegex())) {
-							transTo.put(trans.getRegex(), new HashSet<State>());
-						}
-						transTo.get(trans.getRegex()).add(trans.getDestinationState());
+						transTo.put(trans.getRegex(), findClosure(trans.getDestinationState()));
 					}
 				}
 			}
 
-			// Find the epsilon enclosures for each
-			HashMap<String, Set<State>> epsilons = new HashMap<String, Set<State>>();
-			for (Entry<String, Set<State>> e : transTo.entrySet()) {
-				// e.getKey()
-			}
+			/*
+			 * Build the appropriate meta-states
+			 * 
+			 * For every meta-state this state links to, perhaps add it to the
+			 * lists.
+			 */
+			for (Entry<String, List<State>> goToState : transTo.entrySet()) {
+				// Our dummy state, if needed.
+				MetaState possibleState = new MetaState(goToState.getValue());
 
+				// If the desired meta-state is in the list, link to it.
+				if (foundMetaStates.contains(possibleState)) {
+					metaState.addTransition(goToState.getKey(),
+							foundMetaStates.get(foundMetaStates.indexOf(possibleState)));
+				} else if (remainingMetaStates.contains(possibleState)) {
+					metaState.addTransition(goToState.getKey(),
+							remainingMetaStates.get(remainingMetaStates.indexOf(possibleState)));
+				}
+
+				// Otherwise, create a new one and link to it!
+				else {
+					metaState.addTransition(goToState.getKey(), possibleState);
+					remainingMetaStates.add(possibleState);
+				}
+			}
 		}
 
-		return null;
+		// Build the actual states
+		HashMap<MetaState, State> states = new HashMap<MetaState, State>();
+		// Pass one, build state map
+		for (MetaState metaState : foundMetaStates) {
+			// Is goal?
+			boolean isGoal = false;
+			for (State s : metaState.states) {
+				isGoal = isGoal || s.isFinal();
+			}
+
+			// Build The string of names
+			String string = "";
+			for (State s : metaState.states) {
+				string += "," + s.getName();
+			}
+			string = string.replaceFirst(",", "");
+
+			states.put(metaState, new State(string, isGoal));
+		}
+
+		// Pass two, connect states
+		for (MetaState metaState : foundMetaStates) {
+			for (Entry<String, MetaState> targetState : metaState.transitionTo.entrySet()) {
+				states.get(metaState).addTransition(
+						new Transition(targetState.getKey(), states.get(targetState.getValue())));
+			}
+		}
+
+		// Build states and nfa
+		List<State> newStates = new LinkedList<State>();
+		for (Entry<MetaState, State> s : states.entrySet()) {
+			newStates.add(s.getValue());
+		}
+
+		NFA n = new NFA(states.get(startt));
+		n.addState(newStates.toArray(new State[0]));
+
+		return n;
 	}
 
 	/**
@@ -195,21 +254,23 @@ public class NFAUtil {
 	private static class MetaState {
 		private final String name;
 		private final List<State> states;
-		private final List<MetaState> transitionTo;
-		private boolean expanded;
+		private boolean isStart = false;
+		private final HashMap<String, MetaState> transitionTo;
 
 		public static int unique = 0;
 
 		public MetaState(List<State> states) {
 			this.states = states;
 			this.name = "" + unique++;
-			transitionTo = new LinkedList();
-			expanded = false;
-
+			transitionTo = new HashMap<String, MetaState>();
 		}
 
-		public void addTransition(MetaState s) {
-			transitionTo.add(s);
+		public MetaState(Set<State> states) {
+			this(new LinkedList<State>(states));
+		}
+
+		public void addTransition(String trans, MetaState s) {
+			transitionTo.put(trans, s);
 		}
 
 		@Override

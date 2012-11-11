@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import nfa.NFA;
 import nfa.NFAUtil;
 import nfa.NFAUtil.NFASegment;
 import nfa.State;
@@ -52,6 +53,19 @@ public class NFAUtilTest {
 		NFASegment d = ab(ab(aStar(a("[aA]")), a("b")), aPlus(aOrB(a("[aA]"), a("b"))));
 		d.end.addTransition(Transition.spawnGoal());
 		assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaAAAAAba"));
+		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
+		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
+	}
+
+	@Test
+	public void nfaConverterTest() {
+		// a*b(a|b)+
+		NFASegment d = ab(ab(aStar(a("a")), a("b")), aPlus(aOrB(a("a"), a("b"))));
+		d.end.addTransition(Transition.spawnGoal());
+		NFA n = new NFA(d.start);
+		n = NFAUtil.convertToDFA(n);
+		assertTrue("a*b(a|b)+ is not NFA", n.isDFA());
+		assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaba"));
 		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
 		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
 	}
