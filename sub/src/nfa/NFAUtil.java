@@ -173,10 +173,16 @@ public class NFAUtil {
 	}
 
 	public static NFA minimizeDFA(final NFA nfaInit) {
+        // Standard algorithm using table
+        List<State> states = new LinkedList<State>(getAllReachableStates(nfaInit.getStartState()));
+        Character[][] tranTable = new Character[states.size()][states.size()];
 
+        /**boolean changeOccured = true;
+        do(changeOccured) {
 
+        } while(changeOccured);*/
 
-		return null;
+		return nfaInit;
 	}
 
 	public static boolean isValid(final NFASegment nfa, final String string) {
