@@ -81,4 +81,8 @@ public class Transition {
 	public String toString() {
 		return (this.isEmpty ? "Empty" : regex) + "->" + this.getDestinationState().getName();
 	}
+
+	public static Transition spawnGoal() {
+		return new Transition(new State("ENDFINAL", true));
+	}
 }

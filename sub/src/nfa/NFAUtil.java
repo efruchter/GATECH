@@ -3,7 +3,6 @@ package nfa;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +17,8 @@ public class NFAUtil {
 	private NFAUtil() {
 		;
 	}
+
+	private static int gen = 0;
 
 	public static NFA convertToDFA(final NFA nfaInit, final char[] totalLexicon) {
 		final List<State> newStates = new ArrayList<State>();
@@ -92,6 +93,7 @@ public class NFAUtil {
 	 * @return true if the string is valid, false otherwise.
 	 */
 	public static boolean isValid(final NFA nfa, final String string) {
+
 		final HashSet<NFAStep> steps = new HashSet<NFAStep>();
 		final HashSet<NFAStep> explored = new HashSet<NFAStep>();
 
@@ -99,31 +101,30 @@ public class NFAUtil {
 
 		steps.add(new NFAStep(nfa.getStartState(), string));
 
-		while (!isValid && !steps.isEmpty()) {
-			for (NFAStep step : new LinkedList<NFAStep>(steps)) {
+		while (!(isValid || steps.isEmpty())) {
+			NFAStep step = steps.iterator().next();
+			explored.add(step);
 
-				steps.remove(step);
-				explored.add(step);
+			steps.remove(step);
 
-				// Check for finality
-				if (step.isFinal()) {
-					isValid = true;
+			// Check for finality
+			if (step.isFinal()) {
+				isValid = true;
+			}
+
+			for (Transition t : step.state.getTransitions()) {
+				NFAStep s = null;
+				// If empty
+				if (t.isEmptyTransition()) {
+					s = new NFAStep(t.getDestinationState(), step.string);
+				}
+				// if not empty, and string is not empty
+				else if (!step.string.isEmpty() && t.isValid(step.string.charAt(0))) {
+					s = new NFAStep(t.getDestinationState(), step.string.substring(1));
 				}
 
-				for (Transition t : step.state.getTransitions()) {
-					NFAStep s = null;
-					// If empty
-					if (t.isEmptyTransition()) {
-						s = new NFAStep(t.getDestinationState(), step.string);
-					}
-					// if not empty
-					else if (!step.string.isEmpty() && t.isValid(step.string.charAt(0))) {
-						s = new NFAStep(t.getDestinationState(), step.string.substring(1));
-					}
-
-					if (s != null && !explored.contains(s)) {
-						steps.add(s);
-					}
+				if (s != null && !explored.contains(s)) {
+					steps.add(s);
 				}
 			}
 		}
@@ -150,11 +151,16 @@ public class NFAUtil {
 		public boolean equals(Object o) {
 			if (o instanceof NFAStep) {
 				NFAStep p = (NFAStep) o;
-				return p.state.equals(this.state) && p.string.equals(this.string);
+				return p.state == this.state && p.string.equals(this.string);
 			} else {
 				System.err.println("Object is not an instance of NFAStep");
 				return false;
 			}
+		}
+
+		@Override
+		public int hashCode() {
+			return state.hashCode() * string.hashCode();
 		}
 
 		public String toString() {
@@ -201,8 +207,8 @@ public class NFAUtil {
 	}
 
 	public static NFASegment a(final String regex) {
-		State start = new State("start", false);
-		State end = new State("end", false);
+		State start = new State("start" + gen, false);
+		State end = new State("end" + gen++, false);
 
 		start.addTransition(new Transition(regex, end));
 
@@ -210,8 +216,8 @@ public class NFAUtil {
 	}
 
 	public static NFASegment aOrB(final NFASegment a, final NFASegment b) {
-		State start = new State("start", false);
-		State end = new State("end", false);
+		State start = new State("start" + gen, false);
+		State end = new State("end" + gen++, false);
 
 		start.addTransition(new Transition(a.start));
 		start.addTransition(new Transition(b.start));
@@ -223,8 +229,8 @@ public class NFAUtil {
 	}
 
 	public static NFASegment aStar(final NFASegment a) {
-		State start = new State("start", false);
-		State end = new State("end", false);
+		State start = new State("start" + gen, false);
+		State end = new State("end" + gen++, false);
 
 		start.addTransition(new Transition(a.start));
 		start.addTransition(new Transition(end));
@@ -236,8 +242,8 @@ public class NFAUtil {
 	}
 
 	public static NFASegment aPlus(final NFASegment a) {
-		State start = new State("start", false);
-		State end = new State("end", false);
+		State start = new State("start" + gen, false);
+		State end = new State("end" + gen++, false);
 
 		start.addTransition(new Transition(a.start));
 
@@ -245,6 +251,11 @@ public class NFAUtil {
 		end.addTransition(new Transition(start));
 
 		return new NFASegment(start, end);
+	}
+
+	public static NFASegment ab(final NFASegment a, final NFASegment b) {
+		a.end.addTransition(new Transition(b.start));
+		return new NFASegment(a.start, b.end);
 	}
 
 	public static class NFASegment {
@@ -255,5 +266,4 @@ public class NFAUtil {
 			this.end = end;
 		}
 	}
-
 }
