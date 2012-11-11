@@ -1,7 +1,7 @@
 package scannergenerator;
 
 public class RegexExpander {
-	private int i = 0;
+	private static int i = 0;
 
 	public static void main(String[] args) {
 		RegexExpander r = new RegexExpander();
@@ -15,7 +15,7 @@ public class RegexExpander {
 		 */
 	}
 
-	public String myParser(String s) {
+	public static String curseAgain(String s) {
 		i = 0;
 		while (i < s.length()) {
 			int u = 0;
@@ -92,7 +92,7 @@ public class RegexExpander {
 		return s;
 	}
 
-	private String findSub(String s) {
+	private static String findSub(String s) {
 		// TODO Auto-generated method stub
 		int i = s.length() - 2;
 		int counter = 1;
@@ -106,7 +106,7 @@ public class RegexExpander {
 		return s.substring(i + 1, s.length());
 	}
 
-	private String OrThisShit(String s) {
+	private static String OrThisShit(String s) {
 		int n = 1;
 		while (n < s.length() - 2) {
 			s = s.substring(0, n + 1) + "|" + s.substring(n + 1);
@@ -117,7 +117,7 @@ public class RegexExpander {
 		return "(" + s.substring(1, s.length() - 1) + ")";
 	}
 
-	private String expand(String sub) throws StringIndexOutOfBoundsException {
+	private static String expand(String sub) throws StringIndexOutOfBoundsException {
 		// TODO Auto-generated method stub
 		char lb = sub.charAt(1);
 		char ub = sub.charAt(sub.length() - 2);
