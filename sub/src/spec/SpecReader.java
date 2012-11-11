@@ -17,8 +17,7 @@ public class SpecReader {
 	}
 
 	private void readCharClass(String line) {
-		Pattern p = Pattern
-				.compile("\\$([A-Z\\-]+) ((\\[.*\\])|(\\[\\^.*\\]) IN \\$([A-Z\\-]+))");
+		Pattern p = Pattern.compile("\\$([A-Z\\-]+) ((\\[.*\\])|(\\[\\^.*\\]) IN \\$([A-Z\\-]+))");
 		Matcher matcher = p.matcher(line);
 		matcher.matches();
 
@@ -40,7 +39,7 @@ public class SpecReader {
 
 		String tokenName = matcher.group(1);
 		String tokenStuff = matcher.group(2);
-		TokenDef tokenDef = new TokenDef(tokenName, tokenStuff, spec.getCharClasses());
+		TokenDef tokenDef = new TokenDef(tokenName, tokenStuff, spec.iterCharClasses());
 
 		spec.addTokenDef(tokenDef);
 	}

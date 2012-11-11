@@ -11,13 +11,20 @@ public class Spec {
 		tokenDefs = new ArrayList<TokenDef>();
 	}
 
+	public Iterator iterCharClasses() {
+		return charClasses.entrySet().iterator();
+	}
+
 	public CharClass getCharClass(final String charClassName) {
 		return charClasses.get(charClassName);
 	}
 
-	public void addCharClass(final String charClassName,
-			final CharClass charClass) {
+	public void addCharClass(final String charClassName, final CharClass charClass) {
 		charClasses.put(charClassName, charClass);
+	}
+
+	public List<TokenDef> getTokenDefs() {
+		return tokenDefs;
 	}
 
 	public void addTokenDef(final TokenDef tokenDef) {
@@ -41,9 +48,5 @@ public class Spec {
 		}
 
 		return sb.toString();
-	}
-
-	public Map<String, CharClass> getCharClasses() {
-		return charClasses;
 	}
 }

@@ -9,13 +9,12 @@ public class TokenDef {
 	private final String name;
 	private final String re;
 
-	public TokenDef(final String name, final String re, final Map<String, CharClass> charClasses) {
+	public TokenDef(final String name, final String re, final Iterator charClassesIterator) {
 		this.name = name;
-		this.re = collapse(re, charClasses);
+		this.re = collapse(re, charClassesIterator);
 	}
 
-	private String collapse(String re, Map<String, CharClass> charClasses) {
-		Iterator charClassesIterator = charClasses.entrySet().iterator();
+	private String collapse(String re, Iterator charClassesIterator) {
 		while (charClassesIterator.hasNext()) {
 			Map.Entry<String, CharClass> entry = (Map.Entry<String, CharClass>)charClassesIterator.next();
 			re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
