@@ -18,6 +18,12 @@ public class Tokenizer {
 	private StringBuilder lineBuffer = new StringBuilder();
 	private NFA dfa;
 
+	/**
+	 * Tokenizer constructor
+	 * 
+	 * @param dfa
+	 * @param input
+	 */
 	public Tokenizer(final NFA dfa, final InputStream input) {
 		if (!dfa.isDFA())
 			throw new RuntimeException("nfa is not a dfa for tokenizer");
@@ -27,7 +33,7 @@ public class Tokenizer {
 	}
 	
 	/**
-	 * Gets one line from input stream.
+	 * Append next line from stream to lineBuffer
 	 * 
 	 * @return true if non-null line is added
 	 */
@@ -54,11 +60,9 @@ public class Tokenizer {
 	 * @return true if the string is valid, false otherwise.
 	 */
 	public Token getNextToken() {
-		if(lineBuffer.length() == 0) {
-			boolean more = bufferLine();
-			if(!more) {
+		//stream is exhauseted, return null
+		if(lineBuffer.length() == 0 && !bufferLine()) {
 				return null;
-			}
 		}
 		
 		Token t = null;
@@ -78,6 +82,7 @@ public class Tokenizer {
 
 	private Token getNextToken(State state, int min, int max) {
 		Token t = null;
+		//find transition if any
 		for (Transition tr : state.getTransitions()) {
 			if (min == max) {
 				break;
@@ -90,6 +95,7 @@ public class Tokenizer {
 		if (state.isFinal()) {
 			t = new Token(state.getName(), stackBuffer.toString());
 		}
+		
 		stackBuffer.setLength(0);
 		return t;
 	}
