@@ -51,9 +51,9 @@ public class NFAUtilTest {
 		assertTrue("(a|b)*", NFAUtil.isValid(total, ""));
 
 		// a*b(a|b)+
-		NFASegment d = ab(ab(aStar(a("[aA]")), a("b")), aPlus(aOrB(a("[aA]"), a("b"))));
+		NFASegment d = ab(ab(aStar(a("a")), a("b")), aPlus(aOrB(a("a"), a("b"))));
 		d.end.addTransition(Transition.spawnGoal());
-		assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaAAAAAba"));
+		assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaaaba"));
 		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
 		assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
 	}

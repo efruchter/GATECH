@@ -43,6 +43,7 @@ public class NFAUtil {
 				for (Transition trans : state.getTransitions()) {
 					// For this trans, place the state in the the transMap
 					if (!trans.isEmptyTransition()) {
+						State nextState = trans.getDestinationState();
 						transTo.put(trans.getRegex(), findClosure(trans.getDestinationState()));
 					}
 				}
@@ -304,14 +305,14 @@ public class NFAUtil {
 	// Create unique names
 	private static int gen = 0;
 
-    public static NFASegment empty() {
-        State start = new State("start" + gen, false);
-        State end = new State("end" + gen++, false);
+	public static NFASegment empty() {
+		State start = new State("start" + gen, false);
+		State end = new State("end" + gen++, false);
 
-        start.addTransition(new Transition(end));
+		start.addTransition(new Transition(end));
 
-        return new NFASegment(start, end);
-    }
+		return new NFASegment(start, end);
+	}
 
 	public static NFASegment a(final String regex) {
 		State start = new State("start" + gen, false);
@@ -366,6 +367,10 @@ public class NFAUtil {
 	public static NFASegment ab(final NFASegment a, final NFASegment b) {
 		a.end.addTransition(new Transition(b.start));
 		return new NFASegment(a.start, b.end);
+	}
+
+	public static NFASegment dot() {
+		return a(".");
 	}
 
 	public static class NFASegment {

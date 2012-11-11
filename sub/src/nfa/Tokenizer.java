@@ -3,13 +3,19 @@ package nfa;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+/**
+ * Tokenizes an input stream. The token type is the name of the final state.
+ * 
+ * @author Kefu Zhou
+ *
+ */
 public class Tokenizer {
+	@SuppressWarnings("unused")
 	private BufferedReader br;
 	private StringBuilder sb = new StringBuilder();
 	private String everything;
 	private int index = 0;
 	private NFA dfa;
-	private State state;
 
 	public Tokenizer(final NFA dfa, final BufferedReader br) {
 		if (!dfa.isDFA())
@@ -68,12 +74,10 @@ public class Tokenizer {
 				return getNextToken(tr.getDestinationState(), min + 1, max, sbCurr);
 			}
 		}
-		if(state.isFinal()){
+		if (state.isFinal()) {
 			t = new Token(state.getName(), sbCurr.toString());
-			sbCurr.setLength(0);
-		}else{
-			sbCurr.setLength(0);
 		}
+		sbCurr.setLength(0);
 		return t;
 	}
 
