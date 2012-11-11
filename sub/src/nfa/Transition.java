@@ -82,6 +82,10 @@ public class Transition {
 	}
 
 	public static Transition spawnGoal() {
-		return new Transition(new State("ENDFINAL", true));
+		return spawnGoal("DEFAULT_FINAL");
+	}
+	
+	public static Transition spawnGoal(final String name) {
+		return new Transition(new State(name, true));
 	}
 }

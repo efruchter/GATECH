@@ -1,4 +1,4 @@
-package nfa;
+package tokenizer;
 
 /**
  * A cheap 'n flexible token 
@@ -17,8 +17,7 @@ public class Token {
 	
 	@Override
 	public String toString() {
-		return String.format("(%s# %s)",
-				type == null ? "null" : type, value);
+		return String.format("%s %s", this.type, this.value);
 	}
 	
 	@Override
