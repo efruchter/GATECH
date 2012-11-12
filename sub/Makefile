@@ -1,6 +1,6 @@
 JAVAC=javac
 SRCDIR=src
-MAINCLASS=scannergenerator/ScannerGenerator.java
+MAINCLASS=project/scannergenerator/ScannerGenerator.java
 
 .PHONY: all
 all:

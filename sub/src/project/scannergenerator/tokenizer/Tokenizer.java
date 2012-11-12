@@ -1,8 +1,8 @@
-package tokenizer;
+package project.scannergenerator.tokenizer;
 
-import nfa.NFA;
-import nfa.State;
-import nfa.Transition;
+import project.nfa.NFA;
+import project.nfa.State;
+import project.nfa.Transition;
 
 import java.io.BufferedReader;
 import java.io.IOException;

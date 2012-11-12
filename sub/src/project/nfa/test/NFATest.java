@@ -1,14 +1,14 @@
-package nfa.test;
+package project.nfa.test;
 
-import nfa.NFA;
-import nfa.NFAUtil;
-import nfa.State;
-import nfa.Transition;
+import project.nfa.NFA;
+import project.nfa.NFAUtil;
+import project.nfa.State;
+import project.nfa.Transition;
 import org.junit.Test;
 
 import java.util.List;
 
-import static nfa.NFAUtil.*;
+import static project.nfa.NFAUtil.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

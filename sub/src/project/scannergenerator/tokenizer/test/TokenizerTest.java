@@ -1,18 +1,18 @@
-package tokenizer.test;
+package project.scannergenerator.tokenizer.test;
 
-import nfa.NFA;
-import nfa.NFAUtil;
-import nfa.State;
-import nfa.Transition;
+import project.nfa.NFA;
+import project.nfa.NFAUtil;
+import project.nfa.State;
+import project.nfa.Transition;
 import org.junit.Test;
-import tokenizer.Token;
-import tokenizer.Tokenizer;
+import project.scannergenerator.tokenizer.Token;
+import project.scannergenerator.tokenizer.Tokenizer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import static nfa.NFAUtil.*;
+import static project.nfa.NFAUtil.*;
 import static org.junit.Assert.assertTrue;
 
 public class TokenizerTest {

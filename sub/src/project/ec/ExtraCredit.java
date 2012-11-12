@@ -1,9 +1,9 @@
-package ec;
+package project.ec;
 
-import nfa.NFA;
-import nfa.NFAUtil;
-import nfa.State;
-import nfa.Transition;
+import project.nfa.NFA;
+import project.nfa.NFAUtil;
+import project.nfa.State;
+import project.nfa.Transition;
 
 import javax.swing.*;
 import java.io.File;
@@ -43,7 +43,7 @@ public class ExtraCredit {
             System.exit(1);
         }
 
-        HashMap<String, nfa.State> nameToState = new HashMap<String, nfa.State>();
+        HashMap<String, project.nfa.State> nameToState = new HashMap<String, project.nfa.State>();
         HashMap<State, List<String[]>> stateToTrans = new HashMap<State, List<String[]>>();
         List<String> testStrings = new LinkedList<String>();
 

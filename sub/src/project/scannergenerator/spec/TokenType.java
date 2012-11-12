@@ -1,4 +1,6 @@
-package spec;
+package project.scannergenerator.spec;
+
+import project.scannergenerator.regex.RegexExpander;
 
 import java.util.Map;
 

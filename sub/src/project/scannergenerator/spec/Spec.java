@@ -1,4 +1,4 @@
-package spec;
+package project.scannergenerator.spec;
 
 import java.util.ArrayList;
 import java.util.HashMap;

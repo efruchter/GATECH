@@ -1,6 +1,6 @@
 #!/bin/bash
 
 SRCDIR="src/"
-MAINCLASS="scannergenerator.ScannerGenerator"
+MAINCLASS="project.scannergenerator.ScannerGenerator"
 
 java -cp $SRCDIR $MAINCLASS $@

@@ -1,4 +1,4 @@
-package spec;
+package project.scannergenerator.spec;
 
 public class CharClass {
     private final String re;

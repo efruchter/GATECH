@@ -1,8 +1,9 @@
-package nfa;
+package project.scannergenerator.nfa;
 
-import nfa.NFAUtil.NFASegment;
-import spec.Spec;
-import spec.TokenType;
+import project.nfa.NFAUtil;
+import project.nfa.NFAUtil.NFASegment;
+import project.scannergenerator.spec.Spec;
+import project.scannergenerator.spec.TokenType;
 
 import java.util.List;
 

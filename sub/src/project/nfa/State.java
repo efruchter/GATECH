@@ -1,4 +1,4 @@
-package nfa;
+package project.nfa;
 
 import java.util.HashSet;
 import java.util.LinkedList;
