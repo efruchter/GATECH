@@ -57,6 +57,26 @@ public class NFATest {
         assertTrue("(a|b)+", NFAUtil.isValid(n, "b"));
         assertFalse("(a|b)+", NFAUtil.isValid(n, ""));
         assertFalse("(a|b)+", NFAUtil.isValid(n, "ababag"));
+
+        // a*b(a|b)+
+        NFAUtil.NFASegment d = ab(ab(aStar(a("a")), a("b")), aPlus(aOrB(a("a"), a("b"))));
+        d.end.addTransition(Transition.spawnGoal());
+        assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaaaba"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
+
+        n = new NFA(d);
+        n = NFAUtil.convertToDFA(n);
+
+        System.out.println("Unminimized:\n"+ n.toString());
+
+        NFAUtil.minimizeDFA(n);
+
+        System.out.println("Minimized:\n"+ n.toString());
+
+        assertTrue("a*b(a|b)+", NFAUtil.isValid(n, "aaaaba"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(n, "aa"));
+        assertTrue("a*b(a|b)+", !NFAUtil.isValid(n, "b"));
     }
 
     @Test

@@ -77,7 +77,7 @@ public class NFA {
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		b.append("Starting state: ").append(this.startState.getName()).append("\n");
+		b.append("Starting state: [").append(this.startState.getName()).append("]").append("\n");
 		for (State state : NFAUtil.getAllReachableStates(startState)) {
 			b.append(state.toString()).append("\n");
 		}

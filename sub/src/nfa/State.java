@@ -96,7 +96,7 @@ public class State {
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		b.append(isFinal() ? "{" : "[").append(name).append(isFinal() ? "}" : "]").append("\t");
+		b.append("[").append(name).append("]").append(isFinal() ? "*" : "").append(" ");
 		for (Transition tr : this.transitions) {
 			b.append("{").append(tr.toString()).append("}");
 		}
