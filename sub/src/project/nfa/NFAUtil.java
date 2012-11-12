@@ -288,7 +288,7 @@ public class NFAUtil {
     }
 
     public static boolean isValid(final NFASegment nfa, final String string) {
-        return isValid(new NFA(nfa.start), string);
+        return isValid(new NFA(nfa), string);
     }
 
     /**
@@ -299,6 +299,17 @@ public class NFAUtil {
      * @return true if the string is valid, false otherwise.
      */
     public static boolean isValid(final NFA nfa, final String string) {
+        return isValidVerbose(nfa, string).isValid;
+    }
+
+    public static class WalkResult {
+        public boolean isValid = false;
+        int transitions = -1;
+    }
+
+    public static WalkResult isValidVerbose(final NFA nfa, final String string) {
+
+        WalkResult result = new WalkResult();
 
         final HashSet<NFAStep> steps = new HashSet<NFAStep>();
         final HashSet<NFAStep> explored = new HashSet<NFAStep>();
@@ -312,6 +323,7 @@ public class NFAUtil {
             explored.add(step);
 
             steps.remove(step);
+            result.transitions++;
 
             // Check for finality
             if (step.isFinal()) {
@@ -335,7 +347,9 @@ public class NFAUtil {
             }
         }
 
-        return isValid;
+        result.isValid = isValid;
+
+        return result;
     }
 
     /**
