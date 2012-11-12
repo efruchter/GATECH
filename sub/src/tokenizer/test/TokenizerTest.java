@@ -44,32 +44,22 @@ public class TokenizerTest {
 		Tokenizer tokenizer = new Tokenizer(n, input);
 		Token t = tokenizer.getNextToken();
 
-		System.out.println(t);
-		System.out.println(tokenizer.getNextToken());
-		System.out.println(tokenizer.getNextToken());
-		System.out.println(tokenizer.getNextToken());
-		System.out.println(tokenizer.getNextToken());
-		System.out.println(tokenizer.getNextToken());
-		System.out.println(tokenizer.getNextToken());
+        // Ensure there are at least 6 tokens??
+        for (int i = 0; i < 6; ++i) {
+            tokenizer.getNextToken();
+        }
 
 		// ab+c
 		NFASegment d = ab(ab(a("a"), aPlus(a("b"))), a("c"));
 		d.end.addTransition(Transition.spawnGoal("Valid"));
 		NFA nyet = new NFA(d.start);
 		nyet = NFAUtil.convertToDFA(nyet);
-		System.out.println(nyet.toString());
 		s = "abbcabcabbbbbbbcabbbbbbbbbbbbcaaabbbc";
 		input = new ByteArrayInputStream(s.getBytes());
 		tokenizer = new Tokenizer(nyet, input);
-		Token latest = null;
-		System.out.println(s);
+		Token latest;
 		do {
 			latest = tokenizer.getNextToken();
-			if (latest != null)
-				System.out.println(latest);
 		} while (latest != null);
-
-		System.out.println(nyet);
-
 	}
 }

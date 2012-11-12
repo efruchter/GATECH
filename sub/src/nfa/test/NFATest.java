@@ -45,11 +45,11 @@ public class NFATest {
         assertFalse("(a|b)+", NFAUtil.isValid(n, "ababag"));
         assertTrue(n.numberOfStates() == 3);
 
-        System.out.println("Unminimized:\n"+ n.toString());
+        //System.out.println("Unminimized:\n"+ n.toString());
 
         NFAUtil.minimizeDFA(n);
 
-        System.out.println("Minimized:\n"+ n.toString());
+        //System.out.println("Minimized:\n"+ n.toString());
 
         assertTrue(n.numberOfStates() == 2);
         assertTrue("(a|b)+", NFAUtil.isValid(n, "ababba"));
@@ -68,11 +68,11 @@ public class NFATest {
         n = new NFA(d);
         n = NFAUtil.convertToDFA(n);
 
-        System.out.println("Unminimized:\n"+ n.toString());
+        //System.out.println("Unminimized:\n"+ n.toString());
 
         NFAUtil.minimizeDFA(n);
 
-        System.out.println("Minimized:\n"+ n.toString());
+        //System.out.println("Minimized:\n"+ n.toString());
 
         assertTrue("a*b(a|b)+", NFAUtil.isValid(n, "aaaaba"));
         assertTrue("a*b(a|b)+", !NFAUtil.isValid(n, "aa"));
