@@ -8,9 +8,9 @@ package nfa;
  * 
  */
 public class Transition {
-	private final String string;
-	private final State state;
-	private final boolean isEmpty;
+	private String string;
+	private State state;
+	private boolean isEmpty;
 
 	/**
 	 * Create a transition to state with character.
@@ -50,7 +50,7 @@ public class Transition {
 	 * @param state
 	 */
 	public Transition(final State state) {
-		this.string = null;
+		this.string = "";
 		this.state = state;
 		this.isEmpty = true;
 	}
@@ -77,8 +77,12 @@ public class Transition {
 		return state;
 	}
 
+    public void setDestinationState(State destinationState) {
+       state = destinationState;
+    }
+
 	public String toString() {
-		return (this.isEmpty ? "Empty" : string) + "->" + this.getDestinationState().getName();
+		return (this.isEmpty ? "Empty" : "'" + string + "'") + "->[" + this.getDestinationState().getName() + "]";
 	}
 
 	public static Transition spawnGoal() {
@@ -88,4 +92,19 @@ public class Transition {
 	public static Transition spawnGoal(final String name) {
 		return new Transition(new State(name, true));
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Transition) {
+            Transition t = (Transition) o;
+            return t.getString().equals(string) && t.isEmptyTransition() == isEmptyTransition()
+                    && t.getDestinationState().equals(getDestinationState());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return state.hashCode() + string.hashCode();
+    }
 }

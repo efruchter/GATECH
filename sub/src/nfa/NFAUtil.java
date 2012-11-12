@@ -1,9 +1,6 @@
 package nfa;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -22,8 +19,8 @@ public class NFAUtil {
 
 		List<MetaState> remainingMetaStates = new LinkedList<MetaState>();
 
-		MetaState startt = new MetaState(findClosure(nfaInit.getStartState()));
-		remainingMetaStates.add(startt);
+		MetaState initialClosure = new MetaState(findClosure(nfaInit.getStartState()));
+		remainingMetaStates.add(initialClosure);
 
 		List<MetaState> foundMetaStates = new LinkedList<MetaState>();
 
@@ -97,7 +94,7 @@ public class NFAUtil {
 			if (name == null) {
 				name = "" + iName++;
 			}
-			if (metaState == startt) {
+			if (metaState == initialClosure) {
 				name = "S";
 			}
 
@@ -118,8 +115,7 @@ public class NFAUtil {
 			newStates.add(s.getValue());
 		}
 
-		NFA n = new NFA(states.get(startt));
-		n.addState(newStates.toArray(new State[0]));
+		NFA n = new NFA(states.get(initialClosure));
 
 		return n;
 	}
@@ -172,18 +168,135 @@ public class NFAUtil {
 		return new LinkedList<State>(explored);
 	}
 
-	public static NFA minimizeDFA(final NFA nfaInit) {
+    /**
+     * Minimize a given DFA. This will effect the given DFA.
+     *
+     * @param dfa the dfa you want to minimize.
+     */
+	public static void minimizeDFA(NFA dfa) {
+
+        if (!dfa.isDFA()) {
+            throw new RuntimeException("Must be DFA");
+        }
+
         // Standard algorithm using table
-        List<State> states = new LinkedList<State>(getAllReachableStates(nfaInit.getStartState()));
-        Character[][] tranTable = new Character[states.size()][states.size()];
+        List<State> states = new LinkedList<State>(getAllReachableStates(dfa.getStartState()));
+        HashMap<Set<State>, Character> tranTable = new HashMap<Set<State>, Character>();
 
-        /**boolean changeOccured = true;
-        do(changeOccured) {
+        // Fill taken-up unions
+        for (int j = 0; j < states.size(); j++) {
+            for (int i = 0; i < states.size(); i++) {
 
-        } while(changeOccured);*/
+                Set<State> tuple = set(states.get(i), states.get(j));
 
-		return nfaInit;
+                if (xorand(states.get(i).isFinal(), states.get(j).isFinal())){
+                    tranTable.put(tuple, 'e');
+                } else {
+                    tranTable.put(tuple, null);
+                }
+            }
+        }
+
+        boolean changeOccurred = false;
+        do {
+            // No changes found yet
+            changeOccurred = false;
+
+            //Comb the table, looking for unmarked unions
+            for (int j = 0; j < states.size(); j++) {
+                for (int i = 0; i < states.size(); i++) {
+
+                    if (j <= i)
+                        continue;
+
+                    Set<State> tuple = set(states.get(i), states.get(j));
+
+                    // Found one that must be looked at
+                    if (tranTable.get(tuple) == null) {
+
+                        //gather symbols
+                        Set<String> trans = set();
+                        for(State state: tuple) {
+                            for(Transition transition: state.getNonEmptyTransitions()) {
+                                trans.add(transition.getString());
+                            }
+                        }
+
+                        //for each symbol, check if states can be combined
+                        for (String symbol : trans) {
+                            Transition a = states.get(i).getTransByString(symbol);
+                            Transition b = states.get(j).getTransByString(symbol);
+                            // If both transitions exist
+                            if(a != null && b !=null) {
+                                //if trans on both states, by symbol, is not blank
+                                if (tranTable.get(set(a.getDestinationState(), b.getDestinationState())) != null) {
+                                    //distinct(bothstates) = symbol
+                                    tranTable.put(tuple, 's');
+                                    changeOccurred = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } while (changeOccurred);
+
+        //Build new combined-states
+
+        HashMap<State, State> oldToNew = new HashMap<State, State>();
+
+        for (Entry<Set<State>, Character> entry : tranTable.entrySet()) {
+            // Found combine-able states
+            if (entry.getValue() == null) {
+                List<State> twoStates = new ArrayList<State>(entry.getKey());
+                if(twoStates.size() == 1)
+                    continue;
+                State a = twoStates.get(0);
+                State b = twoStates.get(1);
+
+                // a in map
+                if (oldToNew.containsKey(a)) {
+                        oldToNew.put(b, oldToNew.get(a));
+                }
+                // b in map
+                else if (oldToNew.containsKey(b)) {
+                    oldToNew.put(b, oldToNew.get(a));
+                }
+                // none in map
+                else {
+                    State st = new State(a.getName() + ", " + b.getName(), a.isFinal() || b.isFinal());
+                    oldToNew.put(a, st);
+                    oldToNew.put(b, st);
+                }
+            }
+        }
+
+        // move all transitions
+        for (State s: states) {
+            for (Transition transition: s.getTransitions()) {
+                if (oldToNew.containsKey(transition.getDestinationState())) {
+                    transition.setDestinationState(oldToNew.get(transition.getDestinationState()));
+                }
+            }
+        }
+        // Move the transitions to the new comb states
+        for (Entry<State, State> entry : oldToNew.entrySet()) {
+            entry.getValue().addTransition(entry.getKey().getTransitions().toArray(new Transition[0]));
+        }
+
+        // if the start was combined, make sure to reattach it
+		if (oldToNew.containsKey(dfa.getStartState())) {
+            dfa.setStartState(oldToNew.get(dfa.getStartState()));
+        }
 	}
+
+    private static boolean xorand(boolean a, boolean b) {
+        return (a || b) && !(a && b);
+    }
+
+    private static <T> Set<T> set(T ... stuff) {
+        return new HashSet<T>(Arrays.asList(stuff));
+    }
 
 	public static boolean isValid(final NFASegment nfa, final String string) {
 		return isValid(new NFA(nfa.start), string);

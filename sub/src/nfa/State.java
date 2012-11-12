@@ -1,5 +1,6 @@
 package nfa;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public class State {
 	public String name;
 	public boolean isFinal;
-	private final List<Transition> transitions;
+	private final HashSet<Transition> transitions;
 
 	/**
 	 * Create an NFA State
@@ -25,7 +26,7 @@ public class State {
 	public State(final String name, final boolean isFinal) {
 		this.name = name;
 		this.isFinal = isFinal;
-		this.transitions = new LinkedList<Transition>();
+		this.transitions = new HashSet<Transition>();
 	}
 
 	/**
@@ -56,17 +57,48 @@ public class State {
 		return new LinkedList<Transition>(this.transitions);
 	}
 
+    public Transition getTransByString(String string) {
+        for(Transition transition : transitions) {
+            if(!transition.isEmptyTransition() && string.equals(transition.getString())) {
+                return transition;
+            }
+        }
+        return null;
+    }
+
+    public List<Transition> getNonEmptyTransitions() {
+        List<Transition> t = new LinkedList<Transition>();
+        for(Transition transition : transitions) {
+            if(!transition.isEmptyTransition()) {
+                t.add(transition);
+            }
+        }
+        return t;
+    }
+
+    public List<Transition> getEmptyTransitions() {
+        List<Transition> t = new LinkedList<Transition>();
+        for(Transition transition : transitions) {
+            if(transition.isEmptyTransition()) {
+                t.add(transition);
+            }
+        }
+        return t;
+    }
+
 	public void addTransition(final Transition... t) {
-		for (Transition tr : t)
-			this.transitions.add(tr);
+		for (Transition tr : t) {
+            if (!transitions.contains(t))
+			   transitions.add(tr);
+        }
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		b.append("[").append(name).append("]");
+		b.append(isFinal() ? "{" : "[").append(name).append(isFinal() ? "}" : "]").append("\t");
 		for (Transition tr : this.transitions) {
-			b.append("(").append(tr.toString()).append(")");
+			b.append("{").append(tr.toString()).append("}");
 		}
 		return b.toString();
 	}

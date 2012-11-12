@@ -16,16 +16,47 @@ import java.util.List;
 public class NFATest {
 
     @Test
+    public void equalsTest () {
+        State s0 = new State("s0", false);
+        State s1 = new State("s1", true);
+        State s2 = new State("s2", true);
+        assertTrue("equals of transition doesn't work", new Transition("b", s2).equals(new Transition("b", s2)));
+        assertFalse("equals of transition doesn't work", new Transition("a", s2).equals(new Transition("b", s2)));
+    }
+
+    @Test
     public void dfaMinimizeTest() {
-        NFASegment d = ab(ab(aStar(a("a")), a("b")), aPlus(aOrB(a("a"), a("b"))));
-        d.end.addTransition(Transition.spawnGoal());
-        NFA n = new NFA(d.start);
-        n = NFAUtil.convertToDFA(n);
-        n = NFAUtil.minimizeDFA(n);
-        assertTrue("a*b(a|b)+ is not NFA", n.isDFA());
-        assertTrue("a*b(a|b)+", NFAUtil.isValid(d, "aaba"));
-        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "aa"));
-        assertTrue("a*b(a|b)+", !NFAUtil.isValid(d, "b"));
+
+        // (a|b)+
+        State s0 = new State("s0", false);
+        State s1 = new State("s1", true);
+        State s2 = new State("s2", true);
+
+        s0.addTransition(new Transition("a", s2), new Transition("b", s1));
+        s1.addTransition(new Transition("a", s1), new Transition("b", s2));
+        s2.addTransition(new Transition("a", s2), new Transition("b", s2));
+
+        NFA n = new NFA(s0);
+
+        assertTrue("(a|b)+", NFAUtil.isValid(n, "ababba"));
+        assertTrue("(a|b)+", NFAUtil.isValid(n, "a"));
+        assertTrue("(a|b)+", NFAUtil.isValid(n, "b"));
+        assertFalse("(a|b)+", NFAUtil.isValid(n, ""));
+        assertFalse("(a|b)+", NFAUtil.isValid(n, "ababag"));
+        assertTrue(n.numberOfStates() == 3);
+
+        System.out.println("Unminimized:\n"+ n.toString());
+
+        NFAUtil.minimizeDFA(n);
+
+        System.out.println("Minimized:\n"+ n.toString());
+
+        assertTrue(n.numberOfStates() == 2);
+        assertTrue("(a|b)+", NFAUtil.isValid(n, "ababba"));
+        assertTrue("(a|b)+", NFAUtil.isValid(n, "a"));
+        assertTrue("(a|b)+", NFAUtil.isValid(n, "b"));
+        assertFalse("(a|b)+", NFAUtil.isValid(n, ""));
+        assertFalse("(a|b)+", NFAUtil.isValid(n, "ababag"));
     }
 
     @Test
@@ -111,7 +142,6 @@ public class NFATest {
 		c.addTransition(new Transition("a", c), new Transition("b", c));
 
 		NFA n = new NFA(a);
-		n.addState(a, b, c);
 
 		assertTrue("a*b* should be a DFA", n.isDFA());
 		assertTrue(
@@ -150,8 +180,7 @@ public class NFATest {
 		b.addTransition(Transition.createTransition("a", b), Transition.createTransition("b", c));
 		c.addTransition(Transition.createTransition("a", b), Transition.createTransition("b", c));
 
-		NFA n = NFA.createNFA(a); //
-		n.addState(a, b, c);
+		NFA n = NFA.createNFA(a);
 
 		assertTrue("a(a|b)*b should be a DFA", n.isDFA());
 		assertTrue("a(a|b)*b", NFAUtil.isValid(n, "ab") && NFAUtil.isValid(n, "abababab")

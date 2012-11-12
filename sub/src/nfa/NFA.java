@@ -2,6 +2,7 @@ package nfa;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 
 /**
@@ -12,8 +13,7 @@ import java.util.Map.Entry;
  */
 public class NFA {
 
-	private final HashMap<String, State> states;
-	private final State startState;
+	private State startState;
 
 	/**
 	 * Create an NFA.
@@ -23,9 +23,6 @@ public class NFA {
 	 */
 	public NFA(final State startState) {
 		this.startState = startState;
-		this.states = new HashMap<String, State>();
-		for (State s : NFAUtil.getAllReachableStates(startState))
-			addState(s);
 	}
 
 	/**
@@ -38,42 +35,13 @@ public class NFA {
 		return new NFA(startState);
 	}
 
-	public void addState(final State... states) {
-		for (State state : states)
-			this.states.put(state.getName(), state);
-	}
-
 	public State getStartState() {
 		return this.startState;
 	}
 
-	/**
-	 * Get a state based on its formal name.
-	 * 
-	 * @param stateName
-	 *            the name of state.
-	 * @return the state with stateName.
-	 */
-	public State getState(final String stateName) {
-		if (this.states.containsKey(stateName))
-			throw new RuntimeException("State " + stateName + " not found in NFA.");
-		else
-			return this.states.get(stateName);
-	}
-
-	/**
-	 * Clone the NFA and assign a new start state.
-	 * 
-	 * @param initialState
-	 * @return
-	 */
-	public NFA clone(final State initialState) {
-		NFA n = new NFA(initialState);
-		for (final Entry<String, State> stateTuple : this.states.entrySet()) {
-			n.addState(stateTuple.getValue());
-		}
-		return n;
-	}
+    public void setStartState(State startState) {
+        this.startState = startState;
+    }
 
 	/**
 	 * Returns whether this NFA is a valid DFA.
@@ -82,9 +50,9 @@ public class NFA {
 	 *         same-character transitions.
 	 */
 	public boolean isDFA() {
-		for (final Entry<String, State> stateTuple : this.states.entrySet()) {
+		for (final State stateTuple : NFAUtil.getAllReachableStates(startState)) {
 			HashSet<String> chars = new HashSet<String>();
-			for (Transition state : stateTuple.getValue().getTransitions()) {
+			for (Transition state : stateTuple.getTransitions()) {
 				if (state.isEmptyTransition() || chars.contains(state.getString())) {
 					return false;
 				}
@@ -94,12 +62,20 @@ public class NFA {
 		return true;
 	}
 
+    public int numberOfStates() {
+        return getStates().size();
+    }
+
+    public List<State> getStates() {
+        return NFAUtil.getAllReachableStates(startState);
+    }
+
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		b.append("Starting: ").append(this.startState.getName()).append("\n");
-		for (Entry<String, State> s : this.states.entrySet()) {
-			b.append(s.getValue().toString()).append("\n");
+		b.append("Starting state: ").append(this.startState.getName()).append("\n");
+		for (State state : NFAUtil.getAllReachableStates(startState)) {
+			b.append(state.toString()).append("\n");
 		}
 		return b.toString();
 	}
