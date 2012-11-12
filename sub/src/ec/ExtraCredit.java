@@ -1,3 +1,5 @@
+package ec;
+
 import nfa.NFA;
 import nfa.NFAUtil;
 import nfa.State;
