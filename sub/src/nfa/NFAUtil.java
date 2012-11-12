@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 public class NFAUtil {
 
 	private NFAUtil() {
-		;
 	}
 
 	public static NFA convertToDFA(final NFA nfaInit) {
@@ -109,15 +108,7 @@ public class NFAUtil {
 			}
 		}
 
-		// Build states and nfa
-		List<State> newStates = new LinkedList<State>();
-		for (Entry<MetaState, State> s : states.entrySet()) {
-			newStates.add(s.getValue());
-		}
-
-		NFA n = new NFA(states.get(initialClosure));
-
-		return n;
+		return new NFA(states.get(initialClosure));
 	}
 
 	/**
@@ -197,7 +188,7 @@ public class NFAUtil {
             }
         }
 
-        boolean changeOccurred = false;
+        boolean changeOccurred;
         do {
             // No changes found yet
             changeOccurred = false;
@@ -215,7 +206,7 @@ public class NFAUtil {
                     if (tranTable.get(tuple) == null) {
 
                         //gather symbols
-                        Set<String> trans = set();
+                        Set<String> trans = new HashSet<String>();
                         for(State state: tuple) {
                             for(Transition transition: state.getNonEmptyTransitions()) {
                                 trans.add(transition.getString());
