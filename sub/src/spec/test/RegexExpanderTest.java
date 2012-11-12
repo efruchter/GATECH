@@ -7,8 +7,8 @@ import static org.junit.Assert.assertEquals;
 
 public class RegexExpanderTest {
 
-	@Test
-	public void testStripOuterParens() {
+    @Test
+    public void testStripOuterParens() {
         String test1 = "((((hi))))";
         assertEquals("(hi)", RegexExpander.stripOuterParens(test1));
 

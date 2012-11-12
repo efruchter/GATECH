@@ -52,7 +52,7 @@ public class ExtraCredit {
             String stateInfo = scannerInput.nextLine();
             String[] info = stateInfo.split("\\|");
 
-            if(stateInfo.trim().isEmpty()) {
+            if (stateInfo.trim().isEmpty()) {
                 continue;
             }
 
@@ -107,7 +107,7 @@ public class ExtraCredit {
 
         for (String test : testStrings) {
             System.out.println("\nResults for: " + test);
-            System.out.println("Valid: " + NFAUtil.isValid(nfa,  test));
+            System.out.println("Valid: " + NFAUtil.isValid(nfa, test));
         }
 
     }

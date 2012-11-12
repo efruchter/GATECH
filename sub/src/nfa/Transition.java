@@ -3,99 +3,98 @@ package nfa;
 
 /**
  * NFA transition.
- * 
+ *
  * @author toriscope
- * 
  */
 public class Transition {
-	private String string;
-	private State state;
-	private boolean isEmpty;
+    private String string;
+    private State state;
+    private boolean isEmpty;
 
-	/**
-	 * Create a transition to state with character.
-	 * 
-	 * @param string
-	 * @param state
-	 */
-	public Transition(final String string, final State state) {
-		this.string = string;
-		this.state = state;
-		this.isEmpty = false;
-	}
+    /**
+     * Create a transition to state with character.
+     *
+     * @param string
+     * @param state
+     */
+    public Transition(final String string, final State state) {
+        this.string = string;
+        this.state = state;
+        this.isEmpty = false;
+    }
 
-	/**
-	 * Factory method for non-empty transition
-	 * 
-	 * @param string
-	 * @param state
-	 * @return
-	 */
-	public static Transition createTransition(final String string, final State state) {
-		return new Transition(string, state);
-	}
+    /**
+     * Factory method for non-empty transition
+     *
+     * @param string
+     * @param state
+     * @return
+     */
+    public static Transition createTransition(final String string, final State state) {
+        return new Transition(string, state);
+    }
 
-	/**
-	 * Factory method for non-empty state
-	 * 
-	 * @param state
-	 */
-	public static Transition createEmptyTransition(final State state) {
-		return new Transition(state);
-	}
+    /**
+     * Factory method for non-empty state
+     *
+     * @param state
+     */
+    public static Transition createEmptyTransition(final State state) {
+        return new Transition(state);
+    }
 
-	/**
-	 * Create an empty transition to a state.
-	 * 
-	 * @param state
-	 */
-	public Transition(final State state) {
-		this.string = "";
-		this.state = state;
-		this.isEmpty = true;
-	}
+    /**
+     * Create an empty transition to a state.
+     *
+     * @param state
+     */
+    public Transition(final State state) {
+        this.string = "";
+        this.state = state;
+        this.isEmpty = true;
+    }
 
-	/**
-	 * Determines whether the given character is accepted by this transition.
-	 * 
-	 * @param character
-	 * @return true if valid, false otherwise.
-	 */
-	public boolean isValid(final String character) {
-		return string.equals(String.valueOf(character));
-	}
+    /**
+     * Determines whether the given character is accepted by this transition.
+     *
+     * @param character
+     * @return true if valid, false otherwise.
+     */
+    public boolean isValid(final String character) {
+        return string.equals(String.valueOf(character));
+    }
 
-	public String getString() {
-		return string;
-	}
+    public String getString() {
+        return string;
+    }
 
-	public boolean isEmptyTransition() {
-		return isEmpty;
-	}
+    public boolean isEmptyTransition() {
+        return isEmpty;
+    }
 
     public void setIsEmptyTransition(boolean isEmpty) {
         this.isEmpty = isEmpty;
     }
 
-	public State getDestinationState() {
-		return state;
-	}
-
-    public void setDestinationState(State destinationState) {
-       state = destinationState;
+    public State getDestinationState() {
+        return state;
     }
 
-	public String toString() {
-		return (this.isEmpty ? "Empty" : "'" + string + "'") + "->[" + this.getDestinationState().getName() + "]";
-	}
+    public void setDestinationState(State destinationState) {
+        state = destinationState;
+    }
 
-	public static Transition spawnGoal() {
-		return spawnGoal("DEFAULT_FINAL");
-	}
-	
-	public static Transition spawnGoal(final String name) {
-		return new Transition(new State(name, true));
-	}
+    public String toString() {
+        return (this.isEmpty ? "Empty" : "'" + string + "'") + "->[" + this.getDestinationState().getName() + "]";
+    }
+
+    public static Transition spawnGoal() {
+        return spawnGoal("DEFAULT_FINAL");
+    }
+
+    public static Transition spawnGoal(final String name) {
+        return new Transition(new State(name, true));
+    }
 
     @Override
     public boolean equals(Object o) {

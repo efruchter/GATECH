@@ -12,9 +12,8 @@ import java.util.Iterator;
 
 /**
  * Tokenizes an input stream. The token type is the name of the final state.
- * 
- * @author Kefu Zhou
  *
+ * @author Kefu Zhou
  */
 public class Tokenizer implements Iterable<Token> {
     private final BufferedReader reader;
