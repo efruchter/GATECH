@@ -27,7 +27,9 @@ public class SpecReader {
         if (matcher.group(3) != null) {
             re = matcher.group(2);
         } else {
-            re = matcher.group(4) + "IN" + spec.getCharClass(matcher.group(5)).getRe();
+            String negate = matcher.group(4);
+            CharClass inCharClass = spec.getCharClass(matcher.group(5));
+            re = RegexExpander.expandRegex(String.format("%sIN$%s", negate, inCharClass.getRe()));
         }
         spec.addCharClass(charClassName, new CharClass(re));
     }
