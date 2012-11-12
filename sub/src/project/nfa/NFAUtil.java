@@ -305,6 +305,10 @@ public class NFAUtil {
     public static class WalkResult {
         public boolean isValid = false;
         int transitions = -1;
+
+        public String toString() {
+            return "Valid: " + isValid + ", Transitions Taken: " + transitions;
+        }
     }
 
     public static WalkResult isValidVerbose(final NFA nfa, final String string) {
