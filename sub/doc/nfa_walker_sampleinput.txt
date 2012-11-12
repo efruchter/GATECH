@@ -1,0 +1,13 @@
+# nfa for (a|b)+bg
+
+start || a || b
+a |a|blast
+b |b|blast
+blast |b|g ||start
+g |g|final
+final*
+
+$abg
+$bg
+$ababg
+$ababag

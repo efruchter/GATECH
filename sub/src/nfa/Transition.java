@@ -73,6 +73,10 @@ public class Transition {
 		return isEmpty;
 	}
 
+    public void setIsEmptyTransition(boolean isEmpty) {
+        this.isEmpty = isEmpty;
+    }
+
 	public State getDestinationState() {
 		return state;
 	}
