@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /*
- * Methodology for Regex Expantion into (,),*,|'s
+ * Methodology for Regex Expansion into (,),*,|'s
  * 
  * @author Chad Stewart
  */
