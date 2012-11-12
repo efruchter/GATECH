@@ -253,7 +253,7 @@ public class NFAUtil {
                 }
                 // none in map
                 else {
-                    State st = new State(a.getName() + ", " + b.getName(), a.isFinal() || b.isFinal());
+                    State st = new State(a.isFinal() ? a.getName() : (a.getName() + ", " + b.getName()), a.isFinal());
                     oldToNew.put(a, st);
                     oldToNew.put(b, st);
                 }
