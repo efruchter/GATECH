@@ -3,10 +3,12 @@ package tokenizer.test;
 import static nfa.NFAUtil.a;
 import static nfa.NFAUtil.aPlus;
 import static nfa.NFAUtil.ab;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Iterator;
 
 import nfa.NFA;
 import nfa.NFAUtil;
@@ -42,12 +44,12 @@ public class TokenizerTest {
 		String s = "aabababbbb  abb baaba ab aaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 		InputStream input = new ByteArrayInputStream(s.getBytes());
 		Tokenizer tokenizer = new Tokenizer(n, input);
-		Token t = tokenizer.getNextToken();
+		Iterator<Token> tokenIterator = tokenizer.iterator();
 
-        // Ensure there are at least 6 tokens??
-        for (int i = 0; i < 6; ++i) {
-            tokenizer.getNextToken();
-        }
+		// Not sure what it supposed to be tested here
+		for (int i = 0; i < 6; ++i) {
+			tokenIterator.next();
+		}
 
 		// ab+c
 		NFASegment d = ab(ab(a("a"), aPlus(a("b"))), a("c"));
@@ -57,9 +59,10 @@ public class TokenizerTest {
 		s = "abbcabcabbbbbbbcabbbbbbbbbbbbcaaabbbc";
 		input = new ByteArrayInputStream(s.getBytes());
 		tokenizer = new Tokenizer(nyet, input);
+		tokenIterator = tokenizer.iterator();
 		Token latest;
 		do {
-			latest = tokenizer.getNextToken();
+			latest = tokenIterator.next();
 		} while (latest != null);
 	}
 }

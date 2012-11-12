@@ -49,7 +49,7 @@ public class Tokenizer implements Iterable<Token> {
         return new TokenIterator();
     }
 
-    public Token getNextToken() {
+    private Token getNextToken() {
         if (nextToken != null) {
             Token token = nextToken;
             nextToken = null;
