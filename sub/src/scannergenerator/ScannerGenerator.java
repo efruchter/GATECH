@@ -20,19 +20,14 @@ public class ScannerGenerator {
         this.programFileInputStream = programFileInputStream;
     }
 
-    public void generateScannerAndRun() {
+    public Tokenizer generateTokenizer() {
         SpecReader specReader = new SpecReader(this.specFileInputStream);
         Spec spec = specReader.specify();
 
         NFASegment nfa = NFABuilder.buildNFAFromSpec(spec);
         NFA dfa = NFAUtil.convertToDFA(new NFA(nfa.start));
 
-        Tokenizer tokenizer = new Tokenizer(dfa, programFileInputStream);
-
-        Token token;
-        while ((token = tokenizer.getNextToken()) != null) {
-            System.out.println(String.format("%s", token));
-        }
+        return new Tokenizer(dfa, programFileInputStream);
     }
 
     public static void main(String[] args) {
@@ -55,6 +50,11 @@ public class ScannerGenerator {
             System.exit(1);
         }
 
-        scannerGenerator.generateScannerAndRun();
+        Tokenizer tokenizer = scannerGenerator.generateTokenizer();
+
+        Token token;
+        while ((token = tokenizer.getNextToken()) != null) {
+            System.out.println(token);
+        }
     }
 }
