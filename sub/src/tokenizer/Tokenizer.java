@@ -5,6 +5,7 @@ import nfa.State;
 import nfa.Transition;
 
 import java.io.*;
+import java.util.Iterator;
 
 /**
  * Tokenizes an input stream. The token type is the name of the final state.
@@ -12,11 +13,37 @@ import java.io.*;
  * @author Kefu Zhou
  *
  */
-public class Tokenizer {
+public class Tokenizer implements Iterable<Token> {
 	private BufferedReader br;
 	private StringBuilder stackBuffer = new StringBuilder();
 	private StringBuilder lineBuffer = new StringBuilder();
 	private NFA dfa;
+
+	private class TokenIterator implements Iterator<Token> {
+		private Token nextToken = null;
+
+		public boolean hasNext() {
+			if (nextToken == null) {
+				nextToken = getNextToken();
+			}
+
+			return nextToken != null;
+		}
+
+		public Token next() {
+			if (nextToken != null) {
+				Token token = nextToken;
+				nextToken = null;
+				return token;
+			} else {
+				return getNextToken();
+			}
+		}
+
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+	}
 
 	/**
 	 * Tokenizer constructor
@@ -30,6 +57,10 @@ public class Tokenizer {
 
 		this.dfa = dfa;
 		this.br = new BufferedReader(new InputStreamReader(input));
+	}
+
+	public Iterator<Token> iterator() {
+		return new TokenIterator();
 	}
 	
 	/**
@@ -99,5 +130,4 @@ public class Tokenizer {
 		stackBuffer.setLength(0);
 		return t;
 	}
-
 }

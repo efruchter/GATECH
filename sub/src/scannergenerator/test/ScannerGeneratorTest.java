@@ -51,9 +51,8 @@ public class ScannerGeneratorTest {
 
         StringBuilder sb = new StringBuilder();
 
-        Token token;
-        while ((token = tokenizer.getNextToken()) != null) {
-            sb.append(token.toString()).append("\n");
+        for (Token token : tokenizer) {
+            sb.append(token).append("\n");
         }
 
         assertEquals(testCase.output, sb.toString());

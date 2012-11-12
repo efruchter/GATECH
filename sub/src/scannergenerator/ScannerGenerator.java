@@ -52,8 +52,7 @@ public class ScannerGenerator {
 
         Tokenizer tokenizer = scannerGenerator.generateTokenizer();
 
-        Token token;
-        while ((token = tokenizer.getNextToken()) != null) {
+        for (Token token : tokenizer) {
             System.out.println(token);
         }
     }
