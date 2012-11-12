@@ -1,13 +1,20 @@
 # nfa for (a|b)+bg
 
-start || a || b
-a |a|blast
-b |b|blast
-blast |b|g ||start
-g |g|final
-final*
+s ||1 ||2
+1 |a|3
+2 |b|3
+3 ||s |b|4
+4 |g| f
+f*
 
+#true
 $abg
+
+#true
 $bg
+
+#false
 $ababg
+
+#false
 $ababag
