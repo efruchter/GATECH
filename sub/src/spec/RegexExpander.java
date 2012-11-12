@@ -11,11 +11,6 @@ import java.util.Set;
 public class RegexExpander {
 	private static int i = 0;
 
-//	public static void main(String[] args) {
-//
-//		System.out.println(RegexExpander.expandRegex("[uygfcxduyg-l]"));
-//	}
-
 	public static String expandRegex(String s) {
 		i = 0;
 		while (i < s.length()) {

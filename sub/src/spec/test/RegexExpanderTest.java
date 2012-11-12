@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class RegexExpanderTest {
 
 	@Test
-	public void stripOuterParensTest() {
+	public void testStripOuterParens() {
         String test1 = "((((hi))))";
         assertEquals("(hi)", RegexExpander.stripOuterParens(test1));
 
@@ -22,5 +22,10 @@ public class RegexExpanderTest {
 
         String test3 = "((hi)|(hi))";
         assertEquals("((hi)|(hi))", RegexExpander.stripOuterParens(test3));
+    }
+
+    @Test
+    public void testRegexExpander() {
+        assertEquals("((u|y|g|f|c|x|d|u|y)|(g|h|i|j|k|l))", RegexExpander.expandRegex("[uygfcxduyg-l]"));
     }
 }
