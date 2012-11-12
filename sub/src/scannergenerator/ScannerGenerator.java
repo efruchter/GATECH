@@ -1,3 +1,5 @@
+package scannergenerator;
+
 import nfa.*;
 import nfa.NFAUtil.NFASegment;
 import spec.Spec;

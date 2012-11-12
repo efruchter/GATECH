@@ -1,6 +1,6 @@
 JAVAC=javac
 SRCDIR=src/
-MAINCLASS=ScannerGenerator
+MAINCLASS=scannergenerator.ScannerGenerator
 
 all:
 	javac -cp $(SRCDIR) $(SRCDIR)$(MAINCLASS).java
