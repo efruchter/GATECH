@@ -1,4 +1,4 @@
-package project.scannergenerator.tokenizer;
+package project.scangen.tokenizer;
 
 import project.nfa.NFA;
 import project.nfa.State;

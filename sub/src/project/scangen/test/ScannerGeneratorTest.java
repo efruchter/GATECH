@@ -1,9 +1,9 @@
-package project.scannergenerator.test;
+package project.scangen.test;
 
 import org.junit.Test;
-import project.scannergenerator.ScannerGenerator;
-import project.scannergenerator.tokenizer.Token;
-import project.scannergenerator.tokenizer.Tokenizer;
+import project.scangen.ScannerGenerator;
+import project.scangen.tokenizer.Token;
+import project.scangen.tokenizer.Tokenizer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

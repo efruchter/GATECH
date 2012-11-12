@@ -1,4 +1,4 @@
-package project.scannergenerator.regex;
+package project.scangen.regex;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,12 +1,12 @@
-package project.scannergenerator.tokenizer.test;
+package project.scangen.tokenizer.test;
 
 import project.nfa.NFA;
 import project.nfa.NFAUtil;
 import project.nfa.State;
 import project.nfa.Transition;
 import org.junit.Test;
-import project.scannergenerator.tokenizer.Token;
-import project.scannergenerator.tokenizer.Tokenizer;
+import project.scangen.tokenizer.Token;
+import project.scangen.tokenizer.Tokenizer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

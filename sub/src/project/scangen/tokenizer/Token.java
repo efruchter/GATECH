@@ -1,4 +1,4 @@
-package project.scannergenerator.tokenizer;
+package project.scangen.tokenizer;
 
 /**
  * A cheap 'n flexible token

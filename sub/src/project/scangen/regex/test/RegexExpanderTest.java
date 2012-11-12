@@ -1,7 +1,7 @@
-package project.scannergenerator.regex.test;
+package project.scangen.regex.test;
 
 import org.junit.Test;
-import project.scannergenerator.regex.RegexExpander;
+import project.scangen.regex.RegexExpander;
 
 import static org.junit.Assert.assertEquals;
 

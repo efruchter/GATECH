@@ -1,13 +1,13 @@
-package project.scannergenerator;
+package project.scangen;
 
 import project.nfa.NFA;
-import project.scannergenerator.nfa.NFABuilder;
+import project.scangen.nfa.NFABuilder;
 import project.nfa.NFAUtil;
 import project.nfa.NFAUtil.NFASegment;
-import project.scannergenerator.spec.Spec;
-import project.scannergenerator.spec.SpecReader;
-import project.scannergenerator.tokenizer.Token;
-import project.scannergenerator.tokenizer.Tokenizer;
+import project.scangen.spec.Spec;
+import project.scangen.spec.SpecReader;
+import project.scangen.tokenizer.Token;
+import project.scangen.tokenizer.Tokenizer;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
