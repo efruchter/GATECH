@@ -4,7 +4,6 @@ import nfa.State;
 import nfa.Transition;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;

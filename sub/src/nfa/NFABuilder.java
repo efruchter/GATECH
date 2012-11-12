@@ -1,6 +1,6 @@
 package nfa;
 
-import nfa.NFAUtil.*;
+import nfa.NFAUtil.NFASegment;
 import spec.Spec;
 import spec.TokenType;
 

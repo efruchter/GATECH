@@ -1,24 +1,19 @@
 package tokenizer.test;
 
-import static nfa.NFAUtil.a;
-import static nfa.NFAUtil.aPlus;
-import static nfa.NFAUtil.ab;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import nfa.NFA;
+import nfa.NFAUtil;
+import nfa.State;
+import nfa.Transition;
+import org.junit.Test;
+import tokenizer.Token;
+import tokenizer.Tokenizer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Iterator;
 
-import nfa.NFA;
-import nfa.NFAUtil;
-import nfa.NFAUtil.NFASegment;
-import nfa.State;
-import tokenizer.Token;
-import tokenizer.Tokenizer;
-import nfa.Transition;
-
-import org.junit.Test;
+import static nfa.NFAUtil.*;
+import static org.junit.Assert.assertTrue;
 
 public class TokenizerTest {
 

@@ -1,17 +1,16 @@
 package nfa.test;
 
-import static nfa.NFAUtil.*;
-import static nfa.NFAUtil.a;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import nfa.NFA;
 import nfa.NFAUtil;
 import nfa.State;
 import nfa.Transition;
-
 import org.junit.Test;
 
 import java.util.List;
+
+import static nfa.NFAUtil.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class NFATest {
 

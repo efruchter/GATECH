@@ -1,14 +1,9 @@
 package spec.test;
 
-import nfa.NFA;
-import nfa.NFAUtil;
-import nfa.State;
-import nfa.Transition;
 import org.junit.Test;
 import spec.RegexExpander;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class RegexExpanderTest {
 
