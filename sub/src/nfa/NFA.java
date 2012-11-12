@@ -25,6 +25,10 @@ public class NFA {
 		this.startState = startState;
 	}
 
+    public NFA(NFAUtil.NFASegment segment) {
+        this(segment.start);
+    }
+
 	/**
 	 * Factory method of creating NFA
 	 * 
