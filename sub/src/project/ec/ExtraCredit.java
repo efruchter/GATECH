@@ -105,29 +105,29 @@ public class ExtraCredit {
         NFA nfa = new NFA(startState);
         System.out.println(nfa);
 
-        System.out.print("\nNFA Tests:\n");
+        System.out.print("NFA Tests:\n");
 
         for (String test : testStrings) {
             System.out.println("\nResults for: " + test);
-            System.out.println("Valid: " + NFAUtil.isValidVerbose(nfa, test));
+            System.out.println(NFAUtil.isValidVerbose(nfa, test));
         }
 
-        System.out.print("\nDFA Tests:\n");
-        nfa = NFAUtil.convertToDFA(nfa);
+        System.out.println("\n---\nDFA Tests:\n");
+        nfa = NFAUtil.convertToDFA(NFAUtil.convertToDFA(nfa));
         System.out.println(nfa);
 
         for (String test : testStrings) {
             System.out.println("\nResults for: " + test);
-            System.out.println("Valid: " + NFAUtil.isValidVerbose(nfa, test));
+            System.out.println( NFAUtil.isValidVerbose(nfa, test));
         }
 
-        System.out.print("\nDFA (Minimized) Tests:\n");
+        /*System.out.print("\nDFA (Minimized) Tests:\n");
         NFAUtil.minimizeDFA(nfa);
         System.out.println(nfa);
 
         for (String test : testStrings) {
             System.out.println("\nResults for: " + test);
-            System.out.println("Valid: " + NFAUtil.isValidVerbose(nfa, test));
-        }
+            System.out.println(NFAUtil.isValidVerbose(nfa, test));
+        }*/
     }
 }

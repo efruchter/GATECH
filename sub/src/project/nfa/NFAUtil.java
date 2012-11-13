@@ -176,9 +176,15 @@ public class NFAUtil {
         for (int j = 0; j < states.size(); j++) {
             for (int i = 0; i < states.size(); i++) {
 
-                Set<State> tuple = set(states.get(i), states.get(j));
+                if (j <= i)
+                    continue;
 
-                if (xorand(states.get(i).isFinal(), states.get(j).isFinal())) {
+                Set<State> tuple = set(states.get(i), states.get(j));
+                boolean a = states.get(i).isFinal();
+                boolean b = states.get(j).isFinal();
+
+
+                if ((a || b)  && !(a && b)) {
                     tranTable.put(tuple, 'e');
                 } else {
                     tranTable.put(tuple, null);
@@ -238,8 +244,7 @@ public class NFAUtil {
             // Found combine-able states
             if (entry.getValue() == null) {
                 List<State> twoStates = new ArrayList<State>(entry.getKey());
-                if (twoStates.size() == 1)
-                    continue;
+
                 State a = twoStates.get(0);
                 State b = twoStates.get(1);
 
@@ -279,10 +284,6 @@ public class NFAUtil {
         }
     }
 
-    private static boolean xorand(boolean a, boolean b) {
-        return (a || b) && !(a && b);
-    }
-
     private static <T> Set<T> set(T... stuff) {
         return new HashSet<T>(Arrays.asList(stuff));
     }
@@ -307,7 +308,7 @@ public class NFAUtil {
         int transitions = -1;
 
         public String toString() {
-            return "Valid: " + isValid + ", Transitions Taken: " + transitions;
+            return "Valid: " + isValid + "\nTransitions Taken: " + transitions;
         }
     }
 
