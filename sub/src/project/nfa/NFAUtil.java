@@ -249,13 +249,13 @@ public class NFAUtil {
                 }
                 // b in map
                 else if (oldToNew.containsKey(b)) {
-                    oldToNew.put(b, oldToNew.get(a));
+                    oldToNew.put(a, oldToNew.get(b));
                 }
                 // none in map
                 else {
-                    State st = new State(a.isFinal() ? a.getName() : (a.getName() + ", " + b.getName()), a.isFinal());
-                    oldToNew.put(a, st);
-                    oldToNew.put(b, st);
+                    State state = new State(a.isFinal() ? a.getName() : (a.getName() + ", " + b.getName()), a.isFinal());
+                    oldToNew.put(a, state);
+                    oldToNew.put(b, state);
                 }
             }
         }

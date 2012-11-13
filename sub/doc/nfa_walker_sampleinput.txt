@@ -11,10 +11,10 @@ f*
 $abg
 
 #true
-$bg
+$bbg
 
 #false
-$ababg
+$a
 
 #false
 $ababag
