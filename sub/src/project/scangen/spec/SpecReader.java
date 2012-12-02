@@ -13,13 +13,16 @@ public class SpecReader {
     private InputStream input;
     private Spec spec;
 
+    private final String CHAR_CLASS_NAME_RE = "\\$([A-Z_\\-]+)";
+    private final String TOKEN_TYPE_NAME_RE = "\\$([A-Z_\\-]+)";
+
     public SpecReader(InputStream input) {
         this.input = input;
         this.spec = new Spec();
     }
 
     private void readCharClass(String line) {
-        Pattern p = Pattern.compile("\\$([A-Z\\-]+) ((\\[.*\\])|(\\[\\^.*\\]) IN \\$([A-Z\\-]+))");
+        Pattern p = Pattern.compile(CHAR_CLASS_NAME_RE + " ((\\[.*\\])|(\\[\\^.*\\]) IN " + CHAR_CLASS_NAME_RE + ")");
         Matcher matcher = p.matcher(line);
         matcher.matches();
 
@@ -37,7 +40,7 @@ public class SpecReader {
     }
 
     private void readTokenDef(String line) {
-        Pattern p = Pattern.compile("\\$([A-Z\\-]+) (.*)");
+        Pattern p = Pattern.compile(TOKEN_TYPE_NAME_RE + " (.*)");
         Matcher matcher = p.matcher(line);
         matcher.matches();
 
