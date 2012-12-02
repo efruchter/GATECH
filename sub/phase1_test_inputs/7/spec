@@ -1,0 +1,6 @@
+$DIGIT [0-9]
+$CHAR [a-zA-Z]
+
+$TAG_START < ($CHAR)+ >
+$TAG_END < / ($CHAR)+ >
+$TEXT ($CHAR|$DIGIT)+
