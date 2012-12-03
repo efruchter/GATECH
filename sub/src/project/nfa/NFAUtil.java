@@ -510,7 +510,15 @@ public class NFAUtil {
     }
 
     public static NFASegment dot() {
-        return a(".");
+        State start = new State("start" + gen, false);
+        State end = new State("end" + gen++, false);
+
+        Transition t = new Transition(end);
+        t.matchAll = true;
+
+        start.addTransition(t);
+
+        return new NFASegment(start, end);
     }
 
     public static class NFASegment {

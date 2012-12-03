@@ -10,6 +10,7 @@ public class Transition {
     private String string;
     private State state;
     private boolean isEmpty;
+    public boolean matchAll;
 
     /**
      * Create a transition to state with character.
@@ -21,6 +22,7 @@ public class Transition {
         this.string = string;
         this.state = state;
         this.isEmpty = false;
+        this.matchAll = false;
     }
 
     /**
@@ -61,7 +63,7 @@ public class Transition {
      * @return true if valid, false otherwise.
      */
     public boolean isValid(final String character) {
-        return string.equals(String.valueOf(character));
+        return matchAll || string.equals(String.valueOf(character));
     }
 
     public String getString() {
