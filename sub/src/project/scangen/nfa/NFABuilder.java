@@ -57,11 +57,21 @@ public class NFABuilder {
             } else if (c == '|') {
                 nfa = NFAUtil.aOrB(nfa, buildNFAFromRegex(regex.substring(idx)));
                 idx = regex.length();
-            } else if (c == '\\') {
-                // Wait for next char
             } else if (c == '.') {
-                nfa = NFAUtil.ab(nfa, NFAUtil.dot());
+                NFASegment segment = NFAUtil.dot();
+
+                if (idx < regex.length() && regex.charAt(idx) == '*') {
+                    ++idx;
+                    segment = NFAUtil.aStar(segment);
+                }
+
+                nfa = NFAUtil.ab(nfa, segment);
             } else {
+                if (c == '\\') {
+                    c = regex.charAt(idx);
+                    ++idx;
+                }
+
                 NFASegment segment = NFAUtil.a(String.valueOf(c));
 
                 if (idx < regex.length() && regex.charAt(idx) == '*') {
