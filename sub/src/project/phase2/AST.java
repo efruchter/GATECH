@@ -20,7 +20,7 @@ public class AST<V> {
 	}
 
 	/**
-	 * Constructs a AST with one node
+	 * Constructs an AST with one node
 	 * 
 	 * @param key
 	 *            root key

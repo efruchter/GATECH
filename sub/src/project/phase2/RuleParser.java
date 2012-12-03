@@ -256,6 +256,7 @@ public class RuleParser {
 		return s;
 	}
 	
+	// Testing
 	public static void main(String[] args) {
 		File grammar = new File("grammar.txt");
 		List<Rule> rules = RuleParser.parse(grammar);
