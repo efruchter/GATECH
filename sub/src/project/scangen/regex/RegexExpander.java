@@ -228,7 +228,9 @@ public class RegexExpander {
             sb.append('|');
         }
 
-        sb.deleteCharAt(sb.length() - 1);
+        if (!chars.isEmpty())
+            sb.deleteCharAt(sb.length() - 1);
+
         sb.append(')');
 
         return sb.toString();
@@ -265,7 +267,9 @@ public class RegexExpander {
             sb.append('|');
         }
 
-        sb.deleteCharAt(sb.length() - 1); // Remove trailing |
+        if (!s.isEmpty())
+            sb.deleteCharAt(sb.length() - 1); // Remove trailing |
+
         sb.append(')');
 
         return sb.toString();
