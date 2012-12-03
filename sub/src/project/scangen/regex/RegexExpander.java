@@ -91,7 +91,7 @@ public class RegexExpander {
             i++;
         }
 
-        s = stripOuterParens(s);
+        //s = stripOuterParens(s);
 
         return s;
     }
