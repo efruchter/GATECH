@@ -1,0 +1,13 @@
+$ASCII [a-zA-Z"\ ]
+$NOQUOTE-ASCII [^"] IN $ASCII
+
+$BEGIN begin
+$END end
+$EQUALS =
+$REPLACE replace
+$OPEN-PAREN \(
+$CLOSE-PAREN \)
+$UNION union
+$INTERS inters
+$PRINT print
+$STRING " ($NOQUOTE-ASCII|\\")* "
