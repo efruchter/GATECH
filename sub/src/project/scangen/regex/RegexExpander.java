@@ -243,14 +243,24 @@ public class RegexExpander {
       * Pulls apart an OR block
       */
     private static String OrThisShit(String s) {
-        int n = 1;
-        while (n < s.length() - 2) {
-            s = s.substring(0, n + 1) + "|" + s.substring(n + 1);
-            n += 2;
-            i += 1;
+        s = s.substring(1, s.length() - 1); // Strip outer brackets
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+
+        for (char c : s.toCharArray()) {
+            if (c == ' ') {
+                sb.append('\\');
+            }
+
+            sb.append(c);
+            sb.append('|');
         }
-        i++;
-        return "(" + s.substring(1, s.length() - 1) + ")";
+
+        sb.deleteCharAt(sb.length() - 1); // Remove trailing |
+        sb.append(')');
+
+        return sb.toString();
     }
 
     /*
