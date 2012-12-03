@@ -513,7 +513,7 @@ public class NFAUtil {
         State start = new State("start" + gen, false);
         State end = new State("end" + gen++, false);
 
-        Transition t = new Transition(end);
+        Transition t = new Transition(".", end);
         t.matchAll = true;
 
         start.addTransition(t);
