@@ -10,7 +10,8 @@ public class Transition {
     private String string;
     private State state;
     private boolean isEmpty;
-    public boolean matchAll;
+    private boolean matchAll;
+    public final static String MATCHALL_TOKEN = "";
 
     /**
      * Create a transition to state with character.
@@ -23,6 +24,9 @@ public class Transition {
         this.state = state;
         this.isEmpty = false;
         this.matchAll = false;
+        if (string.isEmpty()) {
+            throw new RuntimeException("Non-empty node cannot have empty string");
+        }
     }
 
     /**
@@ -51,7 +55,7 @@ public class Transition {
      * @param state
      */
     public Transition(final State state) {
-        this.string = "";
+        this.string = "EMPTY";
         this.state = state;
         this.isEmpty = true;
         this.matchAll = false;
@@ -71,6 +75,15 @@ public class Transition {
         return string;
     }
 
+    public boolean getMatchAll() {
+        return matchAll;
+    }
+
+    public void setMatchAll() {
+        matchAll = true;
+        string = MATCHALL_TOKEN;
+    }
+
     public boolean isEmptyTransition() {
         return isEmpty;
     }
@@ -88,11 +101,23 @@ public class Transition {
     }
 
     public String toString() {
-        return (this.isEmpty ? "Empty" : "'" + string + "'") + "->[" + this.getDestinationState().getName() + "]";
+        String s = "";
+        if (isEmpty) {
+            s += "EMPTY";
+        } else if (matchAll) {
+            s += "DOT";
+        } else {
+            s += "'" + string + "'";
+        }
+        return s + "->[" + this.getDestinationState().getName() + "]";
     }
 
     public static Transition spawnGoal() {
         return spawnGoal("DEFAULT_FINAL");
+    }
+
+    public static Transition createDotTransition(final State state) {
+        return new Transition(".", state){{setMatchAll();}};
     }
 
     public static Transition spawnGoal(final String name) {
@@ -103,7 +128,7 @@ public class Transition {
     public boolean equals(Object o) {
         if (o instanceof Transition) {
             Transition t = (Transition) o;
-            return t.getString().equals(string) && t.isEmptyTransition() == isEmptyTransition()
+            return t.getString().equals(string) && t.matchAll == matchAll && t.isEmptyTransition() == isEmptyTransition()
                     && t.getDestinationState().equals(getDestinationState());
         }
         return false;

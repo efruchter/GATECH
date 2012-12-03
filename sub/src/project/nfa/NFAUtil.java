@@ -102,10 +102,20 @@ public class NFAUtil {
         // Pass two, connect states
         for (MetaState metaState : foundMetaStates) {
             for (Entry<String, MetaState> targetState : metaState.transitionTo.entrySet()) {
-                states.get(metaState).addTransition(
-                        new Transition(targetState.getKey(), states.get(targetState.getValue())));
+                String transToken = targetState.getKey();
+                boolean matchAll = false;
+                if (matchAll = transToken.isEmpty()) {
+                    transToken = "john madden";
+                }
+                Transition t = new Transition(transToken, states.get(targetState.getValue()));
+                if (matchAll) {
+                    t.setMatchAll();
+                }
+                states.get(metaState).addTransition(t);
             }
         }
+
+
 
         return new NFA(states.get(initialClosure));
     }
@@ -513,10 +523,7 @@ public class NFAUtil {
         State start = new State("start" + gen, false);
         State end = new State("end" + gen++, false);
 
-        Transition t = new Transition(".", end);
-        t.matchAll = true;
-
-        start.addTransition(t);
+        start.addTransition(Transition.createDotTransition(end));
 
         return new NFASegment(start, end);
     }

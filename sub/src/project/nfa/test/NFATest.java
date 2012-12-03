@@ -24,6 +24,34 @@ public class NFATest {
     }
 
     @Test
+    public void MatchAllTest() {
+        State s0 = new State("s0", false);
+        State s1 = new State("s1", false);
+        State s2 = new State("s2", true);
+
+        s1.addTransition(Transition.createDotTransition(s2));
+
+        NFASegment nn = NFAUtil.aPlus(new NFASegment(s1, s2));
+        nn.end.addTransition(Transition.spawnGoal());
+
+        s0.addTransition(new Transition("a", nn.start));
+
+        NFA n = new NFA(s0);
+
+        assertTrue(NFAUtil.isValid(n, "a1"));
+        assertTrue(NFAUtil.isValid(n, "afhgakfhgsjfhagfjhagvfhgabfhas fdfd"));
+        assertTrue(NFAUtil.isValid(n, "a  .. "));
+        assertFalse(NFAUtil.isValid(n, "a"));
+
+        n = NFAUtil.convertToDFA(n);
+
+        assertTrue(NFAUtil.isValid(n, "a1"));
+        assertTrue(NFAUtil.isValid(n, "afhgakfhgsjfhagfjhagvfhgabfhas fdfd"));
+        assertTrue(NFAUtil.isValid(n, "a  .. "));
+        assertFalse(NFAUtil.isValid(n, "a"));
+    }
+
+    @Test
     public void dfaMinimizeTest() {
 
         // (a|b)+
