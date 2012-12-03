@@ -54,6 +54,7 @@ public class Transition {
         this.string = "";
         this.state = state;
         this.isEmpty = true;
+        this.matchAll = false;
     }
 
     /**
