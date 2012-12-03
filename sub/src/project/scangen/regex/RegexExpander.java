@@ -216,11 +216,22 @@ public class RegexExpander {
             n += 2;
         }
 
-        String comp = "(";
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+
         for (char c : chars) {
-            comp += c + "|";
+            if (c == ' ') {
+                sb.append('\\');
+            }
+
+            sb.append(c);
+            sb.append('|');
         }
-        return comp.substring(0, comp.length() - 1) + ")";
+
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append(')');
+
+        return sb.toString();
     }
 
     /*
@@ -249,9 +260,6 @@ public class RegexExpander {
         sb.append('(');
 
         for (char c : s.toCharArray()) {
-            if (c == ' ') {
-                sb.append('\\');
-            }
 
             sb.append(c);
             sb.append('|');
