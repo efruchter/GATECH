@@ -3,7 +3,10 @@ SRCDIR=src
 MAINCLASS=project/scangen/ScannerGenerator.java
 
 .PHONY: all
-all:
+all: build clean
+
+.PHONY: build
+build:
 	javac -cp $(SRCDIR) $(SRCDIR)/$(MAINCLASS)
 
 .PHONY: clean
