@@ -1,2 +1,4 @@
 print inters union ) ( replace = end begin
 "hel\"low or\"ld"
+foo123
+sdf^tuff
