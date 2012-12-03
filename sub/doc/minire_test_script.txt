@@ -1,0 +1,6 @@
+begin
+matches = find '[A-Z a-z]*ment[A-Z a-z]*' in "file1.txt" inters find '(A|a) [A-Z a-z]*' in "file2.txt";
+n_matches = #matches;
+print (n_matches);
+replace '[A-Z a-z]*ment' with "" in "file1.txt" >! "file3.txt";   
+end
