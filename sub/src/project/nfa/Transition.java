@@ -25,7 +25,7 @@ public class Transition {
         this.isEmpty = false;
         this.matchAll = false;
         if (string.isEmpty()) {
-            throw new RuntimeException("Non-empty node cannot have empty string");
+            throw new RuntimeException("Non-empty transition cannot have empty string");
         }
     }
 
