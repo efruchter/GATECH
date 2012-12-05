@@ -22,29 +22,87 @@ public class MiniREParser {
         add("with"); add("in");
     }};
 
-    private final Tokenizer tokenizer;
+    private final ScannerGenerator scangen;
 
     public MiniREParser(InputStream programFileInputStream) throws IOException {
         InputStream specFileInputStream = new FileInputStream(MINIRE_SPEC_PATH);
-        ScannerGenerator scangen = new ScannerGenerator(specFileInputStream, programFileInputStream);
-        this.tokenizer = scangen.generateTokenizer();
+        scangen = new ScannerGenerator(specFileInputStream, programFileInputStream);
     }
 
-    public void parse() {
-        for (Token token : tokenizer) {
-            token = MiniREParser.transformToken(token);
-            System.out.println(token);
+    /**
+     * RDP utility methods
+     */
+
+    private Token token = null;
+    private Iterator<Token> tokenIterator;
+
+    public void parse() throws ParseException {
+        tokenIterator = scangen.generateTokenizer().iterator();
+        nextsym();
+        minire_program();
+    }
+
+    /**
+     * Set token to the next one, or special token 'EOF' if none remaining.
+     */
+    private void nextsym() {
+        if (tokenIterator.hasNext()) {
+            token = MiniREParser.parseKeywords(tokenIterator.next());
+        } else {
+            token = new Token("EOF", "EOF");
         }
     }
+
+    /**
+     * If tokenType matches the current token's type, consume it and return
+     * true; otherwise return false.
+     */
+    private boolean accept(String tokenType) {
+        if (token.type.equals(tokenType)) {
+            nextsym();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Invoke accept, raising an exception if token unexpected.
+     */
+    private void expect(String tokenType) throws ParseException {
+        if (!accept(tokenType))
+            throw new ParseException(String.format("Expected `%s' got `%s'", tokenType, token.type));
+    }
+
+    /**
+     * Begin RDP methods
+     */
+
+    private void minire_program() throws ParseException {
+        expect("BEGIN");
+        statement();
+        expect("END");
+    }
+
+    private void statement() throws ParseException {
+        expect("ID");
+        expect("EQUALS");
+        expect("ID");
+        expect("SEMICOLON");
+    }
+
+    /**
+     * End RDP methods
+     */
 
     /**
      * If token is of type ID-OR-KEYWORD, identify which and return a new
      * such token, otherwise return the original.
      */
-    private static Token transformToken(final Token token) {
+    private static Token parseKeywords(final Token token) {
         if (token.type.equals("ID-OR-KEYWORD")) {
             if (KEYWORDS.contains(token.value)) {
-                return new Token("KEYWORD", token.value);
+                return new Token(token.value.toUpperCase(), token.value);
             } else {
                 return new Token("ID", token.value);
             }
