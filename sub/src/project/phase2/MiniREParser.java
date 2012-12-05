@@ -12,13 +12,13 @@ public class MiniREParser {
     private static final String MINIRE_SPEC_PATH = "doc/minire_spec.txt";
     private static final String MINIRE_TEST_SCRIPT_PATH = "doc/minire_spec_input.txt";
 
-    private static final Map<String, Token> KEYWORDS = new HashMap<String, Token>() {{
-        put("begin", new Token("BEGIN", "begin"));
-        put("end", new Token("END", "end"));
-        put("replace", new Token("REPLACE", "replace"));
-        put("union", new Token("UNION", "union"));
-        put("inters", new Token("INTERS", "inters"));
-        put("replace", new Token("REPLACE", "replace"));
+    private static final Set<String> KEYWORDS = new HashSet<String>() {{
+        add("begin");
+        add("end");
+        add("replace");
+        add("union");
+        add("inters");
+        add("replace");
     }};
 
     public static void main(String[] args) throws Exception {
@@ -29,8 +29,8 @@ public class MiniREParser {
 
         for (Token token : tokenizer) {
             if (token.type.equals("ID-OR-KEYWORD")) {
-                if (KEYWORDS.containsKey(token.value)) {
-                    token = KEYWORDS.get(token.value);
+                if (KEYWORDS.contains(token.value)) {
+                    token = new Token("KEYWORD", token.value);
                 } else {
                     token = new Token("ID", token.value);
                 }
