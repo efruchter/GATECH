@@ -85,16 +85,37 @@ public class MiniREParser {
     }
 
     private void statement() throws ParseException {
-        expect("ID");
-        expect("EQUALS");
+        if (accept("ID")) {
+            expect("EQUALS");
 
-        if (accept("OCTOTHORPE")) {
-            exp();
-        } else {
-            exp();
+            if (accept("OCTOTHORPE")) {
+                exp();
+            } else if (accept("MAXFREQSTRING")) {
+                expect("OPEN-PAREN");
+                expect("ID");
+                expect("CLOSE-PAREN");
+            } else {
+                exp();
+            }
+        } else if (accept("PRINT")) {
+            expect("OPEN-PAREN");
+            exp_list();
+            expect("CLOSE-PAREN");
         }
 
         expect("SEMICOLON");
+    }
+
+    private void exp_list() throws ParseException {
+        exp();
+        exp_list_tail();
+    }
+
+    private void exp_list_tail() throws ParseException {
+        if (accept("COMMA")) {
+            exp();
+            exp_list_tail();
+        }
     }
 
     private void exp() throws ParseException {
