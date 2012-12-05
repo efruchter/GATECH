@@ -87,8 +87,23 @@ public class MiniREParser {
     private void statement() throws ParseException {
         expect("ID");
         expect("EQUALS");
-        expect("ID");
+
+        if (accept("OCTOTHORPE")) {
+            exp();
+        } else {
+            exp();
+        }
+
         expect("SEMICOLON");
+    }
+
+    private void exp() throws ParseException {
+        if (accept("ID")) {
+        } else {
+            expect("OPEN-PAREN");
+            exp();
+            expect("CLOSE-PAREN");
+        }
     }
 
     /**
