@@ -1,4 +1,6 @@
-print inters union ) ( replace = end begin
-"hel\"low or\"ld"
-foo123
-sdf^tuff
+begin
+matches = find 'im a regex1' in "file1txt" inters find 'im a regex2' in "file2txt";
+n_matches = #matches;
+print (n_matches);
+replace 'im a regex3' with "" in "file1txt" >! "file3txt";
+end
