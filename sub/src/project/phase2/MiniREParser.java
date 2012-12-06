@@ -2,7 +2,6 @@ package project.phase2;
 
 import project.scangen.ScannerGenerator;
 import project.scangen.tokenizer.Token;
-import project.scangen.tokenizer.Tokenizer;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,11 +34,18 @@ public class MiniREParser {
 
     private Token token = null;
     private Iterator<Token> tokenIterator;
+    private ASTNode<String> curNode;
 
-    public void parse() throws ParseException {
+    public AST<String> parse() throws ParseException {
+        AST<String> ast = new AST<String>();
+        curNode = ast.root = new ASTNode<String>("root", false);
+
         tokenIterator = scangen.generateTokenizer().iterator();
+
         nextsym();
         minire_program();
+
+        return ast;
     }
 
     /**
@@ -59,11 +65,30 @@ public class MiniREParser {
      */
     private boolean accept(String tokenType) {
         if (token.type.equals(tokenType)) {
+            curNode.insert(new ASTNode<String>(token.value, true));
             nextsym();
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Add a new child node to curNode and return the old curNode.
+     */
+    private ASTNode<String> recurse(String value) {
+        ASTNode<String> node = new ASTNode<String>(value, false);
+        ASTNode<String> last = curNode;
+        curNode.insert(node);
+        curNode = node;
+        return last;
+    }
+
+    /**
+     * Decurse back up.
+     */
+    private void decurse(ASTNode<String> node) {
+        curNode = node;
     }
 
     /**
@@ -79,26 +104,49 @@ public class MiniREParser {
      */
 
     private void minire_program() throws ParseException {
+        ASTNode<String> last = recurse("minire_program");
+
         expect("BEGIN");
         statement_list();
+        minire_program_tail();
+
+        decurse(last);
+    }
+
+    private void minire_program_tail() throws ParseException {
+        ASTNode<String> last = recurse("minire_program_tail");
+
         expect("END");
+
+        decurse(last);
     }
 
     private void statement_list() throws ParseException {
+        ASTNode<String> last = recurse("statement_list");
+
         statement();
         statement_list_tail();
+
+        decurse(last);
     }
 
     private void statement_list_tail() throws ParseException {
-        statement();
+        ASTNode<String> last = recurse("statement_list_tail");
 
         try {
-            statement_list_tail();
+            statement();
         } catch (ParseException e) {
+            return;
         }
+
+        statement_list_tail();
+
+        decurse(last);
     }
 
     private void statement() throws ParseException {
+        ASTNode<String> last = recurse("statement");
+
         if (accept("ID")) {
             expect("EQUALS");
 
@@ -127,38 +175,65 @@ public class MiniREParser {
             expect("OPEN-PAREN");
             exp_list();
             expect("CLOSE-PAREN");
+        } else {
+            throw new ParseException(String.format("Expected one of `ID', `REPLACE', `RECURSIVEREPLACE', " +
+                    "`PRINT' got `%s'", token.type));
         }
 
         expect("SEMICOLON");
+
+        decurse(last);
     }
 
     private void file_names() throws ParseException {
+        ASTNode<String> last = recurse("file_names");
+
         source_file();
         expect("GREATER-BANG");
         destination_file();
+
+        decurse(last);
     }
 
     private void source_file() throws ParseException {
+        ASTNode<String> last = recurse("source_file");
+
         expect("ASCII-STRING");
+
+        decurse(last);
     }
 
     private void destination_file() throws ParseException {
+        ASTNode<String> last = recurse("destination_file");
+
         expect("ASCII-STRING");
+
+        decurse(last);
     }
 
     private void exp_list() throws ParseException {
+        ASTNode<String> last = recurse("exp_list");
+
         exp();
         exp_list_tail();
+
+        decurse(last);
     }
 
     private void exp_list_tail() throws ParseException {
         if (accept("COMMA")) {
+            ASTNode<String> last = recurse("exp_list_tail");
+
             exp();
             exp_list_tail();
+
+            decurse(last);
         }
     }
 
     private void exp() throws ParseException {
+        ASTNode<String> last = recurse("exp");
+
         if (accept("ID")) {
         } else {
             try {
@@ -170,29 +245,45 @@ public class MiniREParser {
                 exp_tail();
             }
         }
+
+        decurse(last);
     }
 
     private void exp_tail() throws ParseException {
+        ASTNode<String> last = recurse("exp_tail");
+
         try {
             bin_op();
             term();
             exp_tail();
         } catch (ParseException e) {
         }
+
+        decurse(last);
     }
 
     private void term() throws ParseException {
+        ASTNode<String> last = recurse("term");
+
         expect("FIND");
         expect("REGEX");
         expect("IN");
         filename();
+
+        decurse(last);
     }
 
     private void filename() throws ParseException {
+        ASTNode<String> last = recurse("filename");
+
         expect("ASCII-STRING");
+
+        decurse(last);
     }
 
     private void bin_op() throws ParseException {
+        ASTNode<String> last = recurse("bin_op");
+
         if (accept("DIFF")) {
         } else if (accept("UNION")) {
         } else if (accept("INTERS")) {
@@ -200,6 +291,8 @@ public class MiniREParser {
             throw new ParseException(String.format("Expected one of `DIFF', `UNION', `INTERS' " +
                     "got `%s'", token.type));
         }
+
+        decurse(last);
     }
 
     /**
@@ -225,6 +318,7 @@ public class MiniREParser {
     public static void main(String[] args) throws Exception {
         InputStream programFileInputStream = new FileInputStream(MINIRE_TEST_SCRIPT_PATH);
         MiniREParser parser = new MiniREParser(programFileInputStream);
-        parser.parse();
+        AST<String> ast = parser.parse();
+        System.out.println(ast);
     }
 }

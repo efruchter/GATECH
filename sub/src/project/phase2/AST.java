@@ -92,7 +92,7 @@ public class AST<V> {
 	public static void main(String[] args) {
 		AST<String> ast = new AST<String>();
 		ASTNode<String> root = new ASTNode<String>("Rule", false);
-		ast.root = root;;
+		ast.root = root;
 		ASTNode<String> a = new ASTNode<String>("a", false);
 		ASTNode<String> plus = new ASTNode<String>("+", true);
 		ASTNode<String> b = new ASTNode<String>("b", false);
