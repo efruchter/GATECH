@@ -16,7 +16,7 @@ public class MiniREParser {
         add("begin"); add("end");
         add("find"); add("replace"); add("recursivereplace");
         add("maxfreqstring");
-        add("union"); add("inters");
+        add("diff"); add("union"); add("inters");
         add("print");
         add("with"); add("in");
     }};
