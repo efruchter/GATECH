@@ -34,11 +34,14 @@ public class MiniREParser {
 
     private Token token = null;
     private Iterator<Token> tokenIterator;
-    private ASTNode<String> curNode;
+    private Stack<ASTNode<String>> nodeStack;
 
     public AST<String> parse() throws ParseException {
         AST<String> ast = new AST<String>();
-        curNode = ast.root = new ASTNode<String>("root", false);
+        ast.root = new ASTNode<String>("root", false);
+
+        nodeStack = new Stack<ASTNode<String>>();
+        nodeStack.push(ast.root);
 
         tokenIterator = scangen.generateTokenizer().iterator();
 
@@ -65,7 +68,7 @@ public class MiniREParser {
      */
     private boolean accept(String tokenType) {
         if (token.type.equals(tokenType)) {
-            curNode.insert(new ASTNode<String>(token.value, true));
+            nodeStack.peek().insert(new ASTNode<String>(token.value, true));
             nextsym();
             return true;
         } else {
@@ -74,21 +77,19 @@ public class MiniREParser {
     }
 
     /**
-     * Add a new child node to curNode and return the old curNode.
+     * Add a new nonterminal node and push it on the stack.
      */
-    private ASTNode<String> recurse(String value) {
+    private void push(String value) {
         ASTNode<String> node = new ASTNode<String>(value, false);
-        ASTNode<String> last = curNode;
-        curNode.insert(node);
-        curNode = node;
-        return last;
+        nodeStack.peek().insert(node);
+        nodeStack.push(node);
     }
 
     /**
-     * Decurse back up.
+     * Pop the current nonterminal node off the stack.
      */
-    private void decurse(ASTNode<String> node) {
-        curNode = node;
+    private void pop() {
+        nodeStack.pop();
     }
 
     /**
@@ -104,48 +105,49 @@ public class MiniREParser {
      */
 
     private void minire_program() throws ParseException {
-        ASTNode<String> last = recurse("minire_program");
+        push("minire_program");
 
         expect("BEGIN");
         statement_list();
         minire_program_tail();
 
-        decurse(last);
+        pop();
     }
 
     private void minire_program_tail() throws ParseException {
-        ASTNode<String> last = recurse("minire_program_tail");
+        push("minire_program_tail");
 
         expect("END");
 
-        decurse(last);
+        pop();
     }
 
     private void statement_list() throws ParseException {
-        ASTNode<String> last = recurse("statement_list");
+        push("statement_list");
 
         statement();
         statement_list_tail();
 
-        decurse(last);
+        pop();
     }
 
     private void statement_list_tail() throws ParseException {
-        ASTNode<String> last = recurse("statement_list_tail");
+        push("statement_list_tail");
 
         try {
             statement();
         } catch (ParseException e) {
+            pop();
             return;
         }
 
         statement_list_tail();
 
-        decurse(last);
+        pop();
     }
 
     private void statement() throws ParseException {
-        ASTNode<String> last = recurse("statement");
+        push("statement");
 
         if (accept("ID")) {
             expect("EQUALS");
@@ -176,63 +178,64 @@ public class MiniREParser {
             exp_list();
             expect("CLOSE-PAREN");
         } else {
+            pop();
             throw new ParseException(String.format("Expected one of `ID', `REPLACE', `RECURSIVEREPLACE', " +
                     "`PRINT' got `%s'", token.type));
         }
 
         expect("SEMICOLON");
 
-        decurse(last);
+        pop();
     }
 
     private void file_names() throws ParseException {
-        ASTNode<String> last = recurse("file_names");
+        push("file_names");
 
         source_file();
         expect("GREATER-BANG");
         destination_file();
 
-        decurse(last);
+        pop();
     }
 
     private void source_file() throws ParseException {
-        ASTNode<String> last = recurse("source_file");
+        push("source_file");
 
         expect("ASCII-STRING");
 
-        decurse(last);
+        pop();
     }
 
     private void destination_file() throws ParseException {
-        ASTNode<String> last = recurse("destination_file");
+        push("destination_file");
 
         expect("ASCII-STRING");
 
-        decurse(last);
+        pop();
     }
 
     private void exp_list() throws ParseException {
-        ASTNode<String> last = recurse("exp_list");
+        push("exp_list");
 
         exp();
         exp_list_tail();
 
-        decurse(last);
+        pop();
     }
 
     private void exp_list_tail() throws ParseException {
         if (accept("COMMA")) {
-            ASTNode<String> last = recurse("exp_list_tail");
+            push("exp_list_tail");
 
             exp();
             exp_list_tail();
 
-            decurse(last);
+            pop();
         }
     }
 
     private void exp() throws ParseException {
-        ASTNode<String> last = recurse("exp");
+        push("exp");
 
         if (accept("ID")) {
         } else {
@@ -246,11 +249,11 @@ public class MiniREParser {
             }
         }
 
-        decurse(last);
+        pop();
     }
 
     private void exp_tail() throws ParseException {
-        ASTNode<String> last = recurse("exp_tail");
+        push("exp_tail");
 
         try {
             bin_op();
@@ -259,40 +262,41 @@ public class MiniREParser {
         } catch (ParseException e) {
         }
 
-        decurse(last);
+        pop();
     }
 
     private void term() throws ParseException {
-        ASTNode<String> last = recurse("term");
+        push("term");
 
         expect("FIND");
         expect("REGEX");
         expect("IN");
         filename();
 
-        decurse(last);
+        pop();
     }
 
     private void filename() throws ParseException {
-        ASTNode<String> last = recurse("filename");
+        push("filename");
 
         expect("ASCII-STRING");
 
-        decurse(last);
+        pop();
     }
 
     private void bin_op() throws ParseException {
-        ASTNode<String> last = recurse("bin_op");
+        push("bin_op");
 
         if (accept("DIFF")) {
         } else if (accept("UNION")) {
         } else if (accept("INTERS")) {
         } else {
+            pop();
             throw new ParseException(String.format("Expected one of `DIFF', `UNION', `INTERS' " +
                     "got `%s'", token.type));
         }
 
-        decurse(last);
+        pop();
     }
 
     /**
