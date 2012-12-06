@@ -80,8 +80,22 @@ public class MiniREParser {
 
     private void minire_program() throws ParseException {
         expect("BEGIN");
-        statement();
+        statement_list();
         expect("END");
+    }
+
+    private void statement_list() throws ParseException {
+        statement();
+        statement_list_tail();
+    }
+
+    private void statement_list_tail() throws ParseException {
+        statement();
+
+        try {
+            statement_list_tail();
+        } catch (ParseException e) {
+        }
     }
 
     private void statement() throws ParseException {
