@@ -161,9 +161,44 @@ public class MiniREParser {
     private void exp() throws ParseException {
         if (accept("ID")) {
         } else {
-            expect("OPEN-PAREN");
-            exp();
-            expect("CLOSE-PAREN");
+            try {
+                expect("OPEN-PAREN");
+                exp();
+                expect("CLOSE-PAREN");
+            } catch (ParseException e) {
+                term();
+                exp_tail();
+            }
+        }
+    }
+
+    private void exp_tail() throws ParseException {
+        try {
+            bin_op();
+            term();
+            exp_tail();
+        } catch (ParseException e) {
+        }
+    }
+
+    private void term() throws ParseException {
+        expect("FIND");
+        expect("REGEX");
+        expect("IN");
+        filename();
+    }
+
+    private void filename() throws ParseException {
+        expect("ASCII-STRING");
+    }
+
+    private void bin_op() throws ParseException {
+        if (accept("DIFF")) {
+        } else if (accept("UNION")) {
+        } else if (accept("INTERS")) {
+        } else {
+            throw new ParseException(String.format("Expected one of `DIFF', `UNION', `INTERS' " +
+                    "got `%s'", token.type));
         }
     }
 
