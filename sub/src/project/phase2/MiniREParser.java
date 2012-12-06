@@ -111,6 +111,18 @@ public class MiniREParser {
             } else {
                 exp();
             }
+        } else if (accept("REPLACE")) {
+            expect("REGEX");
+            expect("WITH");
+            expect("ASCII-STRING");
+            expect("IN");
+            file_names();
+        } else if (accept("RECURSIVEREPLACE")) {
+            expect("REGEX");
+            expect("WITH");
+            expect("ASCII-STRING");
+            expect("IN");
+            file_names();
         } else if (accept("PRINT")) {
             expect("OPEN-PAREN");
             exp_list();
@@ -118,6 +130,20 @@ public class MiniREParser {
         }
 
         expect("SEMICOLON");
+    }
+
+    private void file_names() throws ParseException {
+        source_file();
+        expect("GREATER-BANG");
+        destination_file();
+    }
+
+    private void source_file() throws ParseException {
+        expect("ASCII-STRING");
+    }
+
+    private void destination_file() throws ParseException {
+        expect("ASCII-STRING");
     }
 
     private void exp_list() throws ParseException {
