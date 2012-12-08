@@ -86,6 +86,10 @@ public class StringMatchList extends ArrayList<StringMatchList.StringMatchTuple>
 
     @Override
     public boolean equals(Object o) {
+
+        if (this == o)
+            return true;
+
         if (!(o instanceof StringMatchList)) {
             return false;
         }
@@ -124,7 +128,7 @@ public class StringMatchList extends ArrayList<StringMatchList.StringMatchTuple>
         public int line = 0, startIndex = 0, endIndex = 0;
 
         public StringMatchTuple() {
-
+            //default
         }
 
         public StringMatchTuple(String s) {
@@ -144,16 +148,17 @@ public class StringMatchList extends ArrayList<StringMatchList.StringMatchTuple>
             return "\"" + string + "\" <\"" + fileName + "\", " + line + ", " + startIndex + ", " + endIndex + ">";
         }
 
+        @Override
         public boolean equals(Object o) {
+
+            if (this == o)
+                return true;
 
             if (!(o instanceof StringMatchTuple)) {
                 return false;
             }
 
-            StringMatchTuple a = (StringMatchTuple) o;
-
-            return string.equals(a.string) && fileName.equals(a.fileName) && line == a.line
-                    && startIndex == a.startIndex && endIndex == a.endIndex;
+            return string.equals(((StringMatchTuple) o).string);
         }
     }
 }
