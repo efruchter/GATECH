@@ -128,7 +128,6 @@ public class RuleParser {
 			return null;
 		if (s.charAt(0) == '%')
 			return null;
-		// while(s.charAt(i)!='\u2192'){ TODO?
 		while (s.charAt(i) != '=') {
 			if (!Character.isWhitespace(s.charAt(i)))
 				s2[0] += s.charAt(i);
@@ -258,7 +257,7 @@ public class RuleParser {
 	
 	// Testing
 	public static void main(String[] args) {
-		File grammar = new File("test/sample/grammar.txt");
+		File grammar = new File("test/sample/grammar2.txt");
 		List<Rule> rules = RuleParser.parse(grammar);
 		for(Rule r: rules) {
 			System.out.println(r);
