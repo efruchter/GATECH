@@ -43,7 +43,8 @@ public class RegexExpander {
                 // Split the OR block to deal with it
                 String[] strs = sub.split("-");
                 for (String sy : strs)
-                    System.out.println(sy);
+                    System.out.println("What's Going On?? " + sy);
+
                 String[] ls = new String[strs.length - 1];
                 for (int i = 0; i < ls.length; i++) {
                     if (i > 0) {
@@ -273,10 +274,10 @@ public class RegexExpander {
         sb.append('(');
 
         for (char c : s.toCharArray()) {
-//            if (c == ' ' || c == '\\' || c == '*' || c == '+' || c == '|' || c == '[' || c == ']' || c == '(' ||
-//                    c == ')' || c == '.' || c == '"' || c == '\'') {
-//                sb.append('\\');
-//            }
+            if (c == ' ' || c == '\\' || c == '*' || c == '+' || c == '|' || c == '[' || c == ']' || c == '(' ||
+                    c == ')' || c == '.' || c == '"' || c == '\'') {
+                sb.append('\\');
+            }
 
             sb.append(c);
             sb.append('|');
