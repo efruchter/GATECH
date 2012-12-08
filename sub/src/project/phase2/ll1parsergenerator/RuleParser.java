@@ -1,4 +1,4 @@
-package project.phase2;
+package project.phase2.ll1parsergenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,10 +45,10 @@ public class RuleParser {
 	 * 
 	 * @param input
 	 */
-	public static List<Rule> parse(File grammarFile) {
+	public static List<Rule> parse(String path) {
 		Scanner input = null;
 		try {
-			input = new Scanner(FileEditor.readEntireFile(grammarFile));
+			input = new Scanner(FileEditor.readEntireFile(new File(path)));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -107,7 +107,7 @@ public class RuleParser {
 		// replace E with "" 
 		for (Rule r : rules) {
 			if (r.getName().compareTo("E") == 0) {
-				r.setName("");
+				r.setName("E");
 			}
 		}
 		return rules;
@@ -257,8 +257,7 @@ public class RuleParser {
 	
 	// Testing
 	public static void main(String[] args) {
-		File grammar = new File("test/sample/grammar2.txt");
-		List<Rule> rules = RuleParser.parse(grammar);
+		List<Rule> rules = RuleParser.parse("test/sample/grammartest.txt");
 		for(Rule r: rules) {
 			System.out.println(r);
 		}

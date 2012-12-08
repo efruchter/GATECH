@@ -1,4 +1,4 @@
-package project.phase2;
+package project.phase2.ll1parsergenerator;
 
 /**
  * Stores the rules from the grammar
@@ -92,21 +92,24 @@ public class Rule {
 	 * @return a string representation of the rule.
 	 */
 	public String toString() {
-		String s = "";
-		if (start)
-			s += "[START] ";
-		s += name + ":";
+		StringBuffer sb = new StringBuffer();
+		if (this.start) {
+			sb.append("[START] ");
+		}
+		sb.append(name + ":");
+		
 		if (terminal) {
-			return s + " terminal\n";
-		}
-		s += "\n";
-		for (Rule[] rs : rules) {
-			for (Rule r : rs) {
-				s += r.getName();
+			sb.append(" terminal\n");
+		}else {
+			sb.append( "\n");
+			for (Rule[] rs : this.rules) {
+				for (Rule r : rs) {
+					sb.append(r.getName());
+				}
+				sb.append("\n");
 			}
-			s += "\n";
 		}
-		return s;
+		return sb.toString();
 	}
 
 	/**
