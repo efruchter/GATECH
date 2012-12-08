@@ -43,6 +43,16 @@ public class ScannerGeneratorTest {
                 "INT 123\nINT 123\nINT 6\nVAR abc\nVAR abc67\n"
         ));
         add(new ScannerGeneratorTestCase(
+                "\n$A-SINGLE-DOT .",
+                ".",
+                "A-SINGLE-DOT .\n"
+        ));
+        add(new ScannerGeneratorTestCase(
+                "$OPEN-PAREN [(]\n$CLOSE-PAREN [)]\n\n$SOMETHING $OPEN-PAREN $CLOSE-PAREN",
+                "()()",
+                "SOMETHING ()\nSOMETHING ()\n"
+        ));
+        add(new ScannerGeneratorTestCase(
                 "$ASCII [ -~]\n$NOQUOTE [^\"] IN $ASCII\n\n$STRING \" ($NOQUOTE)* \"",
                 "\"Hello, world!\" \"(file.txt)\"",
                 "STRING \"Hello, world!\"\nSTRING \"(file.txt)\"\n"
