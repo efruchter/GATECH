@@ -29,10 +29,14 @@ public class RegexExpander {
             } else if (s.charAt(i) == ']') { // Encounter an OR block
                 u = s.lastIndexOf('[', i);
                 v = i + 1;
+                if (u == -1)
+                    return s;
+
                 String sub = s.substring(u, v);
 
                 if (sub.charAt(1) == '^') { // Negation Or Block
                     sub = s.substring(u, s.indexOf("]", v + 1) + 1);
+                    System.out.println(sub);
                     sub = negate(sub);
                     return sub;
                 }
@@ -151,22 +155,27 @@ public class RegexExpander {
         String mainSet = sub.substring(sub.lastIndexOf("["), sub.length());
 
         String[] strs = mainSet.split("-");
+        //for( String s : strs)
+        // System.out.println(s);
+
         String[] ls = new String[strs.length - 1];
         for (int i = 0; i < ls.length; i++) {
+
             if (i > 0) {
                 ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
                         + strs[i + 1].charAt(0) + "]";
             } else
                 ls[i] = "[" + strs[i].charAt(strs[i].length() - 1) + "-"
                         + strs[i + 1].charAt(0) + "]";
+            System.out.println(ls[i]);
         }
-        for (String m : ls) {
-            if (m.length() == 5) {
-                mainSet = mainSet.replace(m.substring(1, m.length() - 1), "");
+//        for (String m : ls) {
+//            if (m.length() == 5) {
+//                mainSet = mainSet.replace(m.substring(1, m.length() - 1), "");
+//            } else
+//                mainSet = mainSet.replace(m.substring(2, m.length() - 1), "");
+//        }
 
-            } else
-                mainSet = mainSet.replace(m.substring(2, m.length() - 1), "");
-        }
         mainSet = OrThisShit(mainSet);
         for (String m : ls) {
             if (!mainSet.isEmpty())
@@ -258,12 +267,13 @@ public class RegexExpander {
     private static String OrThisShit(String s) {
         s = s.substring(1, s.length() - 1); // Strip outer brackets
 
+        System.out.println(s);
         StringBuilder sb = new StringBuilder();
         sb.append('(');
 
         for (char c : s.toCharArray()) {
-
-            sb.append(c);
+            if (c == ' ' || c == '\\' || c == '*' || c == '+' || c == '|' || c == '[' || c == ']' || c == '(' || c == ')' || c == '.' || c == '"' || c == '\'')
+                sb.append(c);
             sb.append('|');
         }
 

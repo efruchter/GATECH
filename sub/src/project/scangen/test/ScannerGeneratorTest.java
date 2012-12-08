@@ -25,6 +25,7 @@ public class ScannerGeneratorTest {
     }
 
     private final List<ScannerGeneratorTestCase> testCases = new ArrayList<ScannerGeneratorTestCase>() {{
+
         add(new ScannerGeneratorTestCase(
                 "\n$DIGIT 0",
                 "000",
@@ -42,7 +43,7 @@ public class ScannerGeneratorTest {
                 "INT 123\nINT 123\nINT 6\nVAR abc\nVAR abc67\n"
         ));
         add(new ScannerGeneratorTestCase(
-                "$ASCII [ -~]\n$NOQUOTE [^\"] IN $ASCII\n\n$STRING \" $NOQUOTE \"",
+                "$ASCII [ -~]\n$NOQUOTE [^\"] IN $ASCII\n\n$STRING \" ($NOQUOTE)* \"",
                 "\"Hello, world!\" \"(file.txt)\"",
                 "STRING \"Hello, world!\"\nSTRING \"(file.txt)\"\n"
         ));
