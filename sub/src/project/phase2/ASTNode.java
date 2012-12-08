@@ -34,6 +34,10 @@ public class ASTNode<V> {
 		this.terminal = terminal;
 	}
 
+	public ASTNode<V> get(int i) {
+		return this.children.get(i);
+	}
+
 	/**
 	 * Insert a node to children
 	 * 

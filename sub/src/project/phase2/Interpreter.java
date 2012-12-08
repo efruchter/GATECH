@@ -1,7 +1,10 @@
 package project.phase2;
 
+import project.phase2.file.StringMatchOperations;
+import project.phase2.structs.StringMatchTuple;
 import project.scangen.ScannerGenerator;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -17,27 +20,51 @@ public class Interpreter {
 
     public void interpret() throws ParseException {
         ASTNode<String> root = parser.parse().root;
+        ASTNode<String> minire_program = root.get(0);
+        statement_list(minire_program.get(1));
+    }
 
-        ASTNode<String> minire_program = root.children.get(0);
-        ASTNode<String> statement_list = minire_program.children.get(1);
-        ASTNode<String> statement = statement_list.children.get(0);
+    public void statement_list(final ASTNode<String> statement_list) {
+        ASTNode<String> statement = statement_list.get(0);
 
-        if (statement.children.get(0).value.equals("PRINT")) {
-            print(statement.children.get(2));
+        if (statement.children.size() == 0) {
+            return;
         }
+
+        if (statement.get(0).value.equals("PRINT")) {
+            print(statement.get(2));
+        }
+
+        statement_list(statement_list.get(1));
+    }
+
+    private String formatRegex(final String regex) {
+        return regex.substring(1, regex.length() - 1);
+    }
+
+    private String formatAsciiString(final String asciiString) {
+        return asciiString.substring(1, asciiString.length() - 1);
     }
 
     private void print(ASTNode<String> exp_list) {
-        print_exp(exp_list.children.get(0));
+        print_exp(exp_list.get(0));
 
         if (exp_list.children.size() > 1) {
-            print(exp_list.children.get(2));
+            print(exp_list.get(2));
         }
     }
 
     private void print_exp(ASTNode<String> exp) {
-        if (exp.children.get(0).value.equals("ID")) {
-            System.out.println(exp.children.get(0).children.get(0).value);
+        ASTNode<String> tok = exp.get(0);
+
+        if (tok.value.equals("ID")) {
+            System.out.println(exp.get(0).get(0).value);
+        } else if (tok.value.equals("term")) {
+            String regex = formatRegex(tok.get(1).get(0).value);
+            String filename = formatAsciiString(tok.get(3).get(0).get(0).value);
+            StringMatchTuple res = StringMatchOperations.find(new File(filename), regex);
+            System.out.println(res);
+            System.exit(0);
         }
     }
 
