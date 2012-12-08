@@ -13,39 +13,24 @@ import java.util.Scanner;
  */
 public class FileEditor {
 
-    private FileEditor() {
-    }
+    private FileEditor() {}
 
-    /**
-     * Replace a substring in a file with another string.
-     *
-     * @param file        the file
-     * @param replaceMe   the string to replace
-     * @param replaceWith the string to replace replaceMe with
-     * @throws IOException file writing/reading has been blocked
-     */
-    public static void replaceAllSubstring(final File file, final String replaceMe, final String replaceWith) throws IOException {
-        String print = readEntireFile(file).replaceAll(replaceMe, replaceWith);
-        BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        out.write(print);
-        out.close();
-    }
-
-    public static void replaceAtSubstring(final File file, int start, int end, final String replaceWith) throws IOException {
-        String print = readEntireFile(file);
+    public static void replaceAtSubstring(final File file, int line, int start, int end, final String replaceWith) throws IOException {
 
         StringBuffer b = new StringBuffer();
-        b.append(print.substring(0, start)).append(replaceWith).append(print.substring(end));
 
-        BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        out.write(print);
-        out.close();
-    }
+        List<String> lines = readEntireFileIntoLines(file);
 
-    public static void replaceFirstSubstring(final File file, final String replaceMe, final String replaceWith) throws IOException {
-        String print = readEntireFile(file).replaceFirst(replaceMe, replaceWith);
+        for (int i = 0; i < lines.size(); i++) {
+            if (i == line - 1) {
+                b.append(lines.get(i).substring(0, start)).append(replaceWith).append(lines.get(i).substring(end));
+            } else {
+                b.append(lines.get(i));
+            }
+            b.append("\n");
+        }
         BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        out.write(print);
+        out.write(b.toString());
         out.close();
     }
 
