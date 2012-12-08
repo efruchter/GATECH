@@ -36,7 +36,9 @@ public class NFABuilder {
                 int subidx = idx;
                 while (ct > 0) {
                     char paren = regex.charAt(subidx);
-                    if (paren == '(') {
+                    if (paren == '\\') {
+                        ++subidx;
+                    } else if (paren == '(') {
                         ++ct;
                     } else if (paren == ')') {
                         --ct;
