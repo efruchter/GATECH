@@ -4,7 +4,7 @@ public class StringMatchTuple {
 
     public String string;
     public String fileName = "";
-    public int line = 0, startIndex = 0, endIndex = 0;
+    public int line = -1, startIndex = -1, endIndex = -1;
 
     public StringMatchTuple() {
         //default
@@ -24,6 +24,10 @@ public class StringMatchTuple {
         line = s.line;
         startIndex = s.startIndex;
         endIndex = s.endIndex;
+    }
+
+    public boolean found() {
+        return line != -1;
     }
 
     public String toString() {
