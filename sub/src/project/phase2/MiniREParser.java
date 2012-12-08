@@ -64,7 +64,9 @@ public class MiniREParser {
      */
     private boolean accept(String tokenType) {
         if (token.type.equals(tokenType)) {
-            nodeStack.peek().insert(new ASTNode<String>(token.value, true));
+            ASTNode<String> tokenTypeNode = new ASTNode<String>(tokenType, false);
+            tokenTypeNode.insert(new ASTNode<String>(token.value, true));
+            nodeStack.peek().insert(tokenTypeNode);
             nextsym();
             return true;
         } else {

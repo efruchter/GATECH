@@ -16,7 +16,29 @@ public class Interpreter {
     }
 
     public void interpret() throws ParseException {
-        AST<String> ast = parser.parse();
+        ASTNode<String> root = parser.parse().root;
+
+        ASTNode<String> minire_program = root.children.get(0);
+        ASTNode<String> statement_list = minire_program.children.get(1);
+        ASTNode<String> statement = statement_list.children.get(0);
+
+        if (statement.children.get(0).value.equals("PRINT")) {
+            print(statement.children.get(2));
+        }
+    }
+
+    private void print(ASTNode<String> exp_list) {
+        print_exp(exp_list.children.get(0));
+
+        if (exp_list.children.size() > 1) {
+            print(exp_list.children.get(2));
+        }
+    }
+
+    private void print_exp(ASTNode<String> exp) {
+        if (exp.children.get(0).value.equals("ID")) {
+            System.out.println(exp.children.get(0).children.get(0).value);
+        }
     }
 
     public static void main(String[] args) {
