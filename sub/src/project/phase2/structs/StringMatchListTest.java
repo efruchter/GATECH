@@ -18,6 +18,5 @@ public class StringMatchListTest {
         StringMatchList aa = new StringMatchList(a);
         aa.addIfNotContains(a);
         assertTrue(a.equals(aa));
-
     }
 }

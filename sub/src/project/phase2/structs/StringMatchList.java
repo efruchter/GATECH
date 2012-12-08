@@ -2,7 +2,7 @@ package project.phase2.structs;
 
 import java.util.ArrayList;
 
-public class StringMatchList extends ArrayList<String> {
+public class StringMatchList extends ArrayList<StringMatchList.StringMatchTuple> {
 
     public StringMatchList() {
         // Default
@@ -12,7 +12,7 @@ public class StringMatchList extends ArrayList<String> {
         add(a);
     }
 
-    public StringMatchList(String ... a) {
+    public StringMatchList(String... a) {
         add(a);
     }
 
@@ -35,7 +35,7 @@ public class StringMatchList extends ArrayList<String> {
     public StringMatchList intersection(final StringMatchList b) {
         StringMatchList n = new StringMatchList();
 
-        for (String string : this) {
+        for (StringMatchTuple string : this) {
             if (b.contains(string)) {
                 n.add(string);
             }
@@ -53,7 +53,7 @@ public class StringMatchList extends ArrayList<String> {
     public StringMatchList difference(final StringMatchList second) {
         StringMatchList n = new StringMatchList();
 
-        for (String string : this) {
+        for (StringMatchTuple string : this) {
             if (!second.contains(string)) {
                 n.add(string);
             }
@@ -62,28 +62,29 @@ public class StringMatchList extends ArrayList<String> {
         return n;
     }
 
-    public void addIfNotContains(final String s) {
+    public void addIfNotContains(final StringMatchTuple s) {
         if (!contains(s)) {
             super.add(s);
         }
     }
 
     public void addIfNotContains(final StringMatchList s) {
-        for (String a : s) {
+        for (StringMatchTuple a : s) {
             addIfNotContains(a);
         }
     }
 
     public void add(String... s) {
         for (String r : s)
-            super.add(r);
+            super.add(new StringMatchTuple(r));
     }
 
     public void add(StringMatchList s) {
-        for (String r : s)
-            super.add(r);
+        for (StringMatchTuple r : s)
+            super.add(new StringMatchTuple(r));
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof StringMatchList)) {
             return false;
@@ -109,9 +110,50 @@ public class StringMatchList extends ArrayList<String> {
     public String toString() {
         StringBuffer be = new StringBuffer();
         be.append("[");
-        for (String s : this) {
-            be.append(", ").append(s);
+        for (StringMatchTuple s : this) {
+            be.append(", ").append(s.toString());
         }
-        return be.toString().replaceFirst(",", "");
+        be.append("]");
+        return be.toString().replaceFirst(", ", "");
+    }
+
+    public static class StringMatchTuple {
+
+        public String string;
+        public String fileName = "";
+        public int line = 0, startIndex = 0, endIndex = 0;
+
+        public StringMatchTuple() {
+
+        }
+
+        public StringMatchTuple(String s) {
+            string = s;
+        }
+
+        public StringMatchTuple(StringMatchTuple s) {
+            string = s.string;
+            fileName = s.fileName;
+            line = s.line;
+            startIndex = s.startIndex;
+            endIndex = s.endIndex;
+        }
+
+        public String toString() {
+            // "cba"<"file1.txt", 40, 50>}
+            return "\"" + string + "\" <\"" + fileName + "\", " + line + ", " + startIndex + ", " + endIndex + ">";
+        }
+
+        public boolean equals(Object o) {
+
+            if (!(o instanceof StringMatchTuple)) {
+                return false;
+            }
+
+            StringMatchTuple a = (StringMatchTuple) o;
+
+            return string.equals(a.string) && fileName.equals(a.fileName) && line == a.line
+                    && startIndex == a.startIndex && endIndex == a.endIndex;
+        }
     }
 }
