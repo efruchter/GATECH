@@ -273,8 +273,11 @@ public class RegexExpander {
 
         for (char c : s.toCharArray()) {
             if (c == ' ' || c == '\\' || c == '*' || c == '+' || c == '|' || c == '[' || c == ']' || c == '(' ||
-                    c == ')' || c == '.' || c == '"' || c == '\'')
-                sb.append(c);
+                    c == ')' || c == '.' || c == '"' || c == '\'') {
+                sb.append('\\');
+            }
+
+            sb.append(c);
             sb.append('|');
         }
 
