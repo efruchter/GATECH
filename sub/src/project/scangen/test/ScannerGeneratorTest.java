@@ -26,27 +26,27 @@ public class ScannerGeneratorTest {
 
     private final List<ScannerGeneratorTestCase> testCases = new ArrayList<ScannerGeneratorTestCase>() {{
 
-        add(new ScannerGeneratorTestCase(
-                "\n$DIGIT 0",
-                "000",
-                "DIGIT 0\nDIGIT 0\nDIGIT 0\n"
-        ));
-        add(new ScannerGeneratorTestCase(
-                "$DIGIT [0-3]\n$CHAR [a-c]\n\n$INT $DIGIT+\n$WORD $CHAR+",
-                "abc 12 3cba0",
-                "WORD abc\nINT 12\nINT 3\nWORD cba\nINT 0\n"
-        ));
-        add(new ScannerGeneratorTestCase(
-                "$DIGIT [0-9]\n$NON-ZERO [^0] IN $DIGIT\n$CHAR [a-z]\n\n" +
-                        "$INT $NON-ZERO $DIGIT*\n$VAR $CHAR ($CHAR | $DIGIT)*",
-                "123 0123 6abc abc67",
-                "INT 123\nINT 123\nINT 6\nVAR abc\nVAR abc67\n"
-        ));
-        add(new ScannerGeneratorTestCase(
-                "\n$A-SINGLE-DOT .",
-                ".",
-                "A-SINGLE-DOT .\n"
-        ));
+//        add(new ScannerGeneratorTestCase(
+//                "\n$DIGIT 0",
+//                "000",
+//                "DIGIT 0\nDIGIT 0\nDIGIT 0\n"
+//        ));
+//        add(new ScannerGeneratorTestCase(
+//                "$DIGIT [0-3]\n$CHAR [a-c]\n\n$INT $DIGIT+\n$WORD $CHAR+",
+//                "abc 12 3cba0",
+//                "WORD abc\nINT 12\nINT 3\nWORD cba\nINT 0\n"
+//        ));
+//        add(new ScannerGeneratorTestCase(
+//                "$DIGIT [0-9]\n$NON-ZERO [^0] IN $DIGIT\n$CHAR [a-z]\n\n" +
+//                        "$INT $NON-ZERO $DIGIT*\n$VAR $CHAR ($CHAR | $DIGIT)*",
+//                "123 0123 6abc abc67",
+//                "INT 123\nINT 123\nINT 6\nVAR abc\nVAR abc67\n"
+//        ));
+//        add(new ScannerGeneratorTestCase(
+//                "\n$A-SINGLE-DOT .",
+//                ".",
+//                "A-SINGLE-DOT .\n"
+//        ));
         add(new ScannerGeneratorTestCase(
                 "$OPEN-PAREN [(]\n$CLOSE-PAREN [)]\n\n$SOMETHING $OPEN-PAREN $CLOSE-PAREN",
                 "()()",
