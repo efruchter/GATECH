@@ -9,9 +9,6 @@ import java.io.InputStream;
 import java.util.*;
 
 public class MiniREParser {
-    private static final String MINIRE_SPEC_PATH = "doc/minire_spec.txt";
-    private static final String MINIRE_TEST_SCRIPT_PATH = "doc/minire_spec_input.txt";
-
     private static final Set<String> KEYWORDS = new HashSet<String>() {{
         add("begin"); add("end");
         add("find"); add("replace"); add("recursivereplace");
@@ -23,9 +20,8 @@ public class MiniREParser {
 
     private final ScannerGenerator scangen;
 
-    public MiniREParser(InputStream programFileInputStream) throws IOException {
-        InputStream specFileInputStream = new FileInputStream(MINIRE_SPEC_PATH);
-        scangen = new ScannerGenerator(specFileInputStream, programFileInputStream);
+    public MiniREParser(final ScannerGenerator scangen) {
+        this.scangen = scangen;
     }
 
     /**
@@ -317,12 +313,5 @@ public class MiniREParser {
         } else {
             return token;
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        InputStream programFileInputStream = new FileInputStream(MINIRE_TEST_SCRIPT_PATH);
-        MiniREParser parser = new MiniREParser(programFileInputStream);
-        AST<String> ast = parser.parse();
-        System.out.println(ast);
     }
 }
