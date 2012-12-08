@@ -41,6 +41,11 @@ public class ScannerGeneratorTest {
                 "123 0123 6abc abc67",
                 "INT 123\nINT 123\nINT 6\nVAR abc\nVAR abc67\n"
         ));
+        add(new ScannerGeneratorTestCase(
+                "$ASCII [ -~]\n$NOQUOTE [^\"] IN $ASCII\n\n$STRING \" $NOQUOTE \"",
+                "\"Hello, world!\" \"(file.txt)\"",
+                "STRING \"Hello, world!\"\nSTRING \"(file.txt)\"\n"
+        ));
     }};
 
     private void runScannerGeneratorTest(ScannerGeneratorTestCase testCase) {
