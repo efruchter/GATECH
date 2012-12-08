@@ -31,30 +31,22 @@ public class FileEditor {
         out.close();
     }
 
-    public static void replaceFirstSubstring(final File file, final String replaceMe, final String replaceWith) throws IOException {
-        String print = readEntireFile(file).replaceFirst(replaceMe, replaceWith);
+    public static void replaceAtSubstring(final File file, int start, int end, final String replaceWith) throws IOException {
+        String print = readEntireFile(file);
+
+        StringBuffer b = new StringBuffer();
+        b.append(print.substring(0, start)).append(replaceWith).append(print.substring(end));
+
         BufferedWriter out = new BufferedWriter(new FileWriter(file));
         out.write(print);
         out.close();
     }
 
-    public static StringMatchTuple findInFile(final String s, final String file) throws IOException{
-        StringMatchTuple t = new StringMatchTuple(s);
-        t.fileName = file;
-        findInFile(t);
-        return t;
-    }
-
-    private static void findInFile(final StringMatchTuple stringMatchTuple) throws IOException{
-        List<String> lines = readEntireFileIntoLines(new File(stringMatchTuple.fileName));
-        for (int line = 0; line < lines.size(); line++) {
-            int i = -1;
-            if ((i = lines.indexOf(line)) != -1) {
-                stringMatchTuple.startIndex = i;
-                stringMatchTuple.endIndex = i + stringMatchTuple.string.length();
-                break;
-            }
-        }
+    public static void replaceFirstSubstring(final File file, final String replaceMe, final String replaceWith) throws IOException {
+        String print = readEntireFile(file).replaceFirst(replaceMe, replaceWith);
+        BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        out.write(print);
+        out.close();
     }
 
     /**
