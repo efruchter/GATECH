@@ -21,7 +21,14 @@ public class Token {
 
     @Override
     public boolean equals(Object obj) {
-        Token b = (Token) obj;
-        return b.type.equals(this.type) && b.value.equals(this.value);
+    	if(this == obj) 
+    		return true;
+    	
+    	if(obj instanceof Token) {
+    		Token t = (Token) obj;
+    		return this.type.equals(t.type) && this.value.equals(t.value);
+    	} else {
+    		return false;
+    	}
     }
 }
