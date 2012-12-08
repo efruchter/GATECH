@@ -25,7 +25,6 @@ public class TokenType {
         for (Map.Entry<String, CharClass> entry : charClasses.entrySet()) {
             re = re.replace("$" + entry.getKey(), entry.getValue().getRe());
         }
-        System.out.println("THINGS!!! :" + re + ":");
         return RegexExpander.expandRegex(re);
     }
 

@@ -13,6 +13,7 @@ public class RegexExpander {
 
     public static String expandRegex(String s) {
         i = 0;
+        System.out.println("Regex Expanding: " + s);
         while (i < s.length()) {
             int u;
             int v;
@@ -29,8 +30,6 @@ public class RegexExpander {
             } else if (s.charAt(i) == ']') { // Encounter an OR block
                 u = s.lastIndexOf('[', i);
                 v = i + 1;
-                if (u == -1)
-                    return s;
 
                 String sub = s.substring(u, v);
 
@@ -43,6 +42,8 @@ public class RegexExpander {
 
                 // Split the OR block to deal with it
                 String[] strs = sub.split("-");
+                for (String sy : strs)
+                    System.out.println(sy);
                 String[] ls = new String[strs.length - 1];
                 for (int i = 0; i < ls.length; i++) {
                     if (i > 0) {
@@ -272,10 +273,10 @@ public class RegexExpander {
         sb.append('(');
 
         for (char c : s.toCharArray()) {
-            if (c == ' ' || c == '\\' || c == '*' || c == '+' || c == '|' || c == '[' || c == ']' || c == '(' ||
-                    c == ')' || c == '.' || c == '"' || c == '\'') {
-                sb.append('\\');
-            }
+//            if (c == ' ' || c == '\\' || c == '*' || c == '+' || c == '|' || c == '[' || c == ']' || c == '(' ||
+//                    c == ')' || c == '.' || c == '"' || c == '\'') {
+//                sb.append('\\');
+//            }
 
             sb.append(c);
             sb.append('|');
