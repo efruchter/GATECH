@@ -48,4 +48,13 @@ public class FileEditor {
         }
         return a.toString().replaceFirst("\n", "");
     }
+
+    public static String[] readEntireFileLineize(final File file) throws IOException {
+        StringBuffer a = new StringBuffer();
+        Scanner s = new Scanner(file);
+        while (s.hasNextLine()) {
+            a.append("\n").append(s.nextLine());
+        }
+        return null;
+    }
 }
