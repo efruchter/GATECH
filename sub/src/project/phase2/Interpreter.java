@@ -84,8 +84,7 @@ public class Interpreter {
         } else if (statement.get(2).getValue().equals("MAXFREQSTRING")) {
             Variable foo = varTable.get(statement.get(4).get(0).getValue());
             if (foo.val instanceof StringMatchList) {
-                varTable.put(id, new Variable("lolololol"));
-                //varTable.put(id, null); // TODO: use StringMatchList.maxfreqstring()
+                varTable.put(id, new Variable(((StringMatchList) foo.val).getMostFrequentString()));
             } else {
                 throw new TypeException(String.format("Can't call `maxfreqstring' on variable `%s' of type `Integer'",
                         id));
