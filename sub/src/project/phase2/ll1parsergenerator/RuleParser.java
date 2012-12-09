@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import project.phase2.file.FileEditor;
+import project.phase2.file.FileIO;
 
 /**
  * Generates set of rules from grammar file
@@ -46,8 +46,8 @@ public class RuleParser {
 	public static List<Rule> parse(String path) {
 		Scanner input = null;
 		try {
-			input = new Scanner(FileEditor.readEntireFile(new File(path)));
-		} catch (Exception e) {
+			input = new Scanner(FileIO.readEntireFile(new File(path)));
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 

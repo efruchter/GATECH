@@ -1,6 +1,9 @@
 package project.phase2.structs;
 
 import org.junit.Test;
+import project.phase2.file.StringMatchOperations;
+
+import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 

@@ -3,32 +3,42 @@ package project.phase2;
 import project.phase2.file.StringMatchOperations;
 import project.phase2.ll1parsergenerator.ASTNode;
 import project.phase2.structs.StringMatchList;
-import project.phase2.structs.StringMatchTuple;
 import project.scangen.ScannerGenerator;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Interpreter {
-    private static final String MINIRE_SPEC_PATH = "doc/minire_spec.txt";
+    public class Variable {
+        final public Object val;
+
+        public Variable(Object val) {
+            this.val = val;
+        }
+
+        @Override
+        public String toString() {
+            return this.val.toString();
+        }
+    }
 
     private final MiniREParser parser;
-    private final Map<String, StringMatchList> varTable;
+    private final Map<String, Variable> varTable;
 
     public Interpreter(MiniREParser parser) {
         this.parser = parser;
-        varTable = new HashMap<String, StringMatchList>();
+        varTable = new HashMap<String, Variable>();
     }
 
     public void interpret() throws ParseException {
         ASTNode<String> root = parser.parse().getRoot();
         ASTNode<String> minire_program = root.get(0);
         statement_list(minire_program.get(1));
+    }
+
+    private String fromQuotedString(final String asciiString) {
+        return asciiString.substring(1, asciiString.length() - 1);
     }
 
     public void statement_list(final ASTNode<String> statement_list) {
@@ -41,7 +51,11 @@ public class Interpreter {
         String nextTokenType = statement.get(0).getValue();
 
         if (nextTokenType.equals("ID")) {
-            assignment(statement.get(0), statement.get(2));
+            assignment(statement);
+        } else if (nextTokenType.equals("REPLACE")) {
+            replace(statement, false);
+        } else if (nextTokenType.equals("RECURSIVEREPLACE")) {
+            replace(statement, true);
         } else if (nextTokenType.equals("PRINT")) {
             print(statement.get(2));
         }
@@ -49,50 +63,78 @@ public class Interpreter {
         statement_list(statement_list.get(1));
     }
 
-    private void assignment(ASTNode<String> dest, ASTNode<String> exp) {
-        String id = formatAsciiString(dest.get(0).getValue());
+    private void assignment(ASTNode<String> statement) {
+        String id = statement.get(0).get(0).getValue();
 
-        varTable.put(id, expression(exp));
-    }
-
-    private StringMatchList expression(ASTNode<String> exp) {
-
-
-
-        return null;
-    }
-
-    private String formatRegex(final String regex) {
-        return regex.substring(1, regex.length() - 1);
-    }
-
-    private String formatAsciiString(final String asciiString) {
-        return asciiString.substring(1, asciiString.length() - 1);
+        if (statement.get(2).getValue().equals("OCTOTHORPE")) {
+            Variable foo = expression(statement.get(3));
+            if (foo.val instanceof Integer) {
+                varTable.put(id, foo);
+            } else {
+                varTable.put(id, new Variable(((StringMatchList) foo.val).size()));
+            }
+        } else {
+            varTable.put(id, expression(statement.get(2)));
+        }
     }
 
     private void print(ASTNode<String> exp_list) {
-        System.out.println(exp_list.get(0));
+        System.out.println(expression(exp_list.get(0)));
 
         if (exp_list.getChildren().size() > 1) {
             print(exp_list.get(2));
         }
     }
 
-    private void exp(ASTNode<String> exp) {
-        // woah
+    private Variable expression(ASTNode<String> exp) {
         ASTNode<String> toke = exp.get(0);
 
         if (toke.getValue().equals("ID")) {
-            System.out.println(exp.get(0).get(0).getValue());
+            return varTable.get(toke.get(0).getValue());
         } else if (toke.getValue().equals("OPEN-PAREN")) {
-            exp(toke.get(1));
+            return expression(toke.get(1));
         } else if (toke.getValue().equals("term")) {
-            String regex = formatRegex(toke.get(1).get(0).getValue());
-            String filename = formatAsciiString(toke.get(3).get(0).get(0).getValue());
-            StringMatchList res = StringMatchOperations.find(new File(filename), regex);
-            System.out.println(res);
-            System.exit(0);
+            StringMatchList res = term(toke);
+            ASTNode<String> exp_tail = exp.get(1);
+            return new Variable(expression_tail(res, exp_tail));
+        } else {
+            throw new RuntimeException();
         }
+    }
+
+    private StringMatchList expression_tail(StringMatchList res, ASTNode<String> exp_tail) {
+        if (exp_tail.getChildren().size() == 1) {
+            return res;
+        }
+
+        StringMatchList stuff = term(exp_tail.get(1));
+        StringMatchList next = expression_tail(stuff, exp_tail.get(2));
+
+        String op = exp_tail.get(0).get(0).getValue();
+
+        if (op.equals("DIFF")) {
+            return res.difference(next);
+        } else if (op.equals("UNION")) {
+            return res.union(next);
+        } else if (op.equals("INTERS")) {
+            return res.intersection(next);
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+    private StringMatchList term(ASTNode<String> term) {
+        String regex = fromQuotedString(term.get(1).get(0).getValue());
+        String filename = fromQuotedString(term.get(3).get(0).get(0).getValue());
+        return StringMatchOperations.find(new File(filename), regex);
+    }
+
+    private void replace(ASTNode<String> statement, boolean recursive) {
+        String regex = fromQuotedString(statement.get(1).get(0).getValue());
+        String replaceText = fromQuotedString(statement.get(3).get(0).getValue());
+        String srcFile = fromQuotedString(statement.get(5).get(0).get(0).get(0).getValue());
+        String dstFile = fromQuotedString(statement.get(5).get(2).get(0).get(0).getValue());
+        StringMatchOperations.replace(regex, replaceText, new File(srcFile), new File(dstFile), recursive);
     }
 
     public static void main(String[] args) {
@@ -106,7 +148,7 @@ public class Interpreter {
         ScannerGenerator scannerGenerator = null;
 
         try {
-            InputStream specFileInputStream = new FileInputStream(MINIRE_SPEC_PATH);
+            InputStream specFileInputStream = new ByteArrayInputStream(MiniRESpec.spec.getBytes());
             InputStream programFileInputStream = new FileInputStream(programFilePath);
             scannerGenerator = new ScannerGenerator(specFileInputStream, programFileInputStream);
         } catch (FileNotFoundException ex) {

@@ -45,6 +45,8 @@ public class StringMatchTuple {
             return false;
         }
 
-        return string.equals(((StringMatchTuple) o).string);
+        StringMatchTuple t = (StringMatchTuple) o;
+
+        return this.string.equals(t.string);
     }
 }
