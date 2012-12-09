@@ -9,15 +9,56 @@ import org.junit.Test;
 public class LL1ParserTest {
 
 	@Test
-	public void test() {
-		List<Rule> rules = RuleParser.parse("test/sample/grammartest.txt");
-		for (Rule r : rules) {
-			System.out.println(r);
-		}
+	public void testParenthesesLLParserGenerator() {
+		Rule[] rules = RuleParser.parse("test/sample/grammarparen.txt")
+				.toArray(new Rule[0]);
+		LL1Parser parse = ParserGenerator.generateParser(rules);
+		try {
+			FileInputStream fis;
+			fis = new FileInputStream(new File("test/sample/inputparen1.txt"));
+			AST<String> syn = parse.parse(fis);
+			System.out.println(syn.toString());
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testConditionalLLParserGenerator() {
+		Rule[] rules = RuleParser.parse("test/sample/grammarConditional.txt")
+				.toArray(new Rule[0]);
+		
+		LL1Parser parse = ParserGenerator.generateParser(rules);
+		try {
+			FileInputStream fis;
+//			fis = new FileInputStream(new File("test/sample/inputConditional1.txt"));
+//			AST<String> syn = parse.parse(fis);
+//			System.out.println(syn.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
+	public void testMiniRE() {
+		List<Rule> rulesList = RuleParser.parse("test/sample/grammar.txt");
+
+		Rule[] rules = RuleParser.rules.toArray(new Rule[0]);
+		LL1Parser parse = ParserGenerator.generateParser(rules);
+
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(new File("test/sample/script.txt"));
+			AST<String> syn = parse.parse(fis);
+			System.out.println(syn.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public void AST() {
 		AST<String> ast = new AST<String>();
 		ASTNode<String> root = new ASTNode<String>("Rule", false);
@@ -47,25 +88,6 @@ public class LL1ParserTest {
 		e.insert(div);
 		e.insert(h);
 		ast.printAST();
-	}
-
-	@Test
-	public void test2() {
-		RuleParser.parse("test/sample/grammar.txt");
-
-		Rule[] rules = RuleParser.rules.toArray(new Rule[0]);
-		LL1Parser parse = ParserGenerator.generateParser(rules);
-
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream(new File("test/sample/script.txt"));
-			AST<String> syn = parse.parse(fis);
-			System.out.println(syn.toString());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 }

@@ -1,0 +1,9 @@
+%% Tokens   /* This section specifies a list of  all the tokens or terminals used in the grammar  separated by spacing*/
+( )
+%% Start  /* This section specifies the start symbol of the grammar */
+
+<statement>
+
+%% Rules  /* This section specifies the rules  non terminals are enclosed in < > - BNF notation is used */
+
+<statement> = ( <statement> ) <statement> | E
