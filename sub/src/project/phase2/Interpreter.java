@@ -4,16 +4,11 @@ import project.phase2.file.StringMatchOperations;
 import project.phase2.structs.StringMatchList;
 import project.scangen.ScannerGenerator;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Interpreter {
-    private static final String MINIRE_SPEC_PATH = "doc/minire_spec.txt";
-
     public class Variable {
         final public Object val;
 
@@ -152,7 +147,7 @@ public class Interpreter {
         ScannerGenerator scannerGenerator = null;
 
         try {
-            InputStream specFileInputStream = new FileInputStream(MINIRE_SPEC_PATH);
+            InputStream specFileInputStream = new ByteArrayInputStream(MiniRESpec.spec.getBytes());
             InputStream programFileInputStream = new FileInputStream(programFilePath);
             scannerGenerator = new ScannerGenerator(specFileInputStream, programFileInputStream);
         } catch (FileNotFoundException ex) {
