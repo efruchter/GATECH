@@ -26,7 +26,7 @@ public class Interpreter {
     }
 
     public void interpret() throws ParseException {
-        ASTNode<String> root = parser.parse().root;
+        ASTNode<String> root = parser.parse().getRoot();
         ASTNode<String> minire_program = root.get(0);
         statement_list(minire_program.get(1));
     }
@@ -34,11 +34,11 @@ public class Interpreter {
     public void statement_list(final ASTNode<String> statement_list) {
         ASTNode<String> statement = statement_list.get(0);
 
-        if (statement.children.size() == 0) {
+        if (statement.getChildren().size() == 0) {
             return;
         }
 
-        String nextTokenType = statement.get(0).value;
+        String nextTokenType = statement.get(0).getValue();
 
         if (nextTokenType.equals("ID")) {
             assignment(statement.get(0), statement.get(2));
@@ -50,7 +50,7 @@ public class Interpreter {
     }
 
     private void assignment(ASTNode<String> dest, ASTNode<String> exp) {
-        String id = formatAsciiString(dest.get(0).value);
+        String id = formatAsciiString(dest.get(0).getValue());
 
         varTable.put(id, expression(exp));
     }
@@ -73,7 +73,7 @@ public class Interpreter {
     private void print(ASTNode<String> exp_list) {
         System.out.println(exp_list.get(0));
 
-        if (exp_list.children.size() > 1) {
+        if (exp_list.getChildren().size() > 1) {
             print(exp_list.get(2));
         }
     }
@@ -82,13 +82,13 @@ public class Interpreter {
         // woah
         ASTNode<String> toke = exp.get(0);
 
-        if (toke.value.equals("ID")) {
-            System.out.println(exp.get(0).get(0).value);
-        } else if (toke.value.equals("OPEN-PAREN")) {
+        if (toke.getValue().equals("ID")) {
+            System.out.println(exp.get(0).get(0).getValue());
+        } else if (toke.getValue().equals("OPEN-PAREN")) {
             exp(toke.get(1));
-        } else if (toke.value.equals("term")) {
-            String regex = formatRegex(toke.get(1).get(0).value);
-            String filename = formatAsciiString(toke.get(3).get(0).get(0).value);
+        } else if (toke.getValue().equals("term")) {
+            String regex = formatRegex(toke.get(1).get(0).getValue());
+            String filename = formatAsciiString(toke.get(3).get(0).get(0).getValue());
             StringMatchList res = StringMatchOperations.find(new File(filename), regex);
             System.out.println(res);
             System.exit(0);

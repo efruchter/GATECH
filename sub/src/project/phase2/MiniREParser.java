@@ -36,10 +36,10 @@ public class MiniREParser {
 
     public AST<String> parse() throws ParseException {
         AST<String> ast = new AST<String>();
-        ast.root = new ASTNode<String>("root", false);
+        ast.setRoot(new ASTNode<String>("root", false));
 
         nodeStack = new Stack<ASTNode<String>>();
-        nodeStack.push(ast.root);
+        nodeStack.push(ast.getRoot());
 
         tokenIterator = scangen.generateTokenizer().iterator();
 

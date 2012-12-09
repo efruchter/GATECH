@@ -7,9 +7,9 @@ import java.util.ArrayList;
  * 
  */
 public class ASTNode<V> {
-	public V value;
-	public ArrayList<ASTNode<V>> children;
-	public boolean isTerminal;
+	private V value;
+	private ArrayList<ASTNode<V>> children;
+	private boolean isTerminal;
 
 	/**
 	 * Constructor of AST with value
@@ -17,8 +17,8 @@ public class ASTNode<V> {
 	 * @param value
 	 */
 	public ASTNode(V value) {
-		this.children = new ArrayList<ASTNode<V>>();
-		this.value = value;
+		this.setChildren(new ArrayList<ASTNode<V>>());
+		this.setValue(value);
 	}
 
 	/**
@@ -29,11 +29,11 @@ public class ASTNode<V> {
 	 */
 	public ASTNode(V value, boolean terminal) {
 		this(value);
-		this.isTerminal = terminal;
+		this.setTerminal(terminal);
 	}
 	
 	public ASTNode<V> get(int i) {
-		return this.children.get(i);
+		return this.getChildren().get(i);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class ASTNode<V> {
 	 */
 	public void insert(ASTNode<V> child) {
 		if (child != null) {
-			this.children.add(child);
+			this.getChildren().add(child);
 		}
 	}
 
@@ -52,8 +52,8 @@ public class ASTNode<V> {
 	 */
 	public String toString() {
 		String valStr = "";
-		if (value != null) {
-			valStr = value.toString();
+		if (getValue() != null) {
+			valStr = getValue().toString();
 		}
 		return  valStr;
 	}
@@ -65,10 +65,34 @@ public class ASTNode<V> {
 	 */
 	public String toStringChildren() {
 		String cStr = "";
-		if (children != null) {
-			cStr = children.toString();
+		if (getChildren() != null) {
+			cStr = getChildren().toString();
 		}
 		return "Children: " + cStr;
+	}
+
+	public V getValue() {
+		return value;
+	}
+
+	public void setValue(V value) {
+		this.value = value;
+	}
+
+	public ArrayList<ASTNode<V>> getChildren() {
+		return children;
+	}
+
+	public void setChildren(ArrayList<ASTNode<V>> children) {
+		this.children = children;
+	}
+
+	public boolean isTerminal() {
+		return isTerminal;
+	}
+
+	public void setTerminal(boolean isTerminal) {
+		this.isTerminal = isTerminal;
 	}
 
 }

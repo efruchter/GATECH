@@ -21,7 +21,7 @@ public class LL1ParserTest {
 	public void AST() {
 		AST<String> ast = new AST<String>();
 		ASTNode<String> root = new ASTNode<String>("Rule", false);
-		ast.root = root;
+		ast.setRoot(root);
 		ASTNode<String> a = new ASTNode<String>("a", false);
 		ASTNode<String> plus = new ASTNode<String>("+", true);
 		ASTNode<String> b = new ASTNode<String>("b", false);
