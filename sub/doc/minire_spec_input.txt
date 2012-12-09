@@ -1,6 +1,6 @@
 begin
-matches = find 'im a regex1' in "file1txt" inters find 'im a regex2' in "file2txt";
+matches = find 'matches' in "minire_spec_input.txt";
 n_matches = #matches;
-print (n_matches);
-replace 'im a regex3' with "" in "file1txt" >! "file3txt";
+print (n_matches, matches);
+replace 'matches' with "foobars" in "minire_spec_input.txt";
 end
