@@ -4,16 +4,15 @@ import project.phase2.structs.StringMatchList;
 import project.phase2.structs.StringMatchTuple;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * File editing tool.
  */
 public class FileIO {
 
-    private FileIO() {}
+    private FileIO() {
+    }
 
     public static void writeFile(final File dest, final String toWrite) throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter(dest));
@@ -29,19 +28,21 @@ public class FileIO {
      * @throws IOException file reading has been blocked
      */
     public static String readEntireFile(final File file) throws IOException {
-        StringBuffer a = new StringBuffer();
-        for (String s : readEntireFileIntoLines(file)) {
-            a.append("\n").append(s);
+        StringBuffer fileData = new StringBuffer(1000);
+        BufferedReader reader = new BufferedReader(
+                new FileReader(file));
+        char[] buf = new char[1024];
+        int numRead = 0;
+        while ((numRead = reader.read(buf)) != -1) {
+            String readData = String.valueOf(buf, 0, numRead);
+            fileData.append(readData);
+            buf = new char[1024];
         }
-        return a.toString().replaceFirst("\n", "");
+        reader.close();
+        return fileData.toString();
     }
 
     public static List<String> readEntireFileIntoLines(final File file) throws IOException {
-        List<String> list = new ArrayList<String>();
-        Scanner s = new Scanner(file);
-        while (s.hasNextLine()) {
-            list.add(s.nextLine());
-        }
-        return list;
+        return Arrays.asList(readEntireFile(file).split("\n"));
     }
 }
