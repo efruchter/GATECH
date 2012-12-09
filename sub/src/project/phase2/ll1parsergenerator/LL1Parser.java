@@ -336,7 +336,7 @@ public class LL1Parser {
 
 			mResult = new AST<String>();
 
-			mResult.setRoot(parse());
+			mResult.root = parse();
 
 			char next = getNextCharacter();
 			Rule r = mStack.pop();
@@ -406,7 +406,7 @@ public class LL1Parser {
 
 				if (currName == EPSILON) {
 					ret = new ASTNode<String>(EPSILON);
-					ret.setTerminal(true);
+					ret.isTerminal = true;
 
 					return ret;
 				}
@@ -447,7 +447,7 @@ public class LL1Parser {
 								mLocation - backTrack);
 
 					ret = new ASTNode<String>(asc);
-					ret.setTerminal(true);
+					ret.isTerminal = true;
 
 					return ret;
 				} else if (currName.equals(REG_EX)) {
@@ -480,7 +480,7 @@ public class LL1Parser {
 					}
 
 					ret = new ASTNode<String>(reg);
-					ret.setTerminal(true);
+					ret.isTerminal = true;
 
 					return ret;
 				} else if (currName.equals(ID)) {
@@ -503,7 +503,7 @@ public class LL1Parser {
 						replaceCharacter(next);
 
 					ret = new ASTNode<String>(id);
-					ret.setTerminal(true);
+					ret.isTerminal = true;
 
 					return ret;
 				} else {
@@ -521,7 +521,7 @@ public class LL1Parser {
 										- backTrack);
 
 					ret = new ASTNode<String>(curr);
-					ret.setTerminal(true);
+					ret.isTerminal = true;
 
 					return ret;
 				}
@@ -547,10 +547,10 @@ public class LL1Parser {
 					}
 
 					if ("<file-names>".equals(currRule.getName())) {
-						String src = ret.getChildren().get(0).getChildren()
-								.get(0).getValue();
-						String dest = ret.getChildren().get(2).getChildren()
-								.get(0).getValue();
+						String src = ret.children.get(0).children
+								.get(0).value;
+						String dest = ret.children.get(2).children
+								.get(0).value;
 
 						if (src.equals(dest))
 							throw new ParseException(
@@ -558,8 +558,8 @@ public class LL1Parser {
 									mLocation);
 					} else if (prodRule.length > 0
 							&& "recursivereplace".equals(prodRule[0].getName())) {
-						String regex = ret.getChildren().get(1).getValue();
-						String ascii = ret.getChildren().get(3).getValue();
+						String regex = ret.children.get(1).value;
+						String ascii = ret.children.get(3).value;
 
 						if (regex.equals(ascii))
 							throw new ParseException(

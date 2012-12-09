@@ -1,5 +1,7 @@
 package project.phase2;
 
+import project.phase2.ll1parsergenerator.AST;
+import project.phase2.ll1parsergenerator.ASTNode;
 import project.scangen.ScannerGenerator;
 import project.scangen.tokenizer.Token;
 

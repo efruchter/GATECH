@@ -1,6 +1,7 @@
 package project.phase2;
 
 import project.phase2.file.StringMatchOperations;
+import project.phase2.ll1parsergenerator.ASTNode;
 import project.phase2.structs.StringMatchList;
 import project.phase2.structs.StringMatchTuple;
 import project.scangen.ScannerGenerator;

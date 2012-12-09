@@ -7,9 +7,9 @@ import java.util.ArrayList;
  * 
  */
 public class ASTNode<V> {
-	private V value;
-	private ArrayList<ASTNode<V>> children;
-	private boolean terminal;
+	public V value;
+	public ArrayList<ASTNode<V>> children;
+	public boolean isTerminal;
 
 	/**
 	 * Constructor of AST with value
@@ -29,31 +29,11 @@ public class ASTNode<V> {
 	 */
 	public ASTNode(V value, boolean terminal) {
 		this(value);
-		this.terminal = terminal;
+		this.isTerminal = terminal;
 	}
-
-	public V getValue() {
-		return value;
-	}
-
-	public void setValue(V value) {
-		this.value = value;
-	}
-
-	public ArrayList<ASTNode<V>> getChildren() {
-		return children;
-	}
-
-	public void setChildren(ArrayList<ASTNode<V>> children) {
-		this.children = children;
-	}
-
-	public boolean isTerminal() {
-		return terminal;
-	}
-
-	public void setTerminal(boolean terminal) {
-		this.terminal = terminal;
+	
+	public ASTNode<V> get(int i) {
+		return this.children.get(i);
 	}
 
 	/**
@@ -75,7 +55,7 @@ public class ASTNode<V> {
 		if (value != null) {
 			valStr = value.toString();
 		}
-		return "<" + valStr + "> ";
+		return  valStr;
 	}
 
 	/**
