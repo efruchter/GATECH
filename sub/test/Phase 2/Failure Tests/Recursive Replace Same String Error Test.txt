@@ -1,0 +1,3 @@
+begin
+recursivereplace 'thebest' with "thebest" in "input1.txt" >! "input2.txt";
+end

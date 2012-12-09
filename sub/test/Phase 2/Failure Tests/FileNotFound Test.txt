@@ -1,0 +1,3 @@
+begin
+newID = find '(a | b | c)' in "NonExistantFile.txt";
+end

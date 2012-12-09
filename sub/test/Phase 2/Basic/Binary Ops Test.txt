@@ -1,0 +1,21 @@
+begin
+newVar = find '(This | thebest | is)' in "tests\Phase 2\Basic Tests\input.txt" union find '(input | ever)' in "tests\Phase 2\Basic Tests\input.txt";
+print(newVar);
+newVar = find '(This | thebest | is)' in "tests\Phase 2\Basic Tests\input.txt" diff find '(thebest | ever)' in "tests\Phase 2\Basic Tests\input.txt";
+print(newVar);
+newVar = find '(This | thebest | is)' in "tests\Phase 2\Basic Tests\input.txt" inters find '(This | ever)' in "tests\Phase 2\Basic Tests\input.txt";
+print(newVar);
+newVar = find '(This | the | is)' in "tests\Phase 2\Basic Tests\input.txt" 
+union find '(the | The)' in "tests\Phase 2\Basic Tests\input2.txt" 
+inters find 'the' in "tests\Phase 2\Basic Tests\input2.txt";
+print(newVar);
+newVar = find 'best' in "tests\Phase 2\Basic Tests\input.txt"
+inters find 'the' in "tests\Phase 2\Basic Tests\input2.txt";
+print(newVar);
+newVar = find '(This | the | is)' in "tests\Phase 2\Basic Tests\input.txt"
+diff find 'the' in "tests\Phase 2\Basic Tests\input2.txt";
+print(newVar);
+newVar = find 'This | is | the | best' in "tests\Phase 2\Basic Tests\input.txt"
+inters find 'the' in "tests\Phase 2\Basic Tests\input2.txt";
+print(newVar);
+end

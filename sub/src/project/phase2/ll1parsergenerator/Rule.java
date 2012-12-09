@@ -97,11 +97,11 @@ public class Rule {
 			sb.append("[START] ");
 		}
 		sb.append(name + ":");
-		
+
 		if (terminal) {
 			sb.append(" terminal\n");
-		}else {
-			sb.append( "\n");
+		} else {
+			sb.append("\n");
 			for (Rule[] rs : this.rules) {
 				for (Rule r : rs) {
 					sb.append(r.getName());

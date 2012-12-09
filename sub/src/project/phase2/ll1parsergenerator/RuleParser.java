@@ -1,28 +1,26 @@
 package project.phase2.ll1parsergenerator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.LinkedList;
 
 import project.phase2.file.FileEditor;
 
 /**
- * Generates the rules from grammar file
- * 
- * @author Kefu Zhou
+ * Generates set of rules from grammar file
  * 
  */
 public class RuleParser {
 	public static String[] predef;
-	public static List<Rule> rules;
+	public static LinkedList<Rule> rules;
 
 	/**
 	 * Adds the default terminals to the rule list. Also initializes the list.
 	 */
 	private static void initializeTerminals() {
 		rules = new LinkedList<Rule>();
+		// addTerminal(""+'\u03B5'); //epsilon
 		addTerminal("E");
 		addTerminal("REGEX");
 		addTerminal("ASCII-STR");
@@ -34,7 +32,7 @@ public class RuleParser {
 	 *            Adds the terminal s
 	 */
 	private static void addTerminal(String s) {
-		Rule r = new Rule(s);
+		Rule r = new Rule(s); // epsilon?
 		r.setTerminal(true);
 		rules.add(r);
 	}
@@ -43,13 +41,13 @@ public class RuleParser {
 	 * parses the input scanner to generate the set of rules. The input scanner
 	 * must have the predefined symbols, start state, and grammar as specified.
 	 * 
-	 * @param input
+	 * @param string
 	 */
 	public static List<Rule> parse(String path) {
 		Scanner input = null;
 		try {
 			input = new Scanner(FileEditor.readEntireFile(new File(path)));
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -57,7 +55,6 @@ public class RuleParser {
 		initializeTerminals();
 
 		// Remove leading blank lines up to the predefines variables
-		// System.out.println(grammarFile.length());
 		line = input.nextLine();
 		while (line.length() < 9
 				|| line.substring(0, 9).compareTo("%% Tokens") != 0) {
@@ -103,11 +100,9 @@ public class RuleParser {
 					+ " but no such rule found.");
 			System.exit(0);
 		}
-		
-		// replace E with "" 
 		for (Rule r : rules) {
 			if (r.getName().compareTo("E") == 0) {
-				r.setName("E");
+				r.setName(null);
 			}
 		}
 		return rules;
@@ -128,6 +123,7 @@ public class RuleParser {
 			return null;
 		if (s.charAt(0) == '%')
 			return null;
+		// while(s.charAt(i)!='\u2192'){ TODO?
 		while (s.charAt(i) != '=') {
 			if (!Character.isWhitespace(s.charAt(i)))
 				s2[0] += s.charAt(i);
@@ -253,13 +249,5 @@ public class RuleParser {
 		// System.out.println(line[0]+": " + ruleName);
 		production.add(longestFound);
 		return s;
-	}
-	
-	// Testing
-	public static void main(String[] args) {
-		List<Rule> rules = RuleParser.parse("test/sample/grammartest.txt");
-		for(Rule r: rules) {
-			System.out.println(r);
-		}
 	}
 }

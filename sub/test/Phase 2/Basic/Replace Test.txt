@@ -1,0 +1,3 @@
+begin
+replace 'thebest' with "theworst" in "tests/Phase 2/Basic Tests/input.txt" >! "tests/Phase 2/Basic Tests/Replace Output.txt";
+end
