@@ -45,9 +45,13 @@ public class StringMatchOperations {
         try {
             String s = FileIO.readEntireFile(src);
             if (recursive) {
-                s = s.replaceAll(toReplace, replaceWith);
+                boolean remaining = true;
+                do {
+                    s = s.replaceAll(toReplace, replaceWith);
+                    remaining = Pattern.compile(toReplace).matcher(s).find();
+                } while (remaining);
             } else {
-                s = s.replaceFirst(toReplace, replaceWith);
+                s = s.replaceAll(toReplace, replaceWith);
             }
             FileIO.writeFile(dest, s);
         } catch (IOException i) {
