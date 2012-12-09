@@ -87,7 +87,7 @@ public class Interpreter {
         StringMatchList stuff = term(exp_tail.get(1));
         StringMatchList next = expression_tail(stuff, exp_tail.get(2));
 
-        String op = exp_tail.get(0).value;
+        String op = exp_tail.get(0).get(0).value;
 
         if (op.equals("DIFF")) {
             return res.difference(next);
