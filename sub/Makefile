@@ -7,7 +7,7 @@ all: build clean
 
 .PHONY: build
 build:
-	javac -cp $(SRCDIR) $(SRCDIR)/$(MAINCLASS)
+	$(SRCDIR)/build.sh
 
 .PHONY: clean
 clean:
