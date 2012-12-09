@@ -28,7 +28,7 @@ public class Interpreter {
         statement_list(minire_program.get(1));
     }
 
-    private String formatQuotedString(final String asciiString) {
+    private String fromQuotedString(final String asciiString) {
         return asciiString.substring(1, asciiString.length() - 1);
     }
 
@@ -56,7 +56,7 @@ public class Interpreter {
     }
 
     private void print(ASTNode<String> exp_list) {
-        System.out.println(exp_list.get(0));
+        System.out.println(expression(exp_list.get(0)));
 
         if (exp_list.children.size() > 1) {
             print(exp_list.get(2));
@@ -101,8 +101,8 @@ public class Interpreter {
     }
 
     private StringMatchList term(ASTNode<String> term) {
-        String regex = formatQuotedString(term.get(1).get(0).value);
-        String filename = formatQuotedString(term.get(3).get(0).value);
+        String regex = fromQuotedString(term.get(1).get(0).value);
+        String filename = fromQuotedString(term.get(3).get(0).get(0).value);
         return StringMatchOperations.find(new File(filename), regex);
     }
 
