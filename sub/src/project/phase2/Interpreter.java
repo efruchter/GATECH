@@ -138,8 +138,7 @@ public class Interpreter {
         String replaceText = fromQuotedString(statement.get(3).get(0).value);
         String srcFile = fromQuotedString(statement.get(5).get(0).get(0).get(0).value);
         String dstFile = fromQuotedString(statement.get(5).get(2).get(0).get(0).value);
-        //String filename = fromQuotedString(statement.get(5).get(0).value);
-        System.out.println();
+        StringMatchOperations.replace(regex, replaceText, new File(srcFile), new File(dstFile), recursive);
     }
 
     public static void main(String[] args) {
