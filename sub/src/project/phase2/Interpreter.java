@@ -56,6 +56,10 @@ public class Interpreter {
 
         if (nextTokenType.equals("ID")) {
             assignment(statement);
+        } else if (nextTokenType.equals("REPLACE")) {
+            replace(statement, false);
+        } else if (nextTokenType.equals("RECURSIVEREPLACE")) {
+            replace(statement, true);
         } else if (nextTokenType.equals("PRINT")) {
             print(statement.get(2));
         }
@@ -127,6 +131,15 @@ public class Interpreter {
         String regex = fromQuotedString(term.get(1).get(0).value);
         String filename = fromQuotedString(term.get(3).get(0).get(0).value);
         return StringMatchOperations.find(new File(filename), regex);
+    }
+
+    private void replace(ASTNode<String> statement, boolean recursive) {
+        String regex = fromQuotedString(statement.get(1).get(0).value);
+        String replaceText = fromQuotedString(statement.get(3).get(0).value);
+        String srcFile = fromQuotedString(statement.get(5).get(0).get(0).get(0).value);
+        String dstFile = fromQuotedString(statement.get(5).get(2).get(0).get(0).value);
+        //String filename = fromQuotedString(statement.get(5).get(0).value);
+        System.out.println();
     }
 
     public static void main(String[] args) {
