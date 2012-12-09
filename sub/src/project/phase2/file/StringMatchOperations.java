@@ -79,8 +79,4 @@ public class StringMatchOperations {
         }
         return tuples;
     }
-
-    public static void main(String[] args) {
-        StringMatchOperations.replace("nuttin", "sumtin", new File("TestFile.txt"), new File("tori.txt"), true);
-    }
 }
