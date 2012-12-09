@@ -5,6 +5,7 @@ import project.phase2.structs.StringMatchTuple;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,7 +31,7 @@ public class StringMatchOperations {
      * @param string
      * @return results tuple
      */
-    public static StringMatchTuple find(final File file, final String string) {
+    public static List<StringMatchTuple> find(final File file, final String string) {
         try {
             return findInFile(file, string);
         } catch (IOException i) {
@@ -76,11 +77,12 @@ public class StringMatchOperations {
         try {
             boolean remaining = true;
             while (remaining) {
-                StringMatchTuple tuple = findInFile(file, match);
-                if (tuple.found()) {
-                    FileEditor.replaceAtSubstring(new File(tuple.fileName), tuple.line, tuple.startIndex, tuple.endIndex, replaceWith);
-                } else {
+                List<StringMatchTuple> tuples = findInFile(file, match);
+                if (tuples.isEmpty()) {
                     remaining = false;
+                } else {
+                    StringMatchTuple tuple = tuples.get(0);
+                    FileEditor.replaceAtSubstring(new File(tuple.fileName), tuple.line, tuple.startIndex, tuple.endIndex, replaceWith);
                 }
             }
         } catch (IOException i) {
@@ -88,24 +90,23 @@ public class StringMatchOperations {
         }
     }
 
-    private static StringMatchTuple findInFile(final File file, final String string) throws IOException {
-        StringMatchTuple t = new StringMatchTuple(string);
-        t.fileName = file.getPath();
-        findInFile(t);
-        return t;
-    }
+    private static List<StringMatchTuple> findInFile(final File file, final String string) throws IOException {
 
-    private static void findInFile(final StringMatchTuple stringMatchTuple) throws IOException {
-        List<String> lines = FileEditor.readEntireFileIntoLines(new File(stringMatchTuple.fileName));
+        List<String> lines = FileEditor.readEntireFileIntoLines(file);
+
+        List<StringMatchTuple> tuples = new LinkedList<StringMatchTuple>();
+
         for (int line = 0; line < lines.size(); line++) {
-            Pattern pattern = Pattern.compile(stringMatchTuple.string);
+            Pattern pattern = Pattern.compile(string);
             Matcher matcher = pattern.matcher(lines.get(line));
-            if (matcher.find()) {
-                stringMatchTuple.startIndex = matcher.start();
-                stringMatchTuple.endIndex = matcher.end();
-                stringMatchTuple.line = 1 + line;
-                break;
+            while (matcher.find()) {
+                StringMatchTuple t = new StringMatchTuple();
+                t.startIndex = matcher.start();
+                t.endIndex = matcher.end();
+                t.line = 1 + line;
+                tuples.add(t);
             }
         }
+        return tuples;
     }
 }
