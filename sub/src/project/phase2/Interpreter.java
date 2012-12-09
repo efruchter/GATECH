@@ -75,16 +75,16 @@ public class Interpreter {
         String id = statement.get(0).get(0).getValue();
 
         if (statement.get(2).getValue().equals("OCTOTHORPE")) {
-            Variable foo = expression(statement.get(3));
-            if (foo.val instanceof Integer) {
-                varTable.put(id, foo);
+            Variable var = expression(statement.get(3));
+            if (var.val instanceof Integer) {
+                varTable.put(id, var);
             } else {
-                varTable.put(id, new Variable(((StringMatchList) foo.val).size()));
+                varTable.put(id, new Variable(((StringMatchList) var.val).size()));
             }
         } else if (statement.get(2).getValue().equals("MAXFREQSTRING")) {
-            Variable foo = varTable.get(statement.get(4).get(0).getValue());
-            if (foo.val instanceof StringMatchList) {
-                varTable.put(id, new Variable(((StringMatchList) foo.val).getMostFrequentString()));
+            Variable var = varTable.get(statement.get(4).get(0).getValue());
+            if (var.val instanceof StringMatchList) {
+                varTable.put(id, new Variable(((StringMatchList) var.val).getMostFrequentString()));
             } else {
                 throw new TypeException(String.format("Can't call `maxfreqstring' on variable `%s' of type `Integer'",
                         id));
