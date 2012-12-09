@@ -5,7 +5,6 @@ import project.phase2.structs.StringMatchTuple;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,58 +40,24 @@ public class StringMatchOperations {
 
     /**
      * replace a given location with a new string.
-     *
-     * @param file
-     * @param line
-     * @param startIndex
-     * @param endIndex
-     * @param replaceWith
      */
-    public static void replace(final File file, int line, int startIndex, int endIndex, String replaceWith) {
+    public static void replace(final String toReplace, final String replaceWith, final File src, final File dest, final boolean recursive) {
         try {
-            FileEditor.replaceAtSubstring(file, line, startIndex, endIndex, replaceWith);
-        } catch (IOException i) {
-            throw new RuntimeException("File not found! " + file);
-        }
-    }
-
-    /**
-     * Replace a tuple with another string.
-     *
-     * @param tuple
-     * @param replaceWith
-     */
-    public static void replace(final StringMatchTuple tuple, final String replaceWith) {
-        replace(new File(tuple.fileName), tuple.line, tuple.startIndex, tuple.endIndex, replaceWith);
-    }
-
-    /**
-     * Keep replacing until you just can't replace no more!
-     *
-     * @param file
-     * @param match
-     * @param replaceWith
-     */
-    public static void recursiveReplace(final File file, final String match, final String replaceWith) {
-        try {
-            boolean remaining = true;
-            while (remaining) {
-                List<StringMatchTuple> tuples = findInFile(file, match);
-                if (tuples.isEmpty()) {
-                    remaining = false;
-                } else {
-                    StringMatchTuple tuple = tuples.get(0);
-                    FileEditor.replaceAtSubstring(new File(tuple.fileName), tuple.line, tuple.startIndex, tuple.endIndex, replaceWith);
-                }
+            String s = FileIO.readEntireFile(src);
+            if (recursive) {
+                s = s.replaceAll(toReplace, replaceWith);
+            } else {
+                s = s.replaceFirst(toReplace, replaceWith);
             }
+            FileIO.writeFile(dest, s);
         } catch (IOException i) {
-            throw new RuntimeException("File not found! " + file);
+            throw new RuntimeException("File not found! " + src);
         }
     }
 
     private static StringMatchList findInFile(final File file, final String string) throws IOException {
 
-        List<String> lines = FileEditor.readEntireFileIntoLines(file);
+        List<String> lines = FileIO.readEntireFileIntoLines(file);
 
         StringMatchList tuples = new StringMatchList();
 
@@ -109,5 +74,9 @@ public class StringMatchOperations {
             }
         }
         return tuples;
+    }
+
+    public static void main(String[] args) {
+        StringMatchOperations.replace("nuttin", "sumtin", new File("TestFile.txt"), new File("tori.txt"), true);
     }
 }

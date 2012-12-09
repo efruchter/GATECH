@@ -1,12 +1,11 @@
 package project.phase2.ll1parsergenerator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.LinkedList;
 
-import project.phase2.file.FileEditor;
+import project.phase2.file.FileIO;
 
 /**
  * Generates the rules from grammar file
@@ -48,7 +47,7 @@ public class RuleParser {
 	public static List<Rule> parse(String path) {
 		Scanner input = null;
 		try {
-			input = new Scanner(FileEditor.readEntireFile(new File(path)));
+			input = new Scanner(FileIO.readEntireFile(new File(path)));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

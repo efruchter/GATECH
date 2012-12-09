@@ -11,26 +11,13 @@ import java.util.Scanner;
 /**
  * File editing tool.
  */
-public class FileEditor {
+public class FileIO {
 
-    private FileEditor() {}
+    private FileIO() {}
 
-    public static void replaceAtSubstring(final File file, int line, int start, int end, final String replaceWith) throws IOException {
-
-        StringBuffer b = new StringBuffer();
-
-        List<String> lines = readEntireFileIntoLines(file);
-
-        for (int i = 0; i < lines.size(); i++) {
-            if (i == line - 1) {
-                b.append(lines.get(i).substring(0, start)).append(replaceWith).append(lines.get(i).substring(end));
-            } else {
-                b.append(lines.get(i));
-            }
-            b.append("\n");
-        }
-        BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        out.write(b.toString());
+    public static void writeFile(final File dest, final String toWrite) throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(dest));
+        out.write(toWrite);
         out.close();
     }
 
