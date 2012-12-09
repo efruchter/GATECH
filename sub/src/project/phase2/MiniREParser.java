@@ -56,7 +56,7 @@ public class MiniREParser {
         if (tokenIterator.hasNext()) {
             token = MiniREParser.parseKeywords(tokenIterator.next());
         } else {
-            token = new Token("EOF", "EOF");
+            token = new Token("EOF", "EOF", -1, -1);
         }
     }
 
@@ -97,7 +97,7 @@ public class MiniREParser {
      */
     private void expect(String tokenType) throws ParseException {
         if (!accept(tokenType))
-            throw new ParseException(String.format("Expected `%s' got `%s'", tokenType, token.type));
+            throw new ParseException(String.format("Expected `%s' got `%s'", tokenType, token.type), token);
     }
 
     /**
@@ -180,7 +180,7 @@ public class MiniREParser {
         } else {
             pop();
             throw new ParseException(String.format("Expected one of `ID', `REPLACE', `RECURSIVEREPLACE', " +
-                    "`PRINT' got `%s'", token.type));
+                    "`PRINT' got `%s'", token.type), token);
         }
 
         expect("SEMICOLON");
@@ -293,7 +293,7 @@ public class MiniREParser {
         } else {
             pop();
             throw new ParseException(String.format("Expected one of `DIFF', `UNION', `INTERS' " +
-                    "got `%s'", token.type));
+                    "got `%s'", token.type), token);
         }
 
         pop();
@@ -310,9 +310,9 @@ public class MiniREParser {
     private static Token parseKeywords(final Token token) {
         if (token.type.equals("ID-OR-KEYWORD")) {
             if (KEYWORDS.contains(token.value)) {
-                return new Token(token.value.toUpperCase(), token.value);
+                return new Token(token.value.toUpperCase(), token.value, token.line, token.pos);
             } else {
-                return new Token("ID", token.value);
+                return new Token("ID", token.value, token.line, token.pos);
             }
         } else {
             return token;

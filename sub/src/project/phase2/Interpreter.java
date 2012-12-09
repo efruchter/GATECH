@@ -175,7 +175,8 @@ public class Interpreter {
         try {
             interpreter.interpret();
         } catch (ParseException ex) {
-            System.out.println(ex);
+            System.out.println(String.format("%s (%s:%d:%d)", ex, programFilePath, ex.getToken().line,
+                    ex.getToken().pos));
             System.exit(2);
         } catch (MiniRERuntimeException ex) {
             System.out.println(ex);
