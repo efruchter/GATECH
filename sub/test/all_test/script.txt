@@ -1,6 +1,8 @@
 begin
-matches = find '[A-Z a-z]*ment[A-Z a-z]*' in "file1.txt" inters find '(A|a) [A-Z a-z]*' in "file2.txt";
+matches = find 'D' in "input.txt" union find 'I' in "input.txt";
 num_match = #matches;
 print (num_match);
-replace '[A-Z a-z]*ment' with "" in "file1.txt" >! "file3.txt";   
+replace 'l' with "???" in "input.txt" >! "output1.txt";
+replace 'a' with "II" in "output1.txt" >! "output2.txt";
+replace 'bob' with "7" in "output2.txt" >! "output3.txt";   
 end
