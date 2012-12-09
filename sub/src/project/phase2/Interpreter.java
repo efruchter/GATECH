@@ -1,5 +1,8 @@
 package project.phase2;
 
+import project.phase2.exc.InvalidArgumentException;
+import project.phase2.exc.ParseException;
+import project.phase2.exc.TypeException;
 import project.phase2.file.StringMatchOperations;
 import project.phase2.ll1parsergenerator.ASTNode;
 import project.phase2.structs.StringMatchList;
@@ -21,12 +24,6 @@ public class Interpreter {
         @Override
         public String toString() {
             return this.val.toString();
-        }
-    }
-
-    private class MiniRERuntimeException extends RuntimeException {
-        public MiniRERuntimeException(final String message) {
-            super(message);
         }
     }
 
@@ -83,6 +80,15 @@ public class Interpreter {
                 varTable.put(id, foo);
             } else {
                 varTable.put(id, new Variable(((StringMatchList) foo.val).size()));
+            }
+        } else if (statement.get(2).getValue().equals("MAXFREQSTRING")) {
+            Variable foo = varTable.get(statement.get(4).get(0).getValue());
+            if (foo.val instanceof StringMatchList) {
+                varTable.put(id, new Variable("lolololol"));
+                //varTable.put(id, null); // TODO: use StringMatchList.maxfreqstring()
+            } else {
+                throw new TypeException(String.format("Can't call `maxfreqstring' on variable `%s' of type `Integer'",
+                        id));
             }
         } else {
             varTable.put(id, expression(statement.get(2)));
@@ -145,7 +151,7 @@ public class Interpreter {
         String replaceText = fromQuotedString(statement.get(3).get(0).getValue());
 
         if (recursive && Pattern.compile(regex).matcher(replaceText).find()) {
-            throw new MiniRERuntimeException(String.format("Replacement text `%s' must not match regex `%s'.",
+            throw new InvalidArgumentException(String.format("Replacement text `%s' must not match regex `%s'.",
                     replaceText, regex));
         }
 
@@ -182,7 +188,7 @@ public class Interpreter {
             System.out.println(String.format("%s (%s:%d:%d)", ex, programFilePath, ex.getToken().line,
                     ex.getToken().pos));
             System.exit(2);
-        } catch (MiniRERuntimeException ex) {
+        } catch (InvalidArgumentException ex) {
             System.out.println(ex);
             System.exit(3);
         }
