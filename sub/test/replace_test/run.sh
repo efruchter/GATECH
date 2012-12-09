@@ -1,2 +1,1 @@
-#!/bin/bash
-echo 'put your test run script here'
+../run_test.sh
