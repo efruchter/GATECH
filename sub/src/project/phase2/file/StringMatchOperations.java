@@ -31,7 +31,7 @@ public class StringMatchOperations {
      * @param string
      * @return results tuple
      */
-    public static List<StringMatchTuple> find(final File file, final String string) {
+    public static StringMatchList find(final File file, final String string) {
         try {
             return findInFile(file, string);
         } catch (IOException i) {
@@ -90,11 +90,11 @@ public class StringMatchOperations {
         }
     }
 
-    private static List<StringMatchTuple> findInFile(final File file, final String string) throws IOException {
+    private static StringMatchList findInFile(final File file, final String string) throws IOException {
 
         List<String> lines = FileEditor.readEntireFileIntoLines(file);
 
-        List<StringMatchTuple> tuples = new LinkedList<StringMatchTuple>();
+        StringMatchList tuples = new StringMatchList();
 
         for (int line = 0; line < lines.size(); line++) {
             Pattern pattern = Pattern.compile(string);

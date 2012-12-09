@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Interpreter {
@@ -87,7 +88,7 @@ public class Interpreter {
         } else if (toke.value.equals("term")) {
             String regex = formatRegex(toke.get(1).get(0).value);
             String filename = formatAsciiString(toke.get(3).get(0).get(0).value);
-            StringMatchTuple res = StringMatchOperations.find(new File(filename), regex);
+            StringMatchList res = StringMatchOperations.find(new File(filename), regex);
             System.out.println(res);
             System.exit(0);
         }
