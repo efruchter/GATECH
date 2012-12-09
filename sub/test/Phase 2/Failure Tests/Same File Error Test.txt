@@ -1,3 +1,0 @@
-begin
-replace 'thebest' with "theworst" in "input.txt" >! "input.txt";
-end

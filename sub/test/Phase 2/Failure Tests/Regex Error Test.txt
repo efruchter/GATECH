@@ -1,3 +1,0 @@
-begin
-newID = find '(a | b | c' in "input.txt";
-end

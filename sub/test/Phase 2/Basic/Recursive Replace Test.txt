@@ -1,6 +1,0 @@
-begin
-thebest = find 'thebest' in "input.txt";
-spamcount = #thebest;
-recursivereplace 'thebestthebest' with "thebest" in "tests\Phase 2\Basic Tests\input.txt" >! "tests\Phase 2\Basic Tests\Recursive Replace Output.txt";
-print(spamcount);
-end

@@ -1,2 +1,0 @@
-begin
-'regular expression that i leave unclosed

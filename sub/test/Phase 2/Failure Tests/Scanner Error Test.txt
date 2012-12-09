@@ -1,3 +1,0 @@
-begin
-_do print(newVar) for newVar in find 'the' in "input.txt";
-end

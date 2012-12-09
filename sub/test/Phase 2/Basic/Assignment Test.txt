@@ -1,8 +1,0 @@
-begin
-newVar = find '(This | the | best | is)' in "tests\Phase 2\Basic Tests\input.txt";
-count = #newVar;
-maxFreq = maxfreqstring(newVar);
-print(newVar);
-print(count);
-print(newVar, count, maxFreq);
-end
