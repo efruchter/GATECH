@@ -8,15 +8,19 @@ package project.scangen.tokenizer;
 public class Token {
     public String type;
     public String value;
+    public int line;
+    public int pos;
 
-    public Token(String type, String value) {
+    public Token(String type, String value, int line, int pos) {
         this.type = type;
         this.value = value;
+        this.line = line;
+        this.pos = pos;
     }
-
+    
     @Override
     public String toString() {
-        return String.format("%s %s", this.type, this.value);
+        return String.format("line: %d, pos: %d, type: %s, value: %s", this.line, this.pos, this.type, this.value);
     }
 
     @Override

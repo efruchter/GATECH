@@ -51,13 +51,14 @@ public class TokenizerTest {
         d.end.addTransition(Transition.spawnGoal("Valid"));
         NFA nyet = new NFA(d.start);
         nyet = NFAUtil.convertToDFA(nyet);
-        s = "abbcabcabbbbbbbcabbbbbbbbbbbbcaaabbbc";
+        s = "abbc  abbc\nabbc\n  abbc";
         input = new ByteArrayInputStream(s.getBytes());
         tokenizer = new Tokenizer(nyet, input);
         tokenIterator = tokenizer.iterator();
         Token latest;
         do {
             latest = tokenIterator.next();
+            System.out.println(latest);
         } while (latest != null);
     }
 }

@@ -20,6 +20,8 @@ public class Tokenizer implements Iterable<Token> {
     private final NFA dfa;
     private String curLine;
     private Token nextToken = null;
+    private int lineNumber = 0;
+    private int charNumber = 0;
 
     public Tokenizer(final NFA dfa, final InputStream input) {
         if (!dfa.isDFA())
@@ -61,6 +63,9 @@ public class Tokenizer implements Iterable<Token> {
         if (curLine == null || curLine.length() == 0) {
             try {
                 curLine = reader.readLine();
+                // reset
+                lineNumber++;
+                charNumber = 0;
             } catch (IOException ex) {
                 return null;
             }
@@ -76,12 +81,14 @@ public class Tokenizer implements Iterable<Token> {
         for (int max = curLine.length(); max > 0; max--) {
             t = getNextToken(dfa.getStartState(), 0, max);
             if (t != null) {
+            	charNumber += t.value.length();
                 curLine = curLine.substring(t.value.length());
                 break;
             }
         }
 
         if (t == null && curLine.length() > 0) {
+        	charNumber++;
             curLine = curLine.substring(1);
             return getNextToken();
         }
@@ -108,9 +115,8 @@ public class Tokenizer implements Iterable<Token> {
         }
 
         if (state.isFinal()) {
-            t = new Token(state.getName(), tokenBuffer.toString());
+            t = new Token(state.getName(), tokenBuffer.toString(), lineNumber, charNumber);
         }
-
         return t;
     }
 }
