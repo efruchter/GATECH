@@ -43,6 +43,6 @@ public class FileIO {
     }
 
     public static List<String> readEntireFileIntoLines(final File file) throws IOException {
-        return Arrays.asList(readEntireFile(file).split("\n"));
+        return Arrays.asList(readEntireFile(file).split(System.getProperty("line.separator")));
     }
 }
