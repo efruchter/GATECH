@@ -14,12 +14,25 @@ import java.util.Map;
 public class Interpreter {
     private static final String MINIRE_SPEC_PATH = "doc/minire_spec.txt";
 
+    public class Variable {
+        final public Object val;
+
+        public Variable(Object val) {
+            this.val = val;
+        }
+
+        @Override
+        public String toString() {
+            return this.val.toString();
+        }
+    }
+
     private final MiniREParser parser;
-    private final Map<String, StringMatchList> varTable;
+    private final Map<String, Variable> varTable;
 
     public Interpreter(MiniREParser parser) {
         this.parser = parser;
-        varTable = new HashMap<String, StringMatchList>();
+        varTable = new HashMap<String, Variable>();
     }
 
     public void interpret() throws ParseException {
@@ -42,7 +55,7 @@ public class Interpreter {
         String nextTokenType = statement.get(0).value;
 
         if (nextTokenType.equals("ID")) {
-            assignment(statement.get(0), statement.get(2));
+            assignment(statement);
         } else if (nextTokenType.equals("PRINT")) {
             print(statement.get(2));
         }
@@ -50,9 +63,19 @@ public class Interpreter {
         statement_list(statement_list.get(1));
     }
 
-    private void assignment(ASTNode<String> dest, ASTNode<String> exp) {
-        String id = dest.get(0).value;
-        varTable.put(id, expression(exp));
+    private void assignment(ASTNode<String> statement) {
+        String id = statement.get(0).get(0).value;
+
+        if (statement.get(2).value.equals("OCTOTHORPE")) {
+            Variable foo = expression(statement.get(3));
+            if (foo.val instanceof Integer) {
+                varTable.put(id, foo);
+            } else {
+                varTable.put(id, new Variable(((StringMatchList) foo.val).size()));
+            }
+        } else {
+            varTable.put(id, expression(statement.get(2)));
+        }
     }
 
     private void print(ASTNode<String> exp_list) {
@@ -63,7 +86,7 @@ public class Interpreter {
         }
     }
 
-    private StringMatchList expression(ASTNode<String> exp) {
+    private Variable expression(ASTNode<String> exp) {
         ASTNode<String> toke = exp.get(0);
 
         if (toke.value.equals("ID")) {
@@ -73,7 +96,7 @@ public class Interpreter {
         } else if (toke.value.equals("term")) {
             StringMatchList res = term(toke);
             ASTNode<String> exp_tail = exp.get(1);
-            return expression_tail(res, exp_tail);
+            return new Variable(expression_tail(res, exp_tail));
         } else {
             throw new RuntimeException();
         }
