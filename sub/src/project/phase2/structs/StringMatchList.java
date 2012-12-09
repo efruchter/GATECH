@@ -1,6 +1,8 @@
 package project.phase2.structs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StringMatchList extends ArrayList<StringMatchTuple> {
 
@@ -82,6 +84,38 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
     public void add(StringMatchList s) {
         for (StringMatchTuple r : s)
             super.add(new StringMatchTuple(r));
+    }
+
+    /**
+     * Get the most frequent regex.
+     * Throws exception in the case of empty. If there is a tie,
+     * return is arbitrary among tied regex.
+     */
+    public String getMostFrequentString() {
+
+        if (isEmpty()) {
+            throw new RuntimeException("Attempted to find the most frequent string of an empty list.");
+        }
+
+        HashMap<String, Integer> m = new HashMap<String, Integer>();
+
+        String best = null;
+
+        for (StringMatchTuple t : this) {
+
+            if (!m.containsKey(t.string)) {
+                m.put(t.string, 0);
+                best = t.string;
+            }
+
+            m.put(t.string, m.get(t.string) + 1);
+
+            if (best == null || m.get(best) < m.get(t.string)) {
+                best = t.string;
+            }
+        }
+
+        return best;
     }
 
     @Override

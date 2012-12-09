@@ -5,6 +5,7 @@ import project.phase2.file.StringMatchOperations;
 
 import java.io.File;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class StringMatchListTest {
@@ -21,5 +22,18 @@ public class StringMatchListTest {
         StringMatchList aa = new StringMatchList(a);
         aa.addIfNotContains(a);
         assertTrue(a.equals(aa));
+    }
+
+    @Test
+    public void tupleFreq() {
+        StringMatchList a = new StringMatchList("0", "1", "1", "1", "2", "2", "2", "2");
+
+        assertTrue(a.getMostFrequentString().equals("2"));
+        assertFalse(a.getMostFrequentString().equals("1"));
+
+        a.add("1");
+        a.add("1");
+
+        assertTrue(a.getMostFrequentString().equals("1"));
     }
 }
