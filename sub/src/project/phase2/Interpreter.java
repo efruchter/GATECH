@@ -140,7 +140,7 @@ public class Interpreter {
         String regex = fromQuotedString(statement.get(1).get(0).getValue());
         String replaceText = fromQuotedString(statement.get(3).get(0).getValue());
 
-        if (Pattern.compile(regex).matcher(replaceText).matches()) {
+        if (recursive && Pattern.compile(regex).matcher(replaceText).find()) {
             throw new MiniRERuntimeException(String.format("Replacement text `%s' must not match regex `%s'.",
                     replaceText, regex));
         }
