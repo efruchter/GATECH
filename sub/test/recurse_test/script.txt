@@ -2,5 +2,5 @@ begin
 recursivereplace '11' with "121" in "input.txt" >! "output1.txt";
 recursivereplace '55' with "5" in "input.txt" >! "output2.txt";
 recursivereplace '(ty|yt)' with "" in "input.txt" >! "output3.txt";
-recursivereplace 'bo' with "" in "input.txt" >! "output3.txt";   
+recursivereplace 'bo' with "" in "input.txt" >! "output4.txt";
 end
