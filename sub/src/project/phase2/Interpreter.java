@@ -28,6 +28,10 @@ public class Interpreter {
         statement_list(minire_program.get(1));
     }
 
+    private String formatQuotedString(final String asciiString) {
+        return asciiString.substring(1, asciiString.length() - 1);
+    }
+
     public void statement_list(final ASTNode<String> statement_list) {
         ASTNode<String> statement = statement_list.get(0);
 
@@ -48,16 +52,7 @@ public class Interpreter {
 
     private void assignment(ASTNode<String> dest, ASTNode<String> exp) {
         String id = dest.get(0).value;
-
         varTable.put(id, expression(exp));
-    }
-
-    private String formatRegex(final String regex) {
-        return regex.substring(1, regex.length() - 1);
-    }
-
-    private String formatAsciiString(final String asciiString) {
-        return asciiString.substring(1, asciiString.length() - 1);
     }
 
     private void print(ASTNode<String> exp_list) {
@@ -72,9 +67,9 @@ public class Interpreter {
         ASTNode<String> toke = exp.get(0);
 
         if (toke.value.equals("ID")) {
-            System.out.println(exp.get(0).get(0).value);
+            return varTable.get(toke.get(0).value);
         } else if (toke.value.equals("OPEN-PAREN")) {
-            expression(toke.get(1));
+            return expression(toke.get(1));
         } else if (toke.value.equals("term")) {
             StringMatchList res = term(toke);
             ASTNode<String> exp_tail = exp.get(1);
@@ -106,8 +101,8 @@ public class Interpreter {
     }
 
     private StringMatchList term(ASTNode<String> term) {
-        String regex = formatAsciiString(term.get(1).get(0).value);
-        String filename = formatAsciiString(term.get(3).get(0).value);
+        String regex = formatQuotedString(term.get(1).get(0).value);
+        String filename = formatQuotedString(term.get(3).get(0).value);
         return StringMatchOperations.find(new File(filename), regex);
     }
 
