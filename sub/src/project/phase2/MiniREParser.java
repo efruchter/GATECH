@@ -77,6 +77,14 @@ public class MiniREParser {
     }
 
     /**
+     * Invoke accept, raising an exception if token unexpected.
+     */
+    private void expect(String tokenType) throws ParseException {
+        if (!accept(tokenType))
+            throw new ParseException(String.format("Expected `%s' got `%s'", tokenType, token.type), token);
+    }
+
+    /**
      * Add a new nonterminal node and push it on the stack.
      */
     private void push(String value) {
@@ -90,14 +98,6 @@ public class MiniREParser {
      */
     private void pop() {
         nodeStack.pop();
-    }
-
-    /**
-     * Invoke accept, raising an exception if token unexpected.
-     */
-    private void expect(String tokenType) throws ParseException {
-        if (!accept(tokenType))
-            throw new ParseException(String.format("Expected `%s' got `%s'", tokenType, token.type), token);
     }
 
     /**
@@ -134,13 +134,13 @@ public class MiniREParser {
     private void statement_list_tail() throws ParseException {
         push("statement_list_tail");
 
-        try {
-            statement();
-        } catch (ParseException e) {
+        // hax
+        if (token.type.equals("END")) {
             pop();
             return;
         }
 
+        statement();
         statement_list_tail();
 
         pop();

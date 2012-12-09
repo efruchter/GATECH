@@ -49,6 +49,10 @@ public class Interpreter {
     }
 
     public void statement_list(final ASTNode<String> statement_list) {
+        if (statement_list.getChildren().size() == 0) {
+            return;
+        }
+
         ASTNode<String> statement = statement_list.get(0);
 
         if (statement.getChildren().size() == 0) {
