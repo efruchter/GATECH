@@ -9,6 +9,7 @@ public class Rule {
 	private String name;
 	private boolean terminal, start;
 	private Rule[][] rules;
+	private StringBuffer SB;
 
 	/**
 	 * Creates an empty non terminal grammar
@@ -92,24 +93,24 @@ public class Rule {
 	 * @return a string representation of the rule.
 	 */
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		SB = new StringBuffer();
 		if (this.start) {
-			sb.append("[START] ");
+			SB.append("[START] ");
 		}
-		sb.append(name + ":");
+		SB.append(name + ":");
 
 		if (terminal) {
-			sb.append(" terminal\n");
+			SB.append(" terminal\n");
 		} else {
-			sb.append("\n");
+			SB.append("\n");
 			for (Rule[] rs : this.rules) {
 				for (Rule r : rs) {
-					sb.append(r.getName());
+					SB.append(r.getName());
 				}
-				sb.append("\n");
+				SB.append("\n");
 			}
 		}
-		return sb.toString();
+		return SB.toString();
 	}
 
 	/**

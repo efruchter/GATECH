@@ -7,17 +7,11 @@ import java.util.*;
  */
 public class DFA extends TableDrivenFiniteAutomaton<String>
 {
-	//
-	// CLASS/INSTANCE DATA
-	//
 	/**
 	 * A current match, for parsing through data iteratively.
 	 */
 	private TokenMatch mCurrMatch;
 	
-	//
-	// PUBLIC METHODS
-	//
 	/**
 	 * Used to reset iterative matching.
 	 */
@@ -432,59 +426,6 @@ public class DFA extends TableDrivenFiniteAutomaton<String>
 	public static void main(String[] args)
 	{
 		NFA n = new NFA();
-//		TEST CASE 1
-//		GENERAL TESTING - NO EDGE CASES
-//		n.createState();
-//		n.setStartState(0);
-//		n.createState();
-//		n.createState();
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>("a", 1, new Integer[]{3}));
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>("b", 2, new Integer[]{4}));
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>(null, 0, new Integer[]{1, 2, 5}));
-//		n.addTransition(new Transition<String, Integer>(null, 3, new Integer[]{0, 5}));
-//		n.addTransition(new Transition<String, Integer>(null, 4, new Integer[]{0, 5}));
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>("a", 5, new Integer[]{6}));
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>("b", 6, new Integer[]{7}));
-//		n.addTransition(new Transition<String, Integer>(null, 7, new Integer[]{5}));
-//		n.setGoalState(7, "Test Label");
-		
-//		TEST CASE 2
-//		GENERAL DFA MINIMIZATION - AND UNREACHABLE STATE REMOVAL
-//		n.createState();
-//		n.setStartState(0);
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>("1", 0, new Integer[]{1}));
-//		n.addTransition(new Transition<String, Integer>("1", 1, new Integer[]{0}));
-//		n.createState();
-//		n.createState();
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>("0", 2, new Integer[]{4}));
-//		n.addTransition(new Transition<String, Integer>("0", 3, new Integer[]{4}));
-//		n.createState();
-//		n.setGoalState(5);
-//		n.addTransition(new Transition<String, Integer>("1", 2, new Integer[]{5}));
-//		n.addTransition(new Transition<String, Integer>("1", 3, new Integer[]{5}));
-//		n.addTransition(new Transition<String, Integer>("0", 4, new Integer[]{5}));
-//		n.addTransition(new Transition<String, Integer>("0", 5, new Integer[]{5}));
-//		n.addTransition(new Transition<String, Integer>("1", 5, new Integer[]{5}));
-//		n.createState();
-//		n.setGoalState(6);
-//		n.addTransition(new Transition<String, Integer>("1", 4, new Integer[]{6}));
-//		n.addTransition(new Transition<String, Integer>("0", 6, new Integer[]{6}));
-//		n.addTransition(new Transition<String, Integer>("1", 6, new Integer[]{5}));
-//		n.createState();
-//		n.addTransition(new Transition<String, Integer>("0", 0, new Integer[]{7}));
-//		n.addTransition(new Transition<String, Integer>("0", 1, new Integer[]{7}));
-//		n.addTransition(new Transition<String, Integer>("0", 7, new Integer[]{2}));
-//		n.addTransition(new Transition<String, Integer>("1", 7, new Integer[]{2}));
-		
-//		TEST CASE 3
-//		DEAD STATE REMOVAL DURING MINIMIZATION
 		n.createState();
 		n.setStartState(0);
 		n.createState();

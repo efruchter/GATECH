@@ -9,9 +9,6 @@ import java.util.*;
  */
 public class CharacterClass
 {
-	//
-	// CLASS/INSTANCE DATA
-	//
 	/**
 	 * The name of this class.
 	 * This will be null if unnamed.
@@ -217,9 +214,6 @@ public class CharacterClass
 		return new CharacterClass(null, finalSet);
 	}
 	
-	//
-	// TESTING
-	//
 	public static void main(String[] args)
 	{
 		CharacterClass cc = CharacterClass.fromRange("a-h"), cc2;

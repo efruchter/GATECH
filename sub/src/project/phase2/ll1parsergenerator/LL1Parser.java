@@ -15,13 +15,6 @@ import project.phase2.ll1parsergenerator.dfastuff.Parser;
  * 
  */
 public class LL1Parser {
-	//
-	// CLASS/INSTANCE DATA
-	//
-	/**
-	 * Debugging flag.
-	 */
-	private static final boolean DEBUG = false;
 
 	/**
 	 * The names for some special cased tokens (epsilon, reg ex, ascii string,
@@ -373,8 +366,6 @@ public class LL1Parser {
 					next = '$';
 					mBuffer = ((char) -1) + mBuffer;
 				}
-				if (DEBUG)
-					System.out.print(next);
 			}
 
 			mLocation++;

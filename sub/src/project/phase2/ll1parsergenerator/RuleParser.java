@@ -8,7 +8,7 @@ import java.util.Scanner;
 import project.phase2.file.FileIO;
 
 /**
- * Generates set of rules from grammar file
+ * Parses rules from grammar file
  * 
  */
 public class RuleParser {
@@ -16,11 +16,11 @@ public class RuleParser {
 	public static LinkedList<Rule> rules;
 
 	/**
-	 * Adds the default terminals to the rule list. Also initializes the list.
+	 * Adds the default terminals to the rule list. Also initializes the rules
+	 * list.
 	 */
 	private static void initializeTerminals() {
 		rules = new LinkedList<Rule>();
-		// addTerminal(""+'\u03B5'); //epsilon
 		addTerminal("E");
 		addTerminal("REGEX");
 		addTerminal("ASCII-STR");
@@ -28,11 +28,12 @@ public class RuleParser {
 	}
 
 	/**
+	 * Adds a terminal
+	 * 
 	 * @param s
-	 *            Adds the terminal s
 	 */
 	private static void addTerminal(String s) {
-		Rule r = new Rule(s); // epsilon?
+		Rule r = new Rule(s);
 		r.setTerminal(true);
 		rules.add(r);
 	}
@@ -102,6 +103,7 @@ public class RuleParser {
 		}
 		for (Rule r : rules) {
 			if (r.getName().compareTo("E") == 0) {
+				//TODO epsilon symbol, also change it in LL1Parser
 				r.setName(null);
 			}
 		}
@@ -123,7 +125,6 @@ public class RuleParser {
 			return null;
 		if (s.charAt(0) == '%')
 			return null;
-		// while(s.charAt(i)!='\u2192'){ TODO?
 		while (s.charAt(i) != '=') {
 			if (!Character.isWhitespace(s.charAt(i)))
 				s2[0] += s.charAt(i);
@@ -210,7 +211,6 @@ public class RuleParser {
 							.size()]));
 					production = new LinkedList<Rule>();
 				} else {
-					// System.out.println("Reading: " +line[1]);
 					line[1] = matchRule(line[1], production);
 				}
 			}
@@ -229,24 +229,21 @@ public class RuleParser {
 	private static String matchRule(String s, LinkedList<Rule> production) {
 		Rule longestFound = null;
 		String ruleName;
-		for (Rule r2 : rules) {
-			ruleName = r2.getName();
+		for (Rule r : rules) {
+			ruleName = r.getName();
 			if (ruleName.length() <= s.length()
 					&& ruleName.compareTo(s.substring(0, ruleName.length())) == 0) {
-				// System.out.println(ruleName);
 				if (longestFound == null)
-					longestFound = r2;
+					longestFound = r;
 				else if (ruleName.length() > longestFound.getName().length()) {
-					longestFound = r2;
+					longestFound = r;
 				}
 			}
 		}
-		// TODO error handling
 		if (longestFound == null) {
 			throw new RuntimeException("Cannot be matched: " + s);
 		}
 		s = s.substring(longestFound.getName().length());
-		// System.out.println(line[0]+": " + ruleName);
 		production.add(longestFound);
 		return s;
 	}
