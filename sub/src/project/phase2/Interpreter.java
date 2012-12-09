@@ -2,7 +2,6 @@ package project.phase2;
 
 import project.phase2.file.StringMatchOperations;
 import project.phase2.structs.StringMatchList;
-import project.phase2.structs.StringMatchTuple;
 import project.scangen.ScannerGenerator;
 
 import java.io.File;
@@ -10,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Interpreter {
@@ -49,16 +47,9 @@ public class Interpreter {
     }
 
     private void assignment(ASTNode<String> dest, ASTNode<String> exp) {
-        String id = formatAsciiString(dest.get(0).value);
+        String id = dest.get(0).value;
 
         varTable.put(id, expression(exp));
-    }
-
-    private StringMatchList expression(ASTNode<String> exp) {
-
-
-
-        return null;
     }
 
     private String formatRegex(final String regex) {
@@ -77,21 +68,47 @@ public class Interpreter {
         }
     }
 
-    private void exp(ASTNode<String> exp) {
-        // woah
+    private StringMatchList expression(ASTNode<String> exp) {
         ASTNode<String> toke = exp.get(0);
 
         if (toke.value.equals("ID")) {
             System.out.println(exp.get(0).get(0).value);
         } else if (toke.value.equals("OPEN-PAREN")) {
-            exp(toke.get(1));
+            expression(toke.get(1));
         } else if (toke.value.equals("term")) {
-            String regex = formatRegex(toke.get(1).get(0).value);
-            String filename = formatAsciiString(toke.get(3).get(0).get(0).value);
-            StringMatchList res = StringMatchOperations.find(new File(filename), regex);
-            System.out.println(res);
-            System.exit(0);
+            StringMatchList res = term(toke);
+            ASTNode<String> exp_tail = exp.get(1);
+            return expression_tail(res, exp_tail);
+        } else {
+            throw new RuntimeException();
         }
+    }
+
+    private StringMatchList expression_tail(StringMatchList res, ASTNode<String> exp_tail) {
+        if (exp_tail.children.size() == 1) {
+            return res;
+        }
+
+        StringMatchList stuff = term(exp_tail.get(1));
+        StringMatchList next = expression_tail(stuff, exp_tail.get(2));
+
+        String op = exp_tail.get(0).value;
+
+        if (op.equals("DIFF")) {
+            return res.difference(next);
+        } else if (op.equals("UNION")) {
+            return res.union(next);
+        } else if (op.equals("INTERS")) {
+            return res.intersection(next);
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+    private StringMatchList term(ASTNode<String> term) {
+        String regex = formatAsciiString(term.get(1).get(0).value);
+        String filename = formatAsciiString(term.get(3).get(0).value);
+        return StringMatchOperations.find(new File(filename), regex);
     }
 
     public static void main(String[] args) {

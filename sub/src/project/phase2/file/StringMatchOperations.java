@@ -100,7 +100,8 @@ public class StringMatchOperations {
             Pattern pattern = Pattern.compile(string);
             Matcher matcher = pattern.matcher(lines.get(line));
             while (matcher.find()) {
-                StringMatchTuple t = new StringMatchTuple();
+                StringMatchTuple t = new StringMatchTuple(string);
+                t.fileName = file.getPath();
                 t.startIndex = matcher.start();
                 t.endIndex = matcher.end();
                 t.line = 1 + line;
