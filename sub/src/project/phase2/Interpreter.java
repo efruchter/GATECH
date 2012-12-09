@@ -8,9 +8,10 @@ import project.scangen.ScannerGenerator;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Interpreter {
-    public class Variable {
+    private class Variable {
         final public Object val;
 
         public Variable(Object val) {
@@ -20,6 +21,12 @@ public class Interpreter {
         @Override
         public String toString() {
             return this.val.toString();
+        }
+    }
+
+    private class MiniRERuntimeException extends RuntimeException {
+        public MiniRERuntimeException(final String message) {
+            super(message);
         }
     }
 
@@ -132,6 +139,12 @@ public class Interpreter {
     private void replace(ASTNode<String> statement, boolean recursive) {
         String regex = fromQuotedString(statement.get(1).get(0).getValue());
         String replaceText = fromQuotedString(statement.get(3).get(0).getValue());
+
+        if (Pattern.compile(regex).matcher(replaceText).matches()) {
+            throw new MiniRERuntimeException(String.format("Replacement text `%s' must not match regex `%s'.",
+                    replaceText, regex));
+        }
+
         String srcFile = fromQuotedString(statement.get(5).get(0).get(0).get(0).getValue());
         String dstFile = fromQuotedString(statement.get(5).get(2).get(0).get(0).getValue());
         StringMatchOperations.replace(regex, replaceText, new File(srcFile), new File(dstFile), recursive);
@@ -163,7 +176,10 @@ public class Interpreter {
             interpreter.interpret();
         } catch (ParseException ex) {
             System.out.println(ex);
-            System.exit(1);
+            System.exit(2);
+        } catch (MiniRERuntimeException ex) {
+            System.out.println(ex);
+            System.exit(3);
         }
     }
 }
