@@ -20,8 +20,8 @@ public class Tokenizer implements Iterable<Token> {
     private final NFA dfa;
     private String curLine;
     private Token nextToken = null;
-    private int lineNumber = 0;
-    private int charNumber = 0;
+    private int lineNumber = 0; //how many lines are read
+    private int charNumber = 1;
 
     public Tokenizer(final NFA dfa, final InputStream input) {
         if (!dfa.isDFA())
@@ -65,7 +65,7 @@ public class Tokenizer implements Iterable<Token> {
                 curLine = reader.readLine();
                 // reset
                 lineNumber++;
-                charNumber = 0;
+                charNumber = 1;
             } catch (IOException ex) {
                 return null;
             }
