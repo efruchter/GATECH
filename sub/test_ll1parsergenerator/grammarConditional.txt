@@ -1,0 +1,12 @@
+%% Tokens   /* This section specifies a list of  all the tokens or terminals used in the grammar  separated by spacing*/
+if other ( )  else 0 1
+%% Start  /* This section specifies the start symbol of the grammar */
+
+<statement>
+
+%% Rules  /* This section specifies the rules  non terminals are enclosed in < > - BNF notation is used */
+
+<statement> = <if-stmt> | other
+<if-stmt> = if ( <exp> ) <statement> <else-part>
+<else-part> = else <statement> | E
+<exp> = 0 | 1
