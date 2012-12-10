@@ -93,19 +93,22 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
 
         HashMap<String, Integer> m = new HashMap<String, Integer>();
 
-        String best = null;
-
         for (StringMatchTuple t : this) {
 
-            if (!m.containsKey(t.string)) {
-                m.put(t.string, 0);
-                best = t.string;
+            String a = t.string;
+
+            if (!m.containsKey(a)) {
+                m.put(a, 0);
             }
 
-            m.put(t.string, m.get(t.string) + 1);
+            m.put(a, m.get(a) + 1);
+        }
 
-            if (best == null || m.get(best) < m.get(t.string)) {
-                best = t.string;
+        String best = null;
+
+        for (Map.Entry<String, Integer> a : m.entrySet()) {
+            if (best == null || m.get(best) < a.getValue()) {
+                best = a.getKey();
             }
         }
 
