@@ -20,7 +20,7 @@ public class StringMatchListTest {
 
         assertTrue(a.equals(new StringMatchList(a)));
         StringMatchList aa = new StringMatchList(a);
-        aa.addIfNotContains(a);
+        aa.add(a);
         assertTrue(a.equals(aa));
     }
 

@@ -19,7 +19,7 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
     }
 
     /**
-     * Union of this set and another
+     * Union of this set and another.
      *
      * @param b
      * @return
@@ -28,8 +28,8 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
 
         StringMatchList l = new StringMatchList();
 
-        l.addIfNotContains(this);
-        l.addIfNotContains(b);
+        l.add(this);
+        l.add(b);
 
         return l;
     }
@@ -39,6 +39,12 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
 
         for (StringMatchTuple string : this) {
             if (b.contains(string)) {
+                n.add(string);
+            }
+        }
+
+        for (StringMatchTuple string : b) {
+            if (n.contains(string)) {
                 n.add(string);
             }
         }
@@ -62,18 +68,6 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
         }
 
         return n;
-    }
-
-    public void addIfNotContains(final StringMatchTuple s) {
-        if (!contains(s)) {
-            super.add(s);
-        }
-    }
-
-    public void addIfNotContains(final StringMatchList s) {
-        for (StringMatchTuple a : s) {
-            addIfNotContains(a);
-        }
     }
 
     public void add(String... s) {
@@ -130,14 +124,13 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
 
         StringMatchList a = (StringMatchList) o;
 
-        if (a.size() != this.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < a.size(); i++) {
-            if (!this.get(i).equals(a.get(i))) {
+        for (StringMatchTuple t : this) {
+            if (!a.contains(t))
                 return false;
-            }
+        }
+        for (StringMatchTuple t : a) {
+            if (!this.contains(t))
+                return false;
         }
 
         return true;
