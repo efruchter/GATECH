@@ -12,3 +12,9 @@ build:
 .PHONY: clean
 clean:
 	find $(SRCDIR) -type f -name "*.class" | xargs rm -f
+
+.PHONY: turnin
+turnin: 3240Project.tgz
+
+3240Project.tgz: .git
+	git archive --prefix=3240Project/ master | gzip > $@
