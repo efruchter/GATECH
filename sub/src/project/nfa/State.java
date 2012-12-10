@@ -3,6 +3,7 @@ package project.nfa;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An NFA State.
@@ -12,7 +13,7 @@ import java.util.List;
 public class State {
     public String name;
     public boolean isFinal;
-    private final HashSet<Transition> transitions;
+    private final Set<Transition> transitions;
 
     /**
      * Create an NFA State
@@ -50,8 +51,8 @@ public class State {
         return this.isFinal;
     }
 
-    public List<Transition> getTransitions() {
-        return new LinkedList<Transition>(this.transitions);
+    public Set<Transition> getTransitions() {
+        return this.transitions;
     }
 
     public Transition getTransByString(String string) {
