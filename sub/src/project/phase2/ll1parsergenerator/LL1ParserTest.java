@@ -10,12 +10,12 @@ public class LL1ParserTest {
 
 	@Test
 	public void testParenthesesLLParserGenerator() {
-		Rule[] rules = RuleParser.parse("test/sample/grammarparen.txt")
+		Rule[] rules = RuleParser.parse("test_ll1parsergenerator/parentheses_test/script.txt")
 				.toArray(new Rule[0]);
 		LL1Parser parse = ParserGenerator.generateParser(rules);
 		try {
 			FileInputStream fis;
-			fis = new FileInputStream(new File("test/sample/inputparen1.txt"));
+			fis = new FileInputStream(new File("test_ll1parsergenerator/parentheses_test/input1.txt"));
 			AST<String> syn = parse.parse(fis);
 			System.out.println(syn.toString());
 
@@ -24,32 +24,15 @@ public class LL1ParserTest {
 		}
 	}
 	@Test
-	public void testConditionalLLParserGenerator() {
-		Rule[] rules = RuleParser.parse("test/sample/grammarConditional.txt")
-				.toArray(new Rule[0]);
-		
-		LL1Parser parse = ParserGenerator.generateParser(rules);
-		try {
-			FileInputStream fis;
-//			fis = new FileInputStream(new File("test/sample/inputConditional1.txt"));
-//			AST<String> syn = parse.parse(fis);
-//			System.out.println(syn.toString());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
 	public void testMiniRE() {
-		List<Rule> rulesList = RuleParser.parse("test/sample/grammar.txt");
+		List<Rule> rulesList = RuleParser.parse("test_ll1parsergenerator/minire_test/script.txt");
 
 		Rule[] rules = RuleParser.rules.toArray(new Rule[0]);
 		LL1Parser parse = ParserGenerator.generateParser(rules);
 
 		FileInputStream fis;
 		try {
-			fis = new FileInputStream(new File("test/sample/script.txt"));
+			fis = new FileInputStream(new File("test_ll1parsergenerator/minire_test/input1.txt"));
 			AST<String> syn = parse.parse(fis);
 			System.out.println(syn.toString());
 
@@ -91,3 +74,21 @@ public class LL1ParserTest {
 	}
 
 }
+
+//	@Test
+//	public void testConditionalLLParserGenerator() {
+//		Rule[] rules = RuleParser.parse("test/sample/grammarConditional.txt")
+//				.toArray(new Rule[0]);
+//		
+//		LL1Parser parse = ParserGenerator.generateParser(rules);
+//		try {
+//			FileInputStream fis;
+////			fis = new FileInputStream(new File("test/sample/inputConditional1.txt"));
+////			AST<String> syn = parse.parse(fis);
+////			System.out.println(syn.toString());
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	

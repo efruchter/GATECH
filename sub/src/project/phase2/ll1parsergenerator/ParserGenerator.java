@@ -12,7 +12,7 @@ import java.util.Set;
 import project.phase2.ll1parsergenerator.LL1Parser.RuleSelection;
 
 /**
- * Generates an LL1 Parser from the input formatted rules.
+ * Generates an LL1 Parser from an array of rules.
  * 
  */
 public class ParserGenerator {
