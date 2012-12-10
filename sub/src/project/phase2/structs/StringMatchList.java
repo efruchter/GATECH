@@ -39,12 +39,14 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
 
         for (StringMatchTuple string : this) {
             if (b.contains(string)) {
-                n.add(string);
+                if(!n.deepContains(string)) {
+                    n.add(string);
+                }
             }
         }
 
         for (StringMatchTuple string : b) {
-            if (n.contains(string)) {
+            if (n.contains(b) && !n.deepContains(string)) {
                 n.add(string);
             }
         }
@@ -62,7 +64,7 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
         StringMatchList n = new StringMatchList();
 
         for (StringMatchTuple string : this) {
-            if (!second.contains(string)) {
+            if (!second.deepContains(string)) {
                 n.add(string);
             }
         }
@@ -72,12 +74,22 @@ public class StringMatchList extends ArrayList<StringMatchTuple> {
 
     public void add(String... s) {
         for (String r : s)
-            super.add(new StringMatchTuple(r));
+            add(new StringMatchTuple(r));
     }
 
     public void add(StringMatchList s) {
-        for (StringMatchTuple r : s)
-            super.add(new StringMatchTuple(r));
+        for (StringMatchTuple r : s) {
+            if (!deepContains(r))
+                add(new StringMatchTuple(r));
+        }
+    }
+
+    public boolean deepContains(final StringMatchTuple t) {
+        for (StringMatchTuple a: this) {
+            if (a.hardEquals(t))
+                return true;
+        }
+        return false;
     }
 
     /**

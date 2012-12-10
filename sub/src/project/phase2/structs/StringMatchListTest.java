@@ -14,6 +14,7 @@ public class StringMatchListTest {
         StringMatchList a = new StringMatchList("0", "1", "2");
         StringMatchList b = new StringMatchList("1", "2", "3");
 
+        StringMatchList c = a.intersection(b);
         assertTrue(a.intersection(b).equals(new StringMatchList("1", "2")));
         assertTrue(a.union(b).equals(new StringMatchList("0", "1", "2", "3")));
         assertTrue(a.difference(b).equals(new StringMatchList("0")));

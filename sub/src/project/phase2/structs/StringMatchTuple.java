@@ -49,4 +49,12 @@ public class StringMatchTuple {
 
         return this.string.equals(t.string);
     }
+
+    public boolean hardEquals(StringMatchTuple t) {
+        return this.string.equals(t.string)
+                && this.fileName.equals(t.fileName)
+                && this.startIndex == t.startIndex
+                && this.endIndex == t.endIndex
+                && this.line == t.line;
+    }
 }
