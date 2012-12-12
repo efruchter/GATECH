@@ -1,0 +1,9 @@
+This is my constrained particles project for my Animation course at Georgia Tech.
+It's written in Java and is based on Thomas Jakobsen's paper "Advanced Character Physics".
+
+Under the package "sample", you can find the following code examples:
+1. Integrator Test
+2. SnowGlobe simulation
+3. Cloth Physics Simulation
+
+-Eric

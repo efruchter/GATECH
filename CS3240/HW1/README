@@ -1,0 +1,17 @@
+CS3240 Homework Project 1 by Eric Fruchter
+
+To run/clean the project, simply use the makefile.
+You must have Java 6+ installed in order to run the code.
+
+All of the classes are heavily commented, but to get started you can refer
+to DocumentStatistics.java, where the actual information is requested and
+recorded. The scanning and parsing is done by TokenScanner.java.
+When you feed the scanner a file, only one line of the file is loaded
+into memory at a time, preventing large RAM usage from occurring.
+
+Homework1Test is a JUnit test, which I used along with TestFile.txt, 
+and WarAndPeace.txt to test my parser and scanner, initially.
+
+ExtraCredit.java generates document length differences based on top-K-replace.
+
+-Eric Fruchter
