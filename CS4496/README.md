@@ -1,2 +1,4 @@
-Computer Animation
+CS4496: Computer Animation
+
+
 Spring 2012
