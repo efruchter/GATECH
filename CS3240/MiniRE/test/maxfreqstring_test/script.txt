@@ -1,0 +1,8 @@
+begin
+foos = #find 'foo' in "input.txt";
+bars = #find 'bar' in "input.txt";
+print (foos, bars);  
+foosbars = find 'foo' in "input.txt" union find 'bar' in "input.txt";
+foosbars_max = maxfreqstring(foosbars);
+print (foosbars_max);
+end
