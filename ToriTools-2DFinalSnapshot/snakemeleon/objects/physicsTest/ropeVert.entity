@@ -1,0 +1,10 @@
+type = dynamicProp;
+description = A thinner rope for making planks and bridges.;
+dimensions.x = 10;
+dimensions.y = 50;
+solid = false;
+
+sprite.sheet = crate.png, 1, 1;
+sprite.sizeOffset = 2;
+
+

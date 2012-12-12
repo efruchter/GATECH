@@ -1,0 +1,10 @@
+type = dynamicProp;
+description = A smiley wheel;
+dimensions.x = 100;
+dimensions.y = 100;
+solid = false;
+round = true;
+
+sprite.sheet = smiley.png, 1, 1;
+
+

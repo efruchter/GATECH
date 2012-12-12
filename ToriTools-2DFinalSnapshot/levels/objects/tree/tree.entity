@@ -1,0 +1,11 @@
+title = tree;
+
+description = A pretty solid tree.;
+
+dimensions.x = 64;
+dimensions.y = 64;
+
+sprite.sheet = editor.png;
+
+solid = false;
+

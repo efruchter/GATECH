@@ -1,0 +1,12 @@
+type = dynamicProp;
+id = hurtProp;
+description = A prop that damages the cham;
+dimensions.x = 100;
+dimensions.y = 100;
+solid = false;
+round = true;
+hurt = true;
+
+sprite.sheet = spikeBall.png, 1, 1;
+
+

@@ -1,0 +1,9 @@
+type = message;
+description = display a line in the message var;
+dimensions.x = 64;
+dimensions.y = 64;
+solid = false;
+
+sprite.sheet = trigger.png, 2, 2;
+
+

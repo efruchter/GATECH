@@ -1,0 +1,11 @@
+type = player;
+description = The dude you move.;
+dimensions.x = 25;
+dimensions.y = 25;
+solid = false;
+
+sprite.sheet = playersheet.png, 4, 4;
+sprite.timeScale = 5;
+sprite.sizeOffset = 4;
+
+

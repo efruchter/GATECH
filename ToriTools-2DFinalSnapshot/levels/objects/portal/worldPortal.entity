@@ -1,0 +1,12 @@
+type = worldPortal;
+
+description = teleport the player to somewhere;
+
+dimensions.x = 32;
+dimensions.y = 32;
+
+sprite.sheet = worldPortal.png;
+
+solid = false;
+visible = true;
+

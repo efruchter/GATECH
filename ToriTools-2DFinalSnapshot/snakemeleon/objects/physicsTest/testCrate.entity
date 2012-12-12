@@ -1,0 +1,9 @@
+type = dynamicProp;
+description = A basic crate.;
+dimensions.x = 50;
+dimensions.y = 50;
+solid = false;
+
+sprite.sheet = crate.png, 1, 1;
+
+

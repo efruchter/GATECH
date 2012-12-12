@@ -1,0 +1,7 @@
+title = prefab1;
+description = A basement scene;
+dimensions.x = 864;
+dimensions.y = 288;
+sprite.sheet = basemanet1.jpg;
+solid = false;
+

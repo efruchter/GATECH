@@ -1,0 +1,7 @@
+title = barrel;
+description = a threatening barrel.;
+dimensions.x = 64;
+dimensions.y = 64;
+sprite.sheet = barrel.png;
+solid = true;
+

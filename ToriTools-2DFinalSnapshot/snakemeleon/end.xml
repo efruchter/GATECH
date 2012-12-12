@@ -1,0 +1,10 @@
+<level map="dimensions.y = 600;height = 600;width = 800;background = snakemeleon/end.png;dimensions.x = 800;">
+<objects>
+<entity map="template = /objects/chameleon/player.entity;position.y = 480.0;position.x = 96.0;layer = 0;"/>
+<entity map="template = /objects/collectable/apple.entity;position.y = 512.0;position.x = 704.0;layer = 0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 0.0;visible = false;position.x = 32.0;layer = 0;type = WALL;dimensions.x = 736.0;"/>
+<entity map="dimensions.y = 608.0;solid = true;position.y = 0.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+<entity map="dimensions.y = 32.0;solid = true;position.y = 576.0;visible = false;position.x = 0.0;layer = 0;type = WALL;dimensions.x = 800.0;"/>
+<entity map="dimensions.y = 576.0;solid = true;position.y = 0.0;visible = false;position.x = 768.0;layer = 0;type = WALL;dimensions.x = 32.0;"/>
+</objects>
+</level>

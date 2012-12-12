@@ -1,0 +1,11 @@
+type = dynamicProp;
+id = collectable;
+description = An edible apple collectable;
+dimensions.x = 25;
+dimensions.y = 25;
+solid = false;
+round = true;
+
+sprite.sheet = apple_1.png, 1, 1;
+
+

@@ -1,0 +1,11 @@
+title = wolf;
+description = The mysterious wolf;
+dimensions.x = 32;
+dimensions.y = 32;
+solid = false;
+
+sprite.sheet = wolfsheet.png, 4, 4;
+sprite.timeScale = 5;
+sprite.sizeOffset = 4;
+
+

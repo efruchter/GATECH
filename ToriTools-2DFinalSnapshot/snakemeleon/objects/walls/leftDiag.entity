@@ -1,0 +1,10 @@
+type = LEFT_DIAG_WALL;
+description = A blank zone to place triggers in;
+dimensions.x = 32;
+dimensions.y = 32;
+solid = true;
+visible = false;
+
+sprite.sheet = leftDiag.png, 1, 1;
+
+

@@ -1,0 +1,11 @@
+title = pushblock;
+
+description = A little brick thing!;
+
+dimensions.x = 32;
+dimensions.y = 32;
+
+sprite.sheet = dirtyBox.jpg;
+
+solid = false;
+

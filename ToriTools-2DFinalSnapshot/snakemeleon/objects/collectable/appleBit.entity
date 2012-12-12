@@ -1,0 +1,10 @@
+type = appleBits;
+description = An edible apple collectable;
+dimensions.x = 10;
+dimensions.y = 10;
+solid = false;
+round = true;
+
+sprite.sheet = apple_1.png, 2, 2;
+
+

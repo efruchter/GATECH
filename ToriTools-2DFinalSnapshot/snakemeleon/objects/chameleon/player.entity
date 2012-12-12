@@ -1,0 +1,12 @@
+type = player;
+description = The player character.;
+dimensions.x = 40;
+dimensions.y = 40;
+solid = false;
+id = player;
+
+sprite.sheet = cham.png, 2, 2;
+sprite.timeScale = 5;
+sprite.sizeOffset = 0;
+
+

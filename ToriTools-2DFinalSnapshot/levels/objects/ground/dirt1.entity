@@ -1,0 +1,7 @@
+title = dirt1;
+description = Dirty!;
+dimensions.x = 32;
+dimensions.y = 32;
+sprite.sheet = dirt1.jpg;
+solid = false;
+

@@ -1,0 +1,9 @@
+type = spike;
+description = a spike;
+dimensions.x = 32;
+dimensions.y = 32;
+solid = false;
+
+sprite.sheet = spikeRight.png;
+
+

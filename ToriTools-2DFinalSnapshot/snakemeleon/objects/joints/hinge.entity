@@ -1,0 +1,9 @@
+type = hinge;
+description = Place this object where you would like to fuse two crates together with a hinge.;
+dimensions.x = 16;
+dimensions.y = 16;
+solid = false;
+
+sprite.sheet = hinge.png, 1, 1;
+
+

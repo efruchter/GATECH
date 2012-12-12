@@ -1,0 +1,9 @@
+type = TRIGGER_ZONE;
+description = A blank zone to place triggers in;
+dimensions.x = 32;
+dimensions.y = 32;
+solid = false;
+
+sprite.sheet = trigger.png, 1, 1;
+
+

@@ -1,0 +1,26 @@
+//Make sure to remove these comments, no support for them yet!
+
+//The 'type' of your entity.
+type = player;
+
+//The editor description
+description = The dude you move.;
+
+//The template dimensions
+dimensions.x = 25;
+dimensions.y = 25;
+
+//This determines if certain entities will attempt to always avoid collision with
+//this entity.
+solid = false;
+
+//The sprite sheet, it's tile width by x and y.
+sprite.sheet = playersheet.png, 4, 4;
+
+//Factor to stretch out animations by
+sprite.timeScale = 5;
+
+//Pixels in both directions to make the image appear larger than it's hitbox
+sprite.sizeOffset = 4;
+
+

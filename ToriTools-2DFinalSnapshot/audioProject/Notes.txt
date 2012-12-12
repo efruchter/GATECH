@@ -1,0 +1,5 @@
+Good feels for for goo.wav
+generateFeels('goo', 300, 3.2, 20, 250);
+
+unicorn.wav
+generateFeels('unicorn', 300, 3.1, 50000, 250);
