@@ -1,6 +1,0 @@
-begin
-matches = find 'matches' in "minire_spec_input.txt";
-n_matches = #matches;
-print (n_matches, matches);
-replace 'matches' with "foobars" in "minire_spec_input.txt" >! "minire_spec_input.txt";
-end

@@ -1,5 +1,0 @@
-begin
-matches = find 'asdf' in "input.txt";
-num_match = #matches;
-print (num_match);  
-end

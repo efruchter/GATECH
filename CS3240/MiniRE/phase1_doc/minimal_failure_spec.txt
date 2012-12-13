@@ -1,4 +1,0 @@
-$DIGIT [0-3]
-
-$INT ($DIGIT)
-$FLOAT ($DIGIT) \. ($DIGIT)

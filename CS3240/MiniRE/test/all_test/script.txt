@@ -1,8 +1,0 @@
-begin
-matches = find 'D' in "input.txt" union find 'I' in "input.txt";
-num_match = #matches;
-print (num_match);
-replace 'l' with "???" in "input.txt" >! "output1.txt";
-replace 'a' with "II" in "output1.txt" >! "output2.txt";
-replace 'bob' with "7" in "output2.txt" >! "output3.txt";   
-end
