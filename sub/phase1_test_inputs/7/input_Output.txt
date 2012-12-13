@@ -1,0 +1,4 @@
+TOKEN!: $TAG_START = <html>
+TOKEN!: $TEXT = blahblah
+TOKEN!: $TAG_END = </html>
+TOKEN!: $TEXT = Sangho

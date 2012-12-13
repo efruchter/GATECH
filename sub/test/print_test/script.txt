@@ -1,0 +1,14 @@
+begin
+matches = find '[0-9]' in "input.txt";
+num_match = #matches;
+print (num_match);
+matches = find '[5-9]' in "input.txt";
+num_match = #matches;
+print (num_match);
+matches = find '[0-4]' in "input.txt";
+num_match = #matches;
+print (num_match);
+matches = find '6' in "input.txt";
+num_match = #matches;
+print (num_match);
+end

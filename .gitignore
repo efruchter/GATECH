@@ -1,0 +1,16 @@
+# General
+.*
+*~
+~*
+.*.swp
+*.class
+3240Project.tgz
+
+# Eclipse
+/bin/
+*.log
+*.prefs
+
+# IntelliJ
+*.iml
+/out/
