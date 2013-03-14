@@ -1,0 +1,144 @@
+<rts.Game>
+	<resources>
+		<resource type="0" label="Gold" score="2" harvest_time="20" harvest_amt="4" />
+		<resource type="1" label="Silver" score="4" harvest_time="10" harvest_amt="3" />
+	</resources>
+	
+	<units>
+		<unit-def type="0" label="Light">
+			<cost>
+				<resource type="1" cost="4" />
+			</cost>
+			<stats hp="32"
+				   vision="2"
+				   attack_range="1"
+				   attack_min="4"
+				   attack_max="6"
+				   produce_time="80"
+				   attack_time="5"
+				   move_time="8" 
+				   is_worker="false"
+				   is_flying="false" />
+		</unit-def>
+		
+		<unit-def type="1" label="Worker">
+			<cost>
+				<resource type="0" cost="2" />
+			</cost>
+			<stats hp="4"
+				   vision="3"
+				   attack_range="1"
+				   attack_min="1"
+				   attack_max="1"
+				   produce_time="50"
+				   attack_time="5"
+				   move_time="10"
+				   is_worker="true"
+				   is_flying="false" />
+		</unit-def>
+		
+		<unit-def type="2" label="Heavy">
+			<cost>
+				<resource type="1" cost="6" />
+			</cost>
+			<stats hp="100"
+				   vision="2"
+				   attack_range="1"
+				   attack_min="11"
+				   attack_max="25"
+				   produce_time="120"
+				   attack_time="6"
+				   move_time="12" 
+				   is_worker="false"
+				   is_flying="false" />
+		</unit-def>
+		
+		<unit-def type="3" label="Ranger">
+			<cost>
+				<resource type="1" cost="6" />
+			</cost>
+			<stats hp="24"
+				   vision="4"
+				   attack_range="3"
+				   attack_min="3"
+				   attack_max="5"
+				   produce_time="100"
+				   attack_time="5"
+				   move_time="6" 
+				   is_worker="false"
+				   is_flying="false" />
+		</unit-def>
+		
+		<unit-def type="4" label="Bird">
+			<cost>
+				<resource type="1" cost="8" />
+			</cost>
+			<stats hp="24"
+				   vision="4"
+				   attack_range="1"
+				   attack_min="5"
+				   attack_max="7"
+				   produce_time="200"
+				   attack_time="10"
+				   move_time="2" 
+				   is_worker="false"
+				   is_flying="true" />
+		</unit-def>
+		
+		<unit-def type="5" label="SkyArcher">
+			<cost>
+				<resource type="1" cost="10" />
+			</cost>
+			<stats hp="30"
+				   vision="4"
+				   attack_range="3"
+				   attack_min="5"
+				   attack_max="8"
+				   produce_time="250"
+				   attack_time="8"
+				   move_time="2" 
+				   is_worker="false"
+				   is_flying="true" />
+		</unit-def>
+	</units>
+	
+	<buildings>
+		<building-def type="0" label="Base" stockpile="true">
+			<cost>
+				<resource type="0" cost="20" />
+			</cost>
+			<stats hp="300"
+				   produce_time="250" />
+		    <produce>
+		    	<unit type="1" />
+		    </produce>
+		</building-def>
+		
+		<building-def type="1" label="SoliderOffice">
+			<cost>
+				<resource type="0" cost="10" />
+			</cost>
+			<stats hp="200"
+				   vision="2"
+				   produce_time="200" />
+		    <produce>
+		    	<unit type="0" />
+		    	<unit type="2" />
+		    	<unit type="3" />
+		    </produce>
+		</building-def>
+		
+		<building-def type="2" label="Airport">
+			<cost>
+				<resource type="0" cost="20" />
+			</cost>
+			<stats hp="200"
+				   vision="3"
+				   produce_time="400" />
+		    <produce>
+		    	<unit type="4" />
+		    	<unit type="5" />
+		    </produce>
+		</building-def>
+	</buildings>
+</rts.Game>

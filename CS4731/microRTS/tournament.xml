@@ -1,0 +1,62 @@
+<tournament type="round-robin" fog="on" games="2" turn_length="20" max_game_length="5000">
+	<game xml="game/gamedef.xml" />
+	<map xml="maps/32x32-resources.xml" />
+	<players>
+		<player agent="ai.general.GeneralAI" lesion="0"/>
+		<player agent="ai.general.GeneralAI" lesion="1"/>
+		<player agent="ai.general.GeneralAI" lesion="2"/>
+		<player agent="ai.general.GeneralAI" lesion="4"/>
+		<player agent="ai.general.GeneralAI" lesion="8"/>
+		<player agent="ai.general.GeneralAI" lesion="16"/>
+		<player agent="ai.general.GeneralAI" lesion="32"/>
+		<player agent="ai.general.GeneralAI" lesion="128"/>
+		<player agent="ai.general.GeneralAI" lesion="256"/>
+		<player agent="ai.general.GeneralAI" lesion="512"/>
+		
+		<player agent="ai.general.GeneralAI" lesion="3"/>
+		<player agent="ai.general.GeneralAI" lesion="5"/>
+		<player agent="ai.general.GeneralAI" lesion="9"/>
+		<player agent="ai.general.GeneralAI" lesion="17"/>
+		<player agent="ai.general.GeneralAI" lesion="33"/>
+		<player agent="ai.general.GeneralAI" lesion="65"/>
+		<player agent="ai.general.GeneralAI" lesion="129"/>
+		<player agent="ai.general.GeneralAI" lesion="257"/>
+		<player agent="ai.general.GeneralAI" lesion="513"/>
+		<player agent="ai.general.GeneralAI" lesion="6"/>
+		
+		<player agent="ai.general.GeneralAI" lesion="10"/>
+		<player agent="ai.general.GeneralAI" lesion="18"/>
+		<player agent="ai.general.GeneralAI" lesion="34"/>
+		<player agent="ai.general.GeneralAI" lesion="66"/>
+		<player agent="ai.general.GeneralAI" lesion="130"/>
+		<player agent="ai.general.GeneralAI" lesion="258"/>
+		<player agent="ai.general.GeneralAI" lesion="514"/>
+		<player agent="ai.general.GeneralAI" lesion="7"/>
+		<player agent="ai.general.GeneralAI" lesion="11"/>
+		<player agent="ai.general.GeneralAI" lesion="19"/>
+		
+		<player agent="ai.general.GeneralAI" lesion="35"/>
+		<player agent="ai.general.GeneralAI" lesion="67"/>
+		<player agent="ai.general.GeneralAI" lesion="131"/>
+		<player agent="ai.general.GeneralAI" lesion="259"/>
+		<player agent="ai.general.GeneralAI" lesion="515"/>
+		<player agent="ai.general.GeneralAI" lesion="20"/>
+		<player agent="ai.general.GeneralAI" lesion="36"/>
+		<player agent="ai.general.GeneralAI" lesion="24"/>
+		<player agent="ai.general.GeneralAI" lesion="40"/>
+		<player agent="ai.general.GeneralAI" lesion="21"/>
+		
+		<player agent="ai.general.GeneralAI" lesion="22"/>
+		<player agent="ai.general.GeneralAI" lesion="23"/>
+		<player agent="ai.general.GeneralAI" lesion="37"/>
+		<player agent="ai.general.GeneralAI" lesion="38"/>
+		<player agent="ai.general.GeneralAI" lesion="39"/>
+		<player agent="ai.general.GeneralAI" lesion="25"/>
+		<player agent="ai.general.GeneralAI" lesion="26"/>
+		<player agent="ai.general.GeneralAI" lesion="27"/>
+		<player agent="ai.general.GeneralAI" lesion="41"/>
+		<player agent="ai.general.GeneralAI" lesion="42"/>
+		
+		<player agent="ai.general.GeneralAI" lesion="43"/>
+	</players>
+</tournament>

@@ -1,0 +1,68 @@
+<rts.PhysicalGameState width="32" height="32">
+  <terrain>0000000000000000000000100000000000000000000000000000011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111110000000000000000000000000110000000000000000000000000000001100000000000000000000000000111111000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000100000000001111100000000000000001000000000000000000000000000000010000000000000000000000000000000100000000000000000000000000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000100000000000000001111100000000001000000000000000000000000000000010000000000000000000000000000000100000000000000000000000000000001000000000000000000000000001111110000000000000000000000000011000000000000000000000000000000110000000000000000000000000111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001100000000000000000000000000000010000000000000000000000</terrain>
+  <players>
+    <rts.Player ID="0" team="0">
+    	<resource type="0" amount="5" />
+    	<resource type="1" amount="0" />
+    </rts.Player>
+    <rts.Player ID="1" team="1">
+    	<resource type="0" amount="5" />
+    	<resource type="1" amount="0" />
+    </rts.Player>
+  </players>
+  <units>
+    <resource type="1" x="0" y="0" amount="50" />
+    <resource type="0" x="1" y="0" amount="50" />
+    <resource type="0" x="2" y="0" amount="50" />
+    <resource type="1" x="0" y="1" amount="50" />
+    <resource type="1" x="0" y="2" amount="50" />
+    
+    <resource type="1" x="31" y="31" amount="50" />
+    <resource type="0" x="30" y="31" amount="50" />
+    <resource type="0" x="29" y="31" amount="50" />
+    <resource type="1" x="31" y="30" amount="50" />
+    <resource type="1" x="31" y="29" amount="50" />
+    
+    <resource type="0" x="30" y="0" amount="150" />
+    <resource type="0" x="31" y="0" amount="150" />
+    <resource type="1" x="31" y="1" amount="250" />
+    
+    <resource type="0" x="0" y="30" amount="150" />
+    <resource type="0" x="0" y="31" amount="150" />
+    <resource type="1" x="1" y="31" amount="250" />
+    
+    <resource type="1" x="15" y="23" amount="5" />
+    <resource type="0" x="16" y="23" amount="10" />
+    <resource type="0" x="14" y="23" amount="10" />
+    <resource type="1" x="15" y="22" amount="10" />
+    <resource type="1" x="15" y="24" amount="10" />
+    
+    <resource type="1" x="16" y="8" amount="5" />
+    <resource type="0" x="17" y="8" amount="10" />
+    <resource type="0" x="15" y="8" amount="10" />
+    <resource type="1" x="16" y="7" amount="10" />
+    <resource type="1" x="16" y="9" amount="10" />
+    
+    <resource type="1" x="31" y="10" amount="20" />
+    <resource type="0" x="31" y="11" amount="20" />
+    <resource type="0" x="31" y="12" amount="5" />
+    <resource type="0" x="31" y="13" amount="20" />
+    <resource type="1" x="31" y="14" amount="20" />
+    
+    <resource type="1" x="0" y="16" amount="20" />
+    <resource type="0" x="0" y="17" amount="20" />
+    <resource type="0" x="0" y="18" amount="5" />
+    <resource type="0" x="0" y="19" amount="20" />
+    <resource type="1" x="0" y="20" amount="20" />
+    
+    <resource type="1" x="14" y="15" amount="1000" />
+    <resource type="0" x="16" y="15" amount="1000" />
+    
+    <building type="0" player="0" x="3" y="3" />
+    <unit type="1" player="0" x="3" y="2" />
+    
+    <building type="0" player="1" x="28" y="28" />
+    <unit type="1" player="1" x="28" y="29" />
+    
+  </units>
+</rts.PhysicalGameState>
