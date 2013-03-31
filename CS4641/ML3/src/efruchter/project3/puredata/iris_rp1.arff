@@ -1,0 +1,225 @@
+% 1. Title: Iris Plants Database
+% 
+% 2. Sources:
+%      (a) Creator: R.A. Fisher
+%      (b) Donor: Michael Marshall (MARSHALL%PLU@io.arc.nasa.gov)
+%      (c) Date: July, 1988
+% 
+% 3. Past Usage:
+%    - Publications: too many to mention!!!  Here are a few.
+%    1. Fisher,R.A. "The use of multiple measurements in taxonomic problems"
+%       Annual Eugenics, 7, Part II, 179-188 (1936); also in "Contributions
+%       to Mathematical Statistics" (John Wiley, NY, 1950).
+%    2. Duda,R.O., & Hart,P.E. (1973) Pattern Classification and Scene Analysis.
+%       (Q327.D83) John Wiley & Sons.  ISBN 0-471-22361-1.  See page 218.
+%    3. Dasarathy, B.V. (1980) "Nosing Around the Neighborhood: A New System
+%       Structure and Classification Rule for Recognition in Partially Exposed
+%       Environments".  IEEE Transactions on Pattern Analysis and Machine
+%       Intelligence, Vol. PAMI-2, No. 1, 67-71.
+%       -- Results:
+%          -- very low misclassification rates (0% for the setosa class)
+%    4. Gates, G.W. (1972) "The Reduced Nearest Neighbor Rule".  IEEE 
+%       Transactions on Information Theory, May 1972, 431-433.
+%       -- Results:
+%          -- very low misclassification rates again
+%    5. See also: 1988 MLC Proceedings, 54-64.  Cheeseman et al's AUTOCLASS II
+%       conceptual clustering system finds 3 classes in the data.
+% 
+% 4. Relevant Information:
+%    --- This is perhaps the best known database to be found in the pattern
+%        recognition literature.  Fisher's paper is a classic in the field
+%        and is referenced frequently to this day.  (See Duda & Hart, for
+%        example.)  The data set contains 3 classes of 50 instances each,
+%        where each class refers to a type of iris plant.  One class is
+%        linearly separable from the other 2; the latter are NOT linearly
+%        separable from each other.
+%    --- Predicted attribute: class of iris plant.
+%    --- This is an exceedingly simple domain.
+% 
+% 5. Number of Instances: 150 (50 in each of three classes)
+% 
+% 6. Number of Attributes: 4 numeric, predictive attributes and the class
+% 
+% 7. Attribute Information:
+%    1. sepal length in cm
+%    2. sepal width in cm
+%    3. petal length in cm
+%    4. petal width in cm
+%    5. class: 
+%       -- Iris Setosa
+%       -- Iris Versicolour
+%       -- Iris Virginica
+% 
+% 8. Missing Attribute Values: None
+% 
+% Summary Statistics:
+%  	           Min  Max   Mean    SD   Class Correlation
+%    sepal length: 4.3  7.9   5.84  0.83    0.7826   
+%     sepal width: 2.0  4.4   3.05  0.43   -0.4194
+%    petal length: 1.0  6.9   3.76  1.76    0.9490  (high!)
+%     petal width: 0.1  2.5   1.20  0.76    0.9565  (high!)
+% 
+% 9. Class Distribution: 33.3% for each of 3 classes.
+
+@RELATION iris
+
+@ATTRIBUTE sepallength	REAL
+@ATTRIBUTE sepalwidth 	REAL
+@ATTRIBUTE petallength 	REAL
+@ATTRIBUTE petalwidth	REAL
+@ATTRIBUTE class 	{Iris-setosa,Iris-versic,Iris-virgin}
+
+@DATA
+3.799339, -1.050559, 0.110518, -0.459937,Iris-setosa
+3.729102, -1.069548, 0.245484, -0.454291,Iris-setosa
+3.504824, -0.973343, 0.117005, -0.424598,Iris-setosa
+3.421938, -1.012020, 0.334310, -0.419145,Iris-setosa
+3.683868, -1.014620, 0.092856, -0.445660,Iris-setosa
+3.943043, -1.133946, 0.270403, -0.480580,Iris-setosa
+3.348725, -0.945478, 0.167033, -0.406839,Iris-setosa
+3.723118, -1.064909, 0.234667, -0.453345,Iris-setosa
+3.289492, -0.967739, 0.303139, -0.402542,Iris-setosa
+3.710483, -1.084166, 0.315453, -0.453507,Iris-setosa
+4.024299, -1.117798, 0.135023, -0.487545,Iris-setosa
+3.531425, -1.043320, 0.341154, -0.432476,Iris-setosa
+3.647593, -1.049862, 0.253289, -0.444636,Iris-setosa
+3.205021, -0.862091, 0.007148, -0.386196,Iris-setosa
+4.345476, -1.097707, -0.244089, -0.518326,Iris-setosa
+4.119125, -1.089261, -0.057542, -0.494951,Iris-setosa
+3.969705, -1.036638, -0.102222, -0.476022,Iris-setosa
+3.788335, -1.047287, 0.109378, -0.458588,Iris-setosa
+4.254546, -1.219073, 0.275873, -0.518215,Iris-setosa
+3.712796, -1.032671, 0.129554, -0.449910,Iris-setosa
+4.079842, -1.205395, 0.394317, -0.499641,Iris-setosa
+3.724749, -1.042380, 0.152741, -0.451833,Iris-setosa
+3.340476, -0.825480, -0.253106, -0.397085,Iris-setosa
+3.792246, -1.139685, 0.435222, -0.465853,Iris-setosa
+3.511429, -1.116302, 0.620623, -0.435894,Iris-setosa
+3.808284, -1.141160, 0.425131, -0.467575,Iris-setosa
+3.694444, -1.082691, 0.325544, -0.451786,Iris-setosa
+3.885188, -1.097844, 0.197009, -0.472081,Iris-setosa
+3.914811, -1.086498, 0.128179, -0.474214,Iris-setosa
+3.484828, -1.046324, 0.396474, -0.428016,Iris-setosa
+3.600299, -1.082263, 0.414135, -0.442293,Iris-setosa
+4.071164, -1.150196, 0.205726, -0.494664,Iris-setosa
+3.758444, -1.023232, 0.052186, -0.453795,Iris-setosa
+4.008688, -1.051525, -0.086434, -0.481047,Iris-setosa
+3.710483, -1.084166, 0.315453, -0.453507,Iris-setosa
+3.789031, -1.017890, 0.003852, -0.456471,Iris-setosa
+4.176059, -1.118064, -0.009301, -0.502815,Iris-setosa
+3.710483, -1.084166, 0.315453, -0.453507,Iris-setosa
+3.273199, -0.930431, 0.185656, -0.398130,Iris-setosa
+3.815632, -1.087867, 0.228001, -0.464349,Iris-setosa
+3.702487, -1.000002, 0.022888, -0.446444,Iris-setosa
+3.515414, -1.040982, 0.348140, -0.430693,Iris-setosa
+3.227284, -0.904469, 0.137002, -0.391585,Iris-setosa
+3.649477, -1.063165, 0.298938, -0.445815,Iris-setosa
+3.675129, -1.126707, 0.501039, -0.453119,Iris-setosa
+3.625584, -1.043317, 0.251010, -0.441938,Iris-setosa
+3.717134, -1.060271, 0.223849, -0.452399,Iris-setosa
+3.405645, -0.974712, 0.216827, -0.414733,Iris-setosa
+3.931785, -1.094841, 0.141689, -0.476540,Iris-setosa
+3.752742, -1.053563, 0.165838, -0.455478,Iris-setosa
+5.273956, -2.289225, 3.117337, -0.700250,Iris-versic
+4.721201, -2.099551, 2.969878, -0.630596,Iris-versic
+5.180065, -2.324630, 3.333503, -0.693448,Iris-versic
+4.150537, -1.894667, 2.785310, -0.558010,Iris-versic
+4.898881, -2.198759, 3.153677, -0.655830,Iris-versic
+4.187446, -1.997314, 3.116125, -0.569354,Iris-versic
+4.581394, -2.108994, 3.137390, -0.617249,Iris-versic
+3.652169, -1.583467, 2.152300, -0.484783,Iris-versic
+4.990445, -2.215282, 3.124964, -0.666260,Iris-versic
+3.776825, -1.746270, 2.613702, -0.509418,Iris-versic
+3.823183, -1.707002, 2.429256, -0.511156,Iris-versic
+4.324546, -1.937742, 2.772391, -0.578701,Iris-versic
+4.669076, -2.032255, 2.779727, -0.620352,Iris-versic
+4.510207, -2.121546, 3.250308, -0.611028,Iris-versic
+4.131965, -1.742432, 2.260056, -0.544822,Iris-versic
+5.039370, -2.160351, 2.882192, -0.667091,Iris-versic
+4.027008, -1.941849, 3.071857, -0.549106,Iris-versic
+4.362593, -1.945762, 2.764579, -0.583120,Iris-versic
+4.765753, -2.183444, 3.226480, -0.641312,Iris-versic
+4.225809, -1.873881, 2.639113, -0.564029,Iris-versic
+4.205623, -2.047925, 3.279257, -0.574945,Iris-versic
+4.590829, -1.967510, 2.623681, -0.607674,Iris-versic
+4.762731, -2.264767, 3.519459, -0.647057,Iris-versic
+4.555174, -2.141072, 3.276914, -0.616999,Iris-versic
+4.825415, -2.096385, 2.858826, -0.640833,Iris-versic
+4.969814, -2.150374, 2.913185, -0.659359,Iris-versic
+5.174095, -2.319560, 3.321133, -0.692471,Iris-versic
+4.989321, -2.309477, 3.462038, -0.673153,Iris-versic
+4.420021, -2.046662, 3.069522, -0.596396,Iris-versic
+4.333031, -1.789823, 2.236634, -0.568552,Iris-versic
+4.162919, -1.839577, 2.576949, -0.555157,Iris-versic
+4.180588, -1.818523, 2.484932, -0.555367,Iris-versic
+4.353916, -1.890563, 2.575988, -0.578143,Iris-versic
+4.414939, -2.215313, 3.675974, -0.608429,Iris-versic
+3.841981, -1.895933, 3.085188, -0.527097,Iris-versic
+4.294226, -1.978485, 2.946747, -0.578684,Iris-versic
+5.008369, -2.230060, 3.160521, -0.669160,Iris-versic
+4.863983, -2.175639, 3.104610, -0.650603,Iris-versic
+4.075679, -1.851086, 2.701511, -0.547246,Iris-versic
+4.104621, -1.868705, 2.736655, -0.551465,Iris-versic
+4.066005, -1.956305, 3.086093, -0.554100,Iris-versic
+4.493915, -2.084238, 3.132825, -0.606616,Iris-versic
+4.370208, -1.927871, 2.693471, -0.582555,Iris-versic
+3.767641, -1.619405, 2.169962, -0.499060,Iris-versic
+4.137887, -1.914356, 2.867648, -0.558204,Iris-versic
+4.172531, -1.901644, 2.789141, -0.560740,Iris-versic
+4.184485, -1.911352, 2.812329, -0.562663,Iris-versic
+4.640388, -2.050469, 2.872157, -0.618824,Iris-versic
+3.823231, -1.540148, 1.834034, -0.498751,Iris-versic
+4.214109, -1.900006, 2.743499, -0.564796,Iris-versic
+4.395703, -2.395793, 4.338166, -0.619919,Iris-virgin
+4.196898, -2.159580, 3.685887, -0.582372,Iris-virgin
+5.255368, -2.607162, 4.269225, -0.722029,Iris-virgin
+4.591227, -2.373316, 4.070826, -0.637896,Iris-virgin
+4.695948, -2.441815, 4.214922, -0.653514,Iris-virgin
+5.671277, -2.892241, 4.887991, -0.785027,Iris-virgin
+3.472194, -1.839503, 3.237872, -0.485740,Iris-virgin
+5.469704, -2.773185, 4.656264, -0.755916,Iris-virgin
+5.039782, -2.565725, 4.327784, -0.697282,Iris-virgin
+5.152786, -2.587799, 4.298351, -0.710280,Iris-virgin
+4.718700, -2.252109, 3.516453, -0.641691,Iris-virgin
+4.738649, -2.345982, 3.832206, -0.650677,Iris-virgin
+5.004490, -2.440980, 3.916596, -0.684458,Iris-virgin
+4.145962, -2.134984, 3.646911, -0.575424,Iris-virgin
+4.118919, -2.130236, 3.655862, -0.572354,Iris-virgin
+4.579842, -2.267987, 3.706013, -0.628918,Iris-virgin
+4.759962, -2.381924, 3.940011, -0.655492,Iris-virgin
+5.562458, -2.832407, 4.778726, -0.769641,Iris-virgin
+5.813617, -3.033559, 5.255823, -0.809841,Iris-virgin
+4.547398, -2.259163, 3.705593, -0.625001,Iris-virgin
+5.015748, -2.480085, 4.045310, -0.688497,Iris-virgin
+3.991240, -2.048756, 3.487439, -0.553463,Iris-virgin
+5.814046, -2.968760, 5.024275, -0.805065,Iris-virgin
+4.683802, -2.228988, 3.467386, -0.636464,Iris-virgin
+4.829771, -2.427734, 4.036593, -0.665915,Iris-virgin
+5.328313, -2.638303, 4.310480, -0.731675,Iris-virgin
+4.574996, -2.168722, 3.356568, -0.621048,Iris-virgin
+4.429901, -2.144130, 3.407736, -0.604638,Iris-virgin
+4.673686, -2.399437, 4.085069, -0.648125,Iris-virgin
+5.409569, -2.622156, 4.175100, -0.738640,Iris-virgin
+5.587503, -2.757197, 4.486474, -0.766564,Iris-virgin
+5.789490, -2.811887, 4.488205, -0.790930,Iris-virgin
+4.662681, -2.396164, 4.083929, -0.646776,Iris-virgin
+4.680526, -2.274479, 3.632790, -0.639518,Iris-virgin
+4.519091, -2.379432, 4.161696, -0.631102,Iris-virgin
+5.775110, -2.787019, 4.413265, -0.787635,Iris-virgin
+4.410411, -2.288776, 3.942354, -0.613438,Iris-virgin
+4.644490, -2.345985, 3.922350, -0.641215,Iris-virgin
+4.344053, -2.096845, 3.321245, -0.592494,Iris-virgin
+5.080711, -2.426630, 3.792447, -0.691050,Iris-virgin
+4.849340, -2.419551, 3.988672, -0.667273,Iris-virgin
+5.078699, -2.347104, 3.510699, -0.684933,Iris-virgin
+4.196898, -2.159580, 3.685887, -0.582372,Iris-virgin
+4.909903, -2.505781, 4.238288, -0.679772,Iris-virgin
+4.785754, -2.414643, 4.032035, -0.660518,Iris-virgin
+4.909964, -2.338496, 3.641514, -0.667336,Iris-virgin
+4.712048, -2.276004, 3.608057, -0.642800,Iris-virgin
+4.757950, -2.302397, 3.658263, -0.649375,Iris-virgin
+4.342233, -2.220437, 3.763846, -0.601504,Iris-virgin
+4.231543, -2.146868, 3.607380, -0.584908,Iris-virgin
+%
+%
+%
